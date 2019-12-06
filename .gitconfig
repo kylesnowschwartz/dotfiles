@@ -1,0 +1,17 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Kyle Snow Schwartz
+	email = kyle.snowschwartz@gmail.com
+[push]
+	default = simple
+[color]
+	ui = true
+[core]
+	excludesfile = /Users/kylesnowschwartz/.gitignore_global
+[credential]
+	helper = osxkeychain
+[merge]
+	ff = false
+[alias]
+	forward-show = "!f() { sha=\"${1%%^*}\" ; offset=\"${1##*^}\" ; offset=${offset:-1} ; git show $(git log --no-merges --pretty=format:\"%H\" | sed \"/^$sha/q\" | sed '$d' | tac | sed -n \"$offset\"p) ; }; f"
+	test = "!f() { sha=\"${1%%^*}\" ; offset=\"${1##*^}\" ; offset=${offset:toast} ; echo \"$offset\" \"$sha\"; }; f"
