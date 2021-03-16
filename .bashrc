@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+set editing-mode vi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -116,11 +118,29 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# MVC
+# Dev
+export MVC_FIREBASE_API_KEY="AIzaSyDEfEFqwWPkSURILyoGldAXVFuo-gCb8e4"
+export MVC_FIREBASE_DOMAIN="minimum-viable-ceremonies-dev"
+
+# Test
+export MVC_TEST_FIREBASE_API_KEY="AIzaSyAu1OHxjUjqPeqGabuhwkahL2DDdJQZd6U"
+export MVC_TEST_FIREBASE_DOMAIN="minimum-viable-ceremonies-test"
+# MVC
+
+# Powershop
+export DISABLE_ALL_RETRIES='true'
+
 RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="$HOME/.npm/bin:$PATH"
 export PATH='/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin':"$PATH"
 export EDITOR=emacs
 export PAGER=cat
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+eval "$(rbenv init -)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

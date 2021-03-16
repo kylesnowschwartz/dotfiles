@@ -33,8 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(react
-     csv
+   '(typescript
+     react
      csv
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -51,7 +51,10 @@ This function should only modify configuration layer settings."
      javascript
      sql
      html
-     ;; auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-return-key-behavior nil
+                      auto-completion-tab-key-behavior 'complete)
      ;; better-defaults
      emacs-lisp
      git
@@ -59,6 +62,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      (haskell :variables haskell-completion-backend 'lsp)
      lsp
+     ;; tern
      ;; neotree
      org
      ;; (shell :variables
@@ -77,11 +81,9 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-                                      yasnippet-classic-snippets
                                       ivy-rich
                                       centered-cursor-mode
                                       drag-stuff
-                                      company-tabnine
                                       eshell-prompt-extras
                                       )
 
@@ -89,6 +91,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
+   ;; dotspacemacs-excluded-packages '(emmet-mode) to disable emmet
    dotspacemacs-excluded-packages '()
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -174,7 +177,12 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-editing-style 'vim
 
    ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
+
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -224,9 +232,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
+   dotspacemacs-default-font '("Monaco"
+                               :size 18
+                               :weight bold
                                :width normal)
 
    ;; The leader key (default "SPC")
@@ -477,6 +485,8 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq-local js-indent-level 2)
 
+  (setq web-mode-enable-auto-expanding t)
+
   ;; Personalized key bindings
   ;; normal state map
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
@@ -488,6 +498,8 @@ before packages are loaded."
   ;; insert state map
   (define-key evil-insert-state-map (kbd "H-<right>") 'evil-end-of-visual-line)
   (define-key evil-insert-state-map (kbd "H-<left>") 'evil-first-non-blank)
+  ;; (define-key yas-minor-mode-map (kbd "TAB") 'hippie-expand)
+  ;; (define-key yas-minor-mode-map (kbd "<tab>") 'hippie-expand)
 
   ;; Drag Stuff
   (drag-stuff-global-mode t)
@@ -502,15 +514,8 @@ before packages are loaded."
 
   (setq flycheck-check-syntax-automatically '(save))
 
+  ;; Center Cursor
   (global-centered-cursor-mode t)
-
-  (use-package company-tabnine :ensure t)
-  (add-to-list 'company-backends #'company-tabnine)
-  ;; Trigger completion immediately.
-  (setq company-idle-delay 0)
-
-  ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-numbers t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -525,20 +530,35 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(hippie-expand-try-functions-list
+   (quote
+    (yas-hippie-try-expand try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol emmet-expand-line)))
+ '(js-indent-level 2)
+ '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (rjsx-mode import-js grizzl add-node-modules-path csv-mode eshell-prompt-extras company-tabnine yasnippet-classic-snippets yaml-mode ws-butler writeroom-mode winum which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern tagedit symon string-inflection sql-indent spaceline-all-the-icons smex smeargle slim-mode seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reveal-in-osx-finder restart-emacs request rbenv rainbow-delimiters pug-mode projectile-rails prettier-js popwin persp-mode password-generator paradox overseer osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc ivy-xref ivy-purpose ivy-hydra indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md font-lock+ flycheck-pos-tip flx-ido fill-column-indicator feature-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode doom-modeline diminish diff-hl counsel-projectile counsel-css column-enforce-mode clean-aindent-mode chruby centered-cursor-mode bundler browse-at-remote auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link)))
+    (tide typescript-mode rjsx-mode import-js grizzl add-node-modules-path csv-mode eshell-prompt-extras company-tabnine yaml-mode ws-butler writeroom-mode winum which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern tagedit symon string-inflection sql-indent spaceline-all-the-icons smex smeargle slim-mode seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe reveal-in-osx-finder restart-emacs request rbenv rainbow-delimiters pug-mode projectile-rails prettier-js popwin persp-mode password-generator paradox overseer osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc ivy-xref ivy-purpose ivy-hydra indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md font-lock+ flycheck-pos-tip flx-ido fill-column-indicator feature-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode doom-modeline diminish diff-hl counsel-projectile counsel-css column-enforce-mode clean-aindent-mode chruby centered-cursor-mode bundler browse-at-remote auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link)))
  '(ruby-insert-encoding-magic-comment nil)
  '(safe-local-variable-values
    (quote
-    ((eval setenv "RETAILER" "merx")
+    ((create-lockfiles)
+     (feature-step-search-path . "**/features/**/*steps.rb")
+     (feature-root-marker-file-name . "Gemfile")
+     (eval setenv "RETAILER" "merx")
      (eval setenv "COUNTRY" "nz")
      (eval setenv "RETAILER" "psuk")
      (eval setenv "COUNTRY" "uk")
      (eval setenv "PS_MARKET" "au")
      (rspec-use-spring-when-possible)
-     (javascript-backend . tern)
-     (javascript-backend . lsp)))))
+     (javascript-backend . lsp)
+     (flycheck-command-wrapper-function lambda
+                                        (command)
+                                        (append
+                                         (quote
+                                          ("bundle" "exec"))
+                                         command)))))
+ '(standard-indent 2)
+ '(undo-tree-auto-save-history t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

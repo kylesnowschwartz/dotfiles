@@ -7,6 +7,10 @@ alias ..="cd ../"
 alias ...="cd ../../"
 alias ....="cd ../../../"
 
+#pbcopy & pbpaste aliases
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+
 #Powershop aliases
 alias wipdb="RAILS_ENV=development DB_NAME=powershop_production DB_USER=wip MYSQL_SERVER=127.0.0.1 MYSQL_PORT=3324"
 # usage: ssh <wip-ssh-name> -N -v -L 3324:maria:3306
@@ -30,16 +34,11 @@ alias uk="COUNTRY=uk be"
 alias psau="COUNTRY=au RETAILER=psau RETAIL_BRAND=powershop be"
 alias psuk="COUNTRY=uk RETAILER=psuk RETAIL_BRAND=powershop be"
 alias psnz="COUNTRY=nz RETAILER=psnz RETAIL_BRAND=powershop be"
-
 alias merx="RETAILER=merx RETAIL_BRAND=meridian COUNTRY=nz be"
+
 alias powershop="RETAILER=psnz RETAIL_BRAND=powershop"
 alias dcpower="RETAILER=psau RETAIL_BRAND=dcpowerco COUNTRY=au be"
 alias kogan="RETAILER=psau RETAIL_BRAND=dcpowerco COUNTRY=au be"
-
-alias nzrspec="COUNTRY=nz be spring rspec"
-alias aurspec="COUNTRY=au be spring rspec"
-alias ukrspec="COUNTRY=uk be spring rspec"
-alias merxrspec="RETAILER=merx RETAIL_BRAND=meridian COUNTRY=nz bundle exec spring rspec"
 
 alias ukprodlon="ssh uk-prod-app-lon1-d10"
 alias ukprodfra="ssh uk-prod-app-fra2-d10"
@@ -47,8 +46,10 @@ alias nzprodakl="ssh nz-prod-app-akl1-d10"
 alias nzprodwlg="ssh nz-prod-app-wlg1-d10"
 alias auprodakl="ssh au-prod-app-akl1-d10"
 alias auprodwlg="ssh au-prod-app-wlg1-d10"
-alias merxprodakl="ssh merx-prod-app-wlg1-d1"
-alias merxprodwlg="ssh merx-prod-app-akl1-d1"
+alias merxprodwlg="ssh merx-prod-app-wlg1-d1"
+alias merxprodakl="ssh merx-prod-app-akl1-d1"
+
+alias prep="rails db:migrate db:test:prepare"
 
 active () {
     case "$1" in
@@ -83,7 +84,7 @@ alias gc="git commit -v"
 alias ga="git add"
 alias gs="git status"
 alias gl="git log --graph --full-history --all --color --pretty=format:'%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s'"
-alias gd="git diff --word-diff=color"
+alias gd="git diff --color=always | less -r"
 alias gp="git push"
 alias gco="git checkout"
 alias pullff="git pull --ff"
