@@ -1,7 +1,14 @@
 alias reload="source ~/.bashrc"
 alias be="bundle exec"
 alias mkdir='mkdir -v'
-alias ls='ls -AGghs'
+# Cross-platform ls with colors
+if [ "$(uname)" = "Darwin" ]; then
+  # macOS
+  alias ls='ls -AGghs'
+else
+  # Linux/Unix
+  alias ls='ls -Aghs --color=auto'
+fi
 alias cp='cp -v'
 alias ..="cd ../"
 alias ...="cd ../../"
@@ -17,9 +24,21 @@ ss()
 rfv "$@"
 }
 
-#pbcopy & pbpaste aliases
-alias pbcopy="xclip -selection clipboard"
-alias pbpaste="xclip -selection clipboard -o"
+#pbcopy & pbpaste aliases - cross-platform clipboard support
+if [ "$(uname)" = "Darwin" ]; then
+  # macOS already has pbcopy/pbpaste
+  :
+else
+  # Linux - using xclip if available
+  if command -v xclip >/dev/null 2>&1; then
+    alias pbcopy="xclip -selection clipboard"
+    alias pbpaste="xclip -selection clipboard -o"
+  elif command -v xsel >/dev/null 2>&1; then
+    # Alternative if xclip isn't available
+    alias pbcopy="xsel --clipboard --input"
+    alias pbpaste="xsel --clipboard --output"
+  fi
+fi
 
 #review
 #alias review='open "https://github.com/envato/marketplace/compare/$(git symbolic-ref --short HEAD)"'
