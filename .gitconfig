@@ -1,6 +1,64 @@
-[credential]
-	helper = store
-[user]
-	name = kylesnowschwartz
 [core]
-	excludesfile = /home/kyle/.gitignore_global
+	excludesfile = /Users/kyle/.gitignore_global
+	pager = delta
+	editor = nvim
+[user]
+	email = kyle.snowschwartz@gmail.com
+	name = kylesnowschwartz
+[alias]
+	merge-commits = "!funct() { git log --merges --reverse --oneline --ancestry-path $1..origin | grep \"Merge pull request\";  }; funct"
+	pr-number = "!funct() { git merge-commits $1 | head -n1 | sed -n \"s/^.*Merge pull request #\\\\s*\\\\([0-9]*\\\\).*$/\\\\1/p\"; }; funct"
+	web-url = "!funct() { git config remote.origin.url | sed -e\"s/git@/https:\\/\\//\" -e\"s/\\.git$//\" | sed -E \"s/(\\/\\/[^:]*):/\\1\\//\"; }; funct"
+	pr = "!funct() { open \"`git web-url`/pull/`git pr-number $1`\" ;}; funct"
+	pushd = push -u origin HEAD
+	amend = commit --amend --no-edit
+	cherrypick = cherry-pick
+	aic = !npx genaiscript run ~/Code/genai-scripts/genaisrc/generate-commit.genai.mjs
+[init]
+	defaultBranch = main
+[push]
+    default = simple
+    autoSetupRemote = true
+    followTags = true
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+[pull]
+    rebase = true
+[interactive]
+	diffFilter = delta --color-only
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[delta]
+	navigate = true
+	light = false
+	hyperlinks = true
+; 	hyperlinks-file-link-format = "idea://open?file={path}&line={line}"
+	hyperlinks-file-link-format = "file://{path}:{line}"
+    keep-plus-minus-markers = true
+[merge]
+	conflictstyle = diff3
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[commit]
+	template = ~/.config/git/commit_template.txt
+	verbose = true
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
+[help]
+    autocorrect = prompt
