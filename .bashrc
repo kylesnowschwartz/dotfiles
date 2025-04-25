@@ -86,24 +86,11 @@ fi
 # ALIASES
 #################################################
 
-# Basic file operations (cross-platform)
+# Aliases are all defined in ~/.bash_aliases
+# Only basic aliases that are essential for this file should be kept here
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias mkdir='mkdir -v'
-alias cp='cp -v'
-alias ..="cd ../"
-alias ...="cd ../../"
-alias ....="cd ../../../"
-
-# Notification alias
-if [ "$OS" = "macos" ]; then
-  # macOS notification
-  alias alert='terminal-notifier -title "Terminal" -message "$([ $? = 0 ] && echo Command finished successfully || echo Command failed)"'
-else
-  # Linux notification
-  alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-fi
 
 # Source additional aliases if available
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases

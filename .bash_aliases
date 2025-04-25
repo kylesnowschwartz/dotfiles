@@ -1,6 +1,24 @@
 # Reload bash configuration - works with symlinks
 # This sources .bashrc which in turn sources .bash_aliases
 alias reload="source ~/.bashrc && echo 'Bash configuration reloaded'"
+
+# Cross-platform notification for long-running commands
+# Usage: sleep 10; alert
+if [ "$(uname)" = "Darwin" ]; then
+  # macOS notification
+  if command -v terminal-notifier >/dev/null 2>&1; then
+    alias alert='terminal-notifier -title "Terminal" -message "$([ $? = 0 ] && echo Command finished successfully || echo Command failed)"'
+  else
+    alias alert='echo "Command completed with status: $?"'
+  fi
+else
+  # Linux notification
+  if command -v notify-send >/dev/null 2>&1; then
+    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+  else
+    alias alert='echo "Command completed with status: $?"'
+  fi
+fi
 alias be="bundle exec"
 alias mkdir='mkdir -v'
 # Cross-platform ls with colors
