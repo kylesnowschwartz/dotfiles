@@ -217,6 +217,7 @@ setup_symlink .bashrc
 setup_symlink .bash_aliases
 setup_symlink .bash_profile
 setup_symlink .gitconfig
+setup_symlink .inputrc
 
 # Set up symlinks for tmux if needed
 # For modern tmux configuration in ~/.config/tmux
