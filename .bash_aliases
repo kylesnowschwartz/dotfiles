@@ -1,4 +1,6 @@
-alias reload="source ~/.bashrc"
+# Reload bash configuration - works with symlinks
+# This sources .bashrc which in turn sources .bash_aliases
+alias reload="source ~/.bashrc && echo 'Bash configuration reloaded'"
 alias be="bundle exec"
 alias mkdir='mkdir -v'
 # Cross-platform ls with colors
@@ -24,17 +26,15 @@ ss()
 rfv "$@"
 }
 
-#pbcopy & pbpaste aliases - cross-platform clipboard support
-if [ "$(uname)" = "Darwin" ]; then
-  # macOS already has pbcopy/pbpaste
-  :
-else
-  # Linux - using xclip if available
+# Clipboard handling - cross-platform support
+# On macOS, pbcopy and pbpaste are native commands
+# On Linux, we need to create aliases that use xclip or xsel
+if [ "$(uname)" != "Darwin" ]; then
+  # Only define aliases on non-macOS systems
   if command -v xclip >/dev/null 2>&1; then
     alias pbcopy="xclip -selection clipboard"
     alias pbpaste="xclip -selection clipboard -o"
   elif command -v xsel >/dev/null 2>&1; then
-    # Alternative if xclip isn't available
     alias pbcopy="xsel --clipboard --input"
     alias pbpaste="xsel --clipboard --output"
   fi

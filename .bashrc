@@ -1,123 +1,191 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-set editing-mode vi
+# Cross-platform configuration for macOS and Linux
 
-# If not running interactively, don't do anything
+# Exit if not running interactively
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+#################################################
+# PLATFORM DETECTION
+#################################################
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+# Detect OS - used throughout the configuration
+OS="unknown"
+if [ "$(uname)" = "Darwin" ]; then
+  OS="macos"
+else
+  OS="linux" # Default to Linux for other Unix-like systems
 fi
 
-### START Color Settings when not using Starship
+#################################################
+# SHELL BEHAVIOR
+#################################################
 
-# # set a fancy prompt (non-color, unless we know we "want" color)
-# case "$TERM" in
-#     xterm-color|*-256color) color_prompt=yes;;
-# esac
-#
-# # uncomment for a colored prompt, if the terminal has the capability; turned
-# # off by default to not distract the user: the focus in a terminal window
-# # should be on the output of commands, not on the prompt
-# #force_color_prompt=yes
-#
-# if [ -n "$force_color_prompt" ]; then
-#     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-# 	# We have color support; assume it's compliant with Ecma-48
-# 	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-# 	# a case would tend to support setf rather than setaf.)
-# 	color_prompt=yes
-#     else
-# 	color_prompt=
-#     fi
-# fi
-#
-# if [ "$color_prompt" = yes ]; then
-#     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-# else
-#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
-# unset color_prompt force_color_prompt
-#
-# # If this is an xterm set the title to user@host:dir
-# case "$TERM" in
-# xterm*|rxvt*)
-#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#     ;;
-# *)
-#     ;;
-# esac
-#
-# # enable color support of ls and also add handy aliases
-# if [ -x /usr/bin/dircolors ]; then
-#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#     alias ls='ls --color=auto'
-#     #alias dir='dir --color=auto'
-#     #alias vdir='vdir --color=auto'
-#
-#     alias grep='grep --color=auto'
-#     alias fgrep='fgrep --color=auto'
-#     alias egrep='egrep --color=auto'
-# fi
+# History management
+HISTCONTROL=ignoreboth        # Don't store duplicates or commands starting with space
+shopt -s histappend           # Append to history file, don't overwrite
+HISTSIZE=1000                 # Command history length
+HISTFILESIZE=2000             # History file size
 
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# Terminal behavior
+shopt -s checkwinsize         # Update window size after each command
 
-# Prompt settings
-# source ~/.git-prompt.sh
-# PROMPT_COMMAND='__git_ps1 "\w" "\\\$ "'
-# GIT_PS1_SHOWCOLORHINTS=1
+# Input mode
+set editing-mode vi           # Use vi mode for readline
+set -o vi                     # Use vi mode for command line
 
-### END Color Settings when not using Starship
+#################################################
+# PATH CONFIGURATION
+#################################################
 
-# some more ls aliases
+# Common paths (cross-platform)
+[ -d "$HOME/.rbenv/bin" ] && export PATH="$HOME/.rbenv/bin:$PATH"
+[ -d "$HOME/.npm/bin" ] && export PATH="$HOME/.npm/bin:$PATH"
+[ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
+[ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
+
+# Platform-specific paths
+if [ "$OS" = "macos" ]; then
+  # macOS-specific paths
+  [ -d "/Applications/RubyMine.app/Contents/MacOS" ] && export PATH="/Applications/RubyMine.app/Contents/MacOS:$PATH"
+fi
+
+#################################################
+# ENVIRONMENT VARIABLES
+#################################################
+
+# Editor and pager settings
+export EDITOR=nvim
+[ -x "$(command -v bat 2>/dev/null)" ] && export PAGER=bat
+
+# Java configuration
+if [ "$OS" = "macos" ]; then
+  # macOS Java
+  [ -x /usr/libexec/java_home ] && export JAVA_HOME=$(/usr/libexec/java_home)
+
+  # macOS Ruby with Homebrew openssl
+  if command -v brew >/dev/null 2>&1; then
+    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1 2>/dev/null || echo '/usr/local')"
+  fi
+fi
+
+# Ripgrep configuration
+if [ -f "$HOME/config/.ripgreprc" ]; then
+  export RIPGREP_CONFIG_PATH="$HOME/config/.ripgreprc"
+elif [ -f "$HOME/.config/ripgrep/config" ]; then
+  export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
+fi
+
+# Man pages with neovim if available
+[ -x "$(command -v nvim 2>/dev/null)" ] && export MANPAGER="nvim +':setlocal nomodifiable' +Man!"
+
+#################################################
+# ALIASES
+#################################################
+
+# Basic file operations (cross-platform)
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias mkdir='mkdir -v'
+alias cp='cp -v'
+alias ..="cd ../"
+alias ...="cd ../../"
+alias ....="cd ../../../"
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+# Notification alias
+if [ "$OS" = "macos" ]; then
+  # macOS notification
+  alias alert='terminal-notifier -title "Terminal" -message "$([ $? = 0 ] && echo Command finished successfully || echo Command failed)"'
+else
+  # Linux notification
+  alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# Source additional aliases if available
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+#################################################
+# DEVELOPMENT TOOLS
+#################################################
+
+# Language version managers
+# -----------------------
+
+# rbenv
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init -)"
+  # [ -f "$HOME/set_rbenv_shell.sh" ] && "$HOME/set_rbenv_shell.sh"
+fi
+
+# nodenv
+[ -x "$(command -v nodenv 2>/dev/null)" ] && eval "$(nodenv init - bash)"
+
+# ASDF version manager
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  . "$HOME/.asdf/asdf.sh"
+elif [ -f "/usr/local/opt/asdf/libexec/asdf.sh" ]; then
+  . "/usr/local/opt/asdf/libexec/asdf.sh"
+elif [ -f "/opt/asdf-vm/asdf.sh" ]; then
+  . "/opt/asdf-vm/asdf.sh"
+fi
+
+# Development tools
+# -----------------------
+
+# direnv
+[ -x "$(command -v direnv 2>/dev/null)" ] && eval "$(direnv hook bash)"
+
+# FZF fuzzy finder
+if [ -f ~/.fzf.bash ]; then
+  . ~/.fzf.bash
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+  . /usr/share/doc/fzf/examples/key-bindings.bash
+elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
+  . /usr/share/fzf/shell/key-bindings.bash
+fi
+
+# Git completion
+if [ -f ~/git-completion.bash ]; then
+  . ~/git-completion.bash
+elif [ -f /usr/share/bash-completion/completions/git ]; then
+  . /usr/share/bash-completion/completions/git
+elif [ -f /etc/bash_completion.d/git ]; then
+  . /etc/bash_completion.d/git
+fi
+
+# AWS CLI tools
+if command -v aws-vault >/dev/null 2>&1; then
+  eval "$(aws-vault --completion-script-bash)"
+fi
+
+if [ "$OS" = "macos" ]; then
+  [ -x /usr/local/bin/aws_completer ] && complete -C '/usr/local/bin/aws_completer' aws
+fi
+
+# Yazi file manager
+if command -v yazi >/dev/null 2>&1; then
+  function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+  }
+fi
+
+#################################################
+# SHELL APPEARANCE
+#################################################
+
+# Starship prompt
+[ -x "$(command -v starship 2>/dev/null)" ] && eval "$(starship init bash)"
+
+# Enable programmable completion features
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -126,70 +194,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export JAVA_HOME=$(/usr/libexec/java_home)
-RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH="$HOME/.npm/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
-export PATH="/Applications/RubyMine.app/Contents/MacOS:$PATH"
-export EDITOR=nvim
-export PAGER=bat
+# Clipboard support (handled in bash_aliases)
 
-# set vi mode for the terminal
-set -o vi
-
-# fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# rbenv init
-eval "$(rbenv init -)"
-~/set_rbenv_shell.sh
-
-# nodenv init
-eval "$(nodenv init - bash)"
-
-# Git completion
-. ~/git-completion.bash
-
-# Direnv
-eval "$(direnv hook bash)"
-
-# ASDF
-# echo 'ASDF Configured'
-# . /usr/local/opt/asdf/libexec/asdf.sh
-#
-
-# AWS completion
-eval "$(aws-vault --completion-script-bash)"
-complete -C '/usr/local/bin/aws_completer' aws
-
-# Created by `pipx` on 2024-07-10 01:34:14
-export PATH="$PATH:/Users/kyle/.local/bin"
-
-### START Starship init
-eval "$(starship init bash)"
-### END Starship init
-
-# For bash subshells, add to ~/.bashrc or ~/.bash_profile.
+# For Warp Terminal integration (uncomment if needed)
 # if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
 #   printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash"}}\x9c'
 # fi
-
-# Yazi
-# https://yazi-rs.github.io/docs/quick-start
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
-# Open man pages with neovim
-export MANPAGER="nvim +':setlocal nomodifiable' +Man!"
-
-# Add configuration options to ripgrep like addint the 'feature' type and searching hidden files by default
-export RIPGREP_CONFIG_PATH="~/config/.ripgreprc"
-
-export PATH=~/.npm-global/bin:$PATH
