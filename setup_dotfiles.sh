@@ -15,7 +15,8 @@ else
 fi
 
 # Setup variables
-BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y%m%d-%H%M%S)"
+BACKUP_BASE_DIR="$HOME/backups"
+BACKUP_DIR="$BACKUP_BASE_DIR/dotfiles_$(date +%Y%m%d-%H%M%S)"
 VERBOSE=1
 
 # Detect OS
@@ -73,6 +74,11 @@ if [ "$NO_BACKUP" -eq 1 ]; then
   echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup (no backups)" > "$LOG_FILE"
 else
   echo "Creating backup directory at $BACKUP_DIR"
+  if ! mkdir -p "$BACKUP_BASE_DIR"; then
+    echo "ERROR: Failed to create base backup directory at $BACKUP_BASE_DIR"
+    exit 1
+  fi
+  
   if ! mkdir -p "$BACKUP_DIR"; then
     echo "ERROR: Failed to create backup directory at $BACKUP_DIR"
     exit 1
@@ -219,12 +225,85 @@ setup_symlink .bash_profile
 setup_symlink .gitconfig
 setup_symlink .inputrc
 
+# Function to symlink files specifically to ~/.config directory
+setup_config_symlink() {
+  local source_path="$DOTFILES_DIR/$1"
+  local target_path="$HOME/.config/$(basename "$1")"
+  local target_dir=$(dirname "$target_path")
+
+  # Check if source path exists
+  if [ ! -e "$source_path" ]; then
+    log "WARNING" "Source path $source_path does not exist, skipping..."
+    return
+  fi
+
+  # Make sure the target directory exists
+  if [ ! -d "$target_dir" ]; then
+    log "INFO" "Creating target directory $target_dir"
+    if ! mkdir -p "$target_dir"; then
+      log "ERROR" "Failed to create directory $target_dir"
+      return
+    fi
+  fi
+
+  # Backup existing file/directory if it exists and is not a symlink
+  if [ -e "$target_path" ]; then
+    if [ ! -L "$target_path" ]; then
+      if [ "$NO_BACKUP" -eq 1 ]; then
+        log "INFO" "Removing existing path $target_path (no backup)"
+      else
+        log "INFO" "Backing up existing path $target_path to $BACKUP_DIR"
+        if ! cp -a "$target_path" "$BACKUP_DIR/"; then
+          log "ERROR" "Failed to backup $target_path"
+          return
+        fi
+        log "DEBUG" "Backup complete"
+      fi
+
+      # Remove files in a safer way
+      log "DEBUG" "Removing original file/directory $target_path"
+      if ! rm -rf "$target_path" 2>/dev/null; then
+        # If that fails on Linux, try with --preserve-root
+        if [ "$OS" != "macos" ]; then
+          if ! rm -rf --preserve-root "$target_path" 2>/dev/null; then
+            log "ERROR" "Failed to remove original path $target_path"
+            return
+          fi
+        else
+          log "ERROR" "Failed to remove original path $target_path"
+          return
+        fi
+      fi
+    else
+      log "INFO" "Removing existing symlink $target_path"
+      if ! rm "$target_path"; then
+        log "ERROR" "Failed to remove symlink $target_path"
+        return
+      fi
+    fi
+  fi
+
+  # Create symlink
+  log "INFO" "Creating symlink from $source_path to $target_path"
+  if ! ln -sf "$source_path" "$target_path"; then
+    log "ERROR" "Failed to create symlink for $target_path"
+  fi
+
+  # Log success
+  log "DEBUG" "Successfully linked $source_path -> $target_path"
+}
+
+# Set up symlinks for config files
+setup_config_symlink .ripgreprc
+setup_config_symlink starship.toml
+setup_config_symlink yazi
+setup_config_symlink git
+
 # Set up symlinks for tmux if needed
 # For modern tmux configuration in ~/.config/tmux
-if [ -f "$DOTFILES_DIR/tmux/tmux.conf" ]; then
-  # Uncomment to enable
-  # setup_symlink ".config/tmux/tmux.conf"
-  log "INFO" "Tmux configuration is available but disabled. Uncomment in script to enable."
+if [ -d "$DOTFILES_DIR/tmux" ]; then
+  setup_config_symlink tmux
+  log "INFO" "Tmux configuration symlinked to ~/.config/tmux"
 fi
 
 # Set up symlinks for any other configuration files
@@ -261,7 +340,7 @@ log "INFO" "Sourcing bash configuration files..."
 # Only source files if running in interactive shell
 if [ -n "$BASH_VERSION" ] && [ -n "$PS1" ]; then
   log "INFO" "Sourcing bash files for $OS"
-  
+
   for file in .bashrc .bash_profile .bash_aliases; do
     if [ -f "$HOME/$file" ]; then
       log "INFO" "Sourcing $file"
