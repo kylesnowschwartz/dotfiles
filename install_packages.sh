@@ -306,9 +306,24 @@ if [ "$INSTALL_SERVER" -eq 1 ]; then
   fi
 
     # Manage services
-  for service in ssh jellyfin qbittorrent-nox; do
+  for service in ssh jellyfin; do
     manage_service "$service"
   done
+  
+  # Special handling for qbittorrent which uses a user-specific service name
+  if systemctl list-units --all | grep -q "qbittorrent-nox@"; then
+    print_msg "$GREEN" "✓ qBittorrent already running"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    print_msg "$YELLOW" "→ Would configure and start qBittorrent service"
+  else
+    # Get current user for the service
+    local qbit_user="${SUDO_USER:-$USER}"
+    [ -z "$qbit_user" ] && qbit_user=$(who am i | awk '{print $1}')
+    
+    systemctl enable "qbittorrent-nox@$qbit_user" &>/dev/null
+    systemctl start "qbittorrent-nox@$qbit_user" &>/dev/null
+    print_msg "$GREEN" "✓ Started qBittorrent service for user $qbit_user"
+  fi
 
   # Configure unattended upgrades if not already configured
   if [ ! -f "/etc/apt/apt.conf.d/20auto-upgrades" ]; then
