@@ -257,6 +257,7 @@ CONFIG_FILES=(
   starship.toml
   yazi
   git
+  tmux
 )
 
 # Set up symlinks for home files
@@ -268,13 +269,6 @@ done
 for file in "${CONFIG_FILES[@]}"; do
   setup_symlink "$file" "config"
 done
-
-# Set up symlinks for tmux if needed
-# For modern tmux configuration in ~/.config/tmux
-if [ -d "$DOTFILES_DIR/tmux" ]; then
-  setup_symlink "tmux" "config"
-  log "INFO" "Tmux configuration symlinked to ~/.config/tmux"
-fi
 
 # Set up symlinks for any other configuration files
 # Add more files here as needed
