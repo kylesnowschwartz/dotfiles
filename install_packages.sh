@@ -12,9 +12,6 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-# Verbosity level (0=quiet, 1=normal, 2=verbose)
-VERBOSE=0
-
 # Function to print colored messages
 print_msg() {
   echo -e "${1}${2}${NC}"
@@ -32,7 +29,7 @@ if ! command -v apt >/dev/null || ! grep -qE 'Debian|Ubuntu' /etc/os-release; th
   exit 1
 fi
 
-# Parse arguments
+# Initialize flags
 INSTALL_SERVER=0
 INSTALL_DESKTOP=0
 INSTALL_DEV=0
@@ -58,33 +55,23 @@ for arg in "$@"; do
       DRY_RUN=1
       print_msg "$YELLOW" "DRY RUN MODE: No changes will be made to your system"
       ;;
-    --verbose)
-      VERBOSE=1
-      ;;
-    --quiet)
-      VERBOSE=0
-      ;;
     --help)
-      echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run] [--verbose] [--quiet]"
+      echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run]"
       echo "  --server    Install server packages (jellyfin, samba, etc.)"
       echo "  --desktop   Install desktop packages (gnome-tweaks, etc.)"
       echo "  --dev       Install development packages (build-essential, etc.)"
       echo "  --all       Install all packages"
       echo "  --dry-run   Show what would be installed/configured without making changes"
-      echo "  --verbose   Show more detailed output"
-      echo "  --quiet     Minimize output (default)"
       exit 0
       ;;
   esac
 done
 
-# Display what will be installed
+# Display header
 print_msg "$BLUE" "Package Installation Script"
 if [ "$DRY_RUN" -eq 1 ]; then
   print_msg "$YELLOW" "DRY RUN MODE: This will only show what would be done without making changes"
 fi
-
-# Skip verbose listing of what's being checked
 
 # Function to check if a package is already installed
 is_package_installed() {
@@ -234,12 +221,10 @@ jackett_install_steps() {
 INSTALLED_PACKAGES=""
 MISSING_PACKAGES=""
 
-# Function to install only missing packages
+# Install only missing packages
 install_packages() {
   local group="$1"
   shift
-
-  # Track package counts
   local to_install=""
 
   # Check which packages need to be installed
@@ -254,8 +239,7 @@ install_packages() {
 
   # Install missing packages if needed
   if [ -z "$to_install" ]; then
-    # Skip output in normal mode, only show in verbose
-    [ "$VERBOSE" -eq 1 ] && print_msg "$GREEN" "✓ All $group packages installed"
+    print_msg "$GREEN" "✓ All $group packages installed"
   else
     if [ "$DRY_RUN" -eq 1 ]; then
       print_msg "$YELLOW" "→ Would install $group:$to_install"
@@ -272,40 +256,24 @@ install_packages() {
   fi
 }
 
-# Core packages (always installed)
-CORE_PACKAGES=(
-  "curl"
-  "git"
-  "neovim"
-  "bash-completion"
-  "ripgrep"
-  "yazi"
-)
-
+# Install core packages
+CORE_PACKAGES=("curl" "git" "neovim" "bash-completion" "ripgrep" "yazi")
 install_packages "Core" "${CORE_PACKAGES[@]}"
 
-# Server packages
+# Install server packages if requested
 if [ "$INSTALL_SERVER" -eq 1 ]; then
-  SERVER_PACKAGES=(
-    "smbclient"
-    "samba"
-    "openssh-server"
-    "unattended-upgrades"
-    "jellyfin"
-    "qbittorrent-nox"
-    "wget"  # Required for Jackett installation
-  )
-
+  SERVER_PACKAGES=("smbclient" "samba" "openssh-server" "unattended-upgrades" 
+                  "jellyfin" "qbittorrent-nox" "wget")
   install_packages "Server" "${SERVER_PACKAGES[@]}"
 
-    # Check if Jackett is already installed
+  # Check if Jackett is already installed
   if [ -d "/opt/Jackett" ] && systemctl is-enabled --quiet jackett.service 2>/dev/null; then
     print_msg "$GREEN" "✓ Jackett already installed"
   else
     install_jackett
   fi
 
-    # Manage services
+  # Manage services
   for service in ssh jellyfin; do
     manage_service "$service"
   done
@@ -338,24 +306,15 @@ if [ "$INSTALL_SERVER" -eq 1 ]; then
   fi
 fi
 
-# Desktop packages
+# Install desktop packages if requested
 if [ "$INSTALL_DESKTOP" -eq 1 ]; then
-  DESKTOP_PACKAGES=(
-    "gnome-tweaks"
-    "xclip"
-    "libfuse2"  # For AppImage support
-  )
-
+  DESKTOP_PACKAGES=("gnome-tweaks" "xclip" "libfuse2")
   install_packages "Desktop" "${DESKTOP_PACKAGES[@]}"
 fi
 
-# Development packages
+# Install development packages if requested
 if [ "$INSTALL_DEV" -eq 1 ]; then
-  DEV_PACKAGES=(
-    "build-essential"
-    "ruby"
-  )
-
+  DEV_PACKAGES=("build-essential" "ruby")
   install_packages "Development" "${DEV_PACKAGES[@]}"
 fi
 
@@ -376,4 +335,4 @@ if [ "$DRY_RUN" -eq 1 ]; then
   fi
 fi
 
-echo "Usage: sudo ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run] [--verbose] [--quiet]"
+echo "Usage: sudo ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run]"
