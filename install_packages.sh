@@ -12,6 +12,9 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+# Verbosity level (0=quiet, 1=normal, 2=verbose)
+VERBOSE=0
+
 # Function to print colored messages
 print_msg() {
   echo -e "${1}${2}${NC}"
@@ -55,34 +58,89 @@ for arg in "$@"; do
       DRY_RUN=1
       print_msg "$YELLOW" "DRY RUN MODE: No changes will be made to your system"
       ;;
+    --verbose)
+      VERBOSE=1
+      ;;
+    --quiet)
+      VERBOSE=0
+      ;;
     --help)
-      echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run]"
+      echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run] [--verbose] [--quiet]"
       echo "  --server    Install server packages (jellyfin, samba, etc.)"
       echo "  --desktop   Install desktop packages (gnome-tweaks, etc.)"
       echo "  --dev       Install development packages (build-essential, etc.)"
       echo "  --all       Install all packages"
       echo "  --dry-run   Show what would be installed/configured without making changes"
+      echo "  --verbose   Show more detailed output"
+      echo "  --quiet     Minimize output (default)"
       exit 0
       ;;
   esac
 done
 
 # Display what will be installed
-print_msg "$BLUE" "Package Installation Script (Idempotent Version)"
+print_msg "$BLUE" "Package Installation Script"
 if [ "$DRY_RUN" -eq 1 ]; then
   print_msg "$YELLOW" "DRY RUN MODE: This will only show what would be done without making changes"
 fi
-echo "The following package groups will be checked/installed:"
-echo "- Core packages (always checked)"
-if [ "$INSTALL_SERVER" -eq 1 ]; then echo "- Server packages"; fi
-if [ "$INSTALL_DESKTOP" -eq 1 ]; then echo "- Desktop packages"; fi
-if [ "$INSTALL_DEV" -eq 1 ]; then echo "- Development packages"; fi
-echo ""
+
+# Skip verbose listing of what's being checked
 
 # Function to check if a package is already installed
 is_package_installed() {
-  dpkg -l "$1" 2>/dev/null | grep -q "^ii"
-  return $?
+  local package=$1
+  
+  # First check using dpkg
+  if dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
+    return 0
+  fi
+  
+  # Check for snap packages
+  if command -v snap &>/dev/null && snap list 2>/dev/null | grep -q "^$package "; then
+    return 0
+  fi
+  
+  # Check for alternative packages
+  case "$package" in
+    neovim)
+      # Check if nvim executable is available
+      if command -v nvim &>/dev/null; then
+        return 0
+      fi
+      ;;
+    libfuse2)
+      # Check if libfuse is available
+      if ldconfig -p 2>/dev/null | grep -q libfuse; then
+        return 0
+      fi
+      ;;
+    ruby)
+      # Check if ruby is available from other sources (rvm, rbenv)
+      if command -v ruby &>/dev/null; then
+        return 0
+      fi
+      ;;
+    wget)
+      # Check if wget is available (could be installed elsewhere)
+      if command -v wget &>/dev/null; then
+        return 0
+      fi
+      ;;
+    curl)
+      # Check if curl is available (could be installed elsewhere)
+      if command -v curl &>/dev/null; then
+        return 0
+      fi
+      ;;
+    git)
+      # Check if git is available (could be installed elsewhere)
+      if command -v git &>/dev/null; then
+        return 0
+      fi
+      ;;
+  esac
+  
+  return 1
 }
 
 # Function to check if a service is running
@@ -196,10 +254,11 @@ install_packages() {
 
   # Install missing packages if needed
   if [ -z "$to_install" ]; then
-    print_msg "$GREEN" "✓ All $group packages installed"
+    # Skip output in normal mode, only show in verbose
+    [ "$VERBOSE" -eq 1 ] && print_msg "$GREEN" "✓ All $group packages installed"
   else
     if [ "$DRY_RUN" -eq 1 ]; then
-      print_msg "$YELLOW" "→ Would install:$to_install"
+      print_msg "$YELLOW" "→ Would install $group:$to_install"
     else
       apt update -q &>/dev/null
       for package in $to_install; do
@@ -214,7 +273,6 @@ install_packages() {
 }
 
 # Core packages (always installed)
-print_msg "$BLUE" "Checking core packages..."
 CORE_PACKAGES=(
   "curl"
   "git"
@@ -228,7 +286,6 @@ install_packages "Core" "${CORE_PACKAGES[@]}"
 
 # Server packages
 if [ "$INSTALL_SERVER" -eq 1 ]; then
-  print_msg "$BLUE" "Checking server packages..."
   SERVER_PACKAGES=(
     "smbclient"
     "samba"
@@ -268,43 +325,40 @@ fi
 
 # Desktop packages
 if [ "$INSTALL_DESKTOP" -eq 1 ]; then
-  print_msg "$BLUE" "Checking desktop packages..."
   DESKTOP_PACKAGES=(
     "gnome-tweaks"
-    "libfuse2"
     "xclip"
+    "libfuse2"  # For AppImage support
   )
 
   install_packages "Desktop" "${DESKTOP_PACKAGES[@]}"
-  print_msg "$GREEN" "Desktop setup complete!"
 fi
 
 # Development packages
 if [ "$INSTALL_DEV" -eq 1 ]; then
-  print_msg "$BLUE" "Checking development packages..."
   DEV_PACKAGES=(
     "build-essential"
     "ruby"
   )
 
   install_packages "Development" "${DEV_PACKAGES[@]}"
-  print_msg "$GREEN" "Development setup complete!"
 fi
 
 # Print final summary
 print_summary() {
-  echo "--------------------------------------------"
   if [ -z "$MISSING_PACKAGES" ]; then
-    print_msg "$GREEN" "All packages already installed!"
+    print_msg "$GREEN" "All packages already installed"
   else
+    echo "--------------------------------------------"
     print_msg "$YELLOW" "Packages to install: $MISSING_PACKAGES"
   fi
 }
 
 if [ "$DRY_RUN" -eq 1 ]; then
   print_summary
-  print_msg "$YELLOW" "No changes made. Run without --dry-run to install."
+  if [ -n "$MISSING_PACKAGES" ]; then
+    print_msg "$YELLOW" "No changes made. Run without --dry-run to install."
+  fi
 fi
 
-echo "You can run this script again at any time - it will only install missing components."
-echo "Usage: sudo ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run]"
+echo "Usage: sudo ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run] [--verbose] [--quiet]"
