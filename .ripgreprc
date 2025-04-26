@@ -1,0 +1,7 @@
+--type-add
+web:*.{html,css,js}*
+
+--type-add
+feature:*.feature*
+
+--hidden
