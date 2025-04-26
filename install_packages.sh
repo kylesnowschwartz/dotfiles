@@ -2,8 +2,6 @@
 
 # Script to install packages on a new system - Idempotent version
 # Usage: ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run]
-# Without arguments, installs only core packages
-# This version only installs packages and starts services if they don't already exist/running
 
 set -e  # Exit on any error
 
@@ -16,9 +14,7 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 print_msg() {
-  local color=$1
-  local message=$2
-  echo -e "${color}${message}${NC}"
+  echo -e "${1}${2}${NC}"
 }
 
 # Check if running as root
@@ -98,64 +94,59 @@ is_service_running() {
 # Function to manage services
 manage_service() {
   local service=$1
-  
+
   if ! is_service_running "$service"; then
     if [ "$DRY_RUN" -eq 1 ]; then
-      print_msg "$YELLOW" "[DRY RUN] Would enable and start $service service"
+      print_msg "$YELLOW" "→ Would enable and start $service service"
     else
-      print_msg "$BLUE" "Starting $service service..."
-      systemctl enable "$service"
-      systemctl start "$service"
-      print_msg "$GREEN" "$service service started"
+      systemctl enable "$service" &>/dev/null
+      systemctl start "$service" &>/dev/null
+      print_msg "$GREEN" "✓ Started $service service"
     fi
   else
-    print_msg "$GREEN" "$service service is already running"
+    print_msg "$GREEN" "✓ $service already running"
   fi
 }
 
 # Function to run commands in a temporary directory
 with_temp_dir() {
   local callback=$1
-  
+
   # Skip actual directory creation in dry run mode
   if [ "$DRY_RUN" -eq 1 ]; then
-    print_msg "$YELLOW" "[DRY RUN] Would create temporary directory and execute: $callback"
+    print_msg "$YELLOW" "→ Would download and execute: $callback"
     return 0
   fi
-  
+
   local current_dir=$(pwd)
   local temp_dir=$(mktemp -d)
-  
-  print_msg "$BLUE" "Using temporary directory: $temp_dir"
+
   cd "$temp_dir" || exit 1
-  
+
   # Call the provided function
   $callback
   local result=$?
-  
+
   # Clean up
   cd "$current_dir" || exit 1
   rm -rf "$temp_dir"
-  
+
   return $result
 }
 
 # Function to install Jackett
 install_jackett() {
   if [ "$DRY_RUN" -eq 1 ]; then
-    print_msg "$YELLOW" "[DRY RUN] Would install Jackett from GitHub to /opt/Jackett"
-    print_msg "$YELLOW" "[DRY RUN] Would download from: https://github.com/Jackett/Jackett/releases/latest"
-    print_msg "$YELLOW" "[DRY RUN] Would create and enable jackett.service"
+    print_msg "$YELLOW" "→ Would install Jackett from GitHub"
     return 0
   fi
-  
-  print_msg "$BLUE" "Installing Jackett from GitHub..."
+
   with_temp_dir jackett_install_steps
-  
+
   if [ $? -eq 0 ]; then
-    print_msg "$GREEN" "Jackett installed. You can access it at http://127.0.0.1:9117"
+    print_msg "$GREEN" "✓ Jackett installed (access at http://127.0.0.1:9117)"
   else
-    print_msg "$RED" "Jackett installation failed"
+    print_msg "$RED" "✗ Jackett installation failed"
     return 1
   fi
 }
@@ -163,93 +154,63 @@ install_jackett() {
 # Jackett installation steps
 jackett_install_steps() {
   local JACKETT_FILE="Jackett.Binaries.LinuxAMDx64.tar.gz"
-  
-  # Download Jackett
-  print_msg "$BLUE" "Downloading Jackett..."
-  if ! wget -Nc "https://github.com/Jackett/Jackett/releases/latest/download/$JACKETT_FILE"; then
-    print_msg "$RED" "Failed to download Jackett"
-    return 1
-  fi
-  
-  # Extract to /opt and set up
-  print_msg "$BLUE" "Extracting Jackett to /opt..."
-  if ! tar -xzf "$JACKETT_FILE" -C /opt; then
-    print_msg "$RED" "Failed to extract Jackett to /opt"
-    return 1
-  fi
-  
-  if ! cd /opt/Jackett* 2>/dev/null; then
-    print_msg "$RED" "Failed to find Jackett directory in /opt"
-    return 1
-  fi
-  
-  # Set correct ownership
-  print_msg "$BLUE" "Setting correct ownership..."
+
+  # Download and install
+  wget -q "https://github.com/Jackett/Jackett/releases/latest/download/$JACKETT_FILE" || return 1
+  tar -xzf "$JACKETT_FILE" -C /opt || return 1
+  cd /opt/Jackett* 2>/dev/null || return 1
+
+  # Set ownership
   local REAL_USER="${SUDO_USER:-$USER}"
-  if [ -z "$REAL_USER" ]; then
-    REAL_USER=$(who am i | awk '{print $1}')
-  fi
-  
-  local REAL_GROUP="$(id -gn "$REAL_USER" 2>/dev/null || echo "$(id -g "$REAL_USER")")"
-  if ! chown "$REAL_USER":"$REAL_GROUP" -R "/opt/Jackett"; then
-    print_msg "$RED" "Failed to set ownership on /opt/Jackett"
-    return 1
-  fi
-  
-  # Install and start service
-  print_msg "$BLUE" "Installing Jackett service..."
-  if ! ./install_service_systemd.sh; then
-    print_msg "$RED" "Failed to install Jackett service"
-    return 1
-  fi
-  
+  [ -z "$REAL_USER" ] && REAL_USER=$(who am i | awk '{print $1}')
+  local REAL_GROUP="$(id -gn "$REAL_USER" 2>/dev/null || id -g "$REAL_USER")"
+  chown "$REAL_USER":"$REAL_GROUP" -R "/opt/Jackett" || return 1
+
+  # Install service
+  ./install_service_systemd.sh &>/dev/null || return 1
   manage_service "jackett.service"
   return 0
 }
 
+# Track package status
+INSTALLED_PACKAGES=""
+MISSING_PACKAGES=""
+
 # Function to install only missing packages
 install_packages() {
-  local packages=("$@")
-  local missing_packages=()
-  local installed_count=0
-  local skipped_count=0
-  
+  local group="$1"
+  shift
+
+  # Track package counts
+  local to_install=""
+
   # Check which packages need to be installed
-  for package in "${packages[@]}"; do
+  for package in "$@"; do
     if is_package_installed "$package"; then
-      print_msg "$GREEN" "Package $package is already installed, skipping..."
-      ((skipped_count++))
+      INSTALLED_PACKAGES="$INSTALLED_PACKAGES $package"
     else
-      missing_packages+=("$package")
+      to_install="$to_install $package"
+      MISSING_PACKAGES="$MISSING_PACKAGES $package"
     fi
   done
-  
-  # Install missing packages if any
-  if [ ${#missing_packages[@]} -eq 0 ]; then
-    print_msg "$GREEN" "All required packages are already installed!"
+
+  # Install missing packages if needed
+  if [ -z "$to_install" ]; then
+    print_msg "$GREEN" "✓ All $group packages installed"
   else
     if [ "$DRY_RUN" -eq 1 ]; then
-      print_msg "$YELLOW" "[DRY RUN] Would install ${#missing_packages[@]} packages: ${missing_packages[*]}"
-      installed_count=${#missing_packages[@]}
+      print_msg "$YELLOW" "→ Would install:$to_install"
     else
-      print_msg "$BLUE" "Installing ${#missing_packages[@]} missing packages..."
-      if ! apt update; then
-        print_msg "$RED" "Failed to update package lists. Continuing anyway..."
-      fi
-      
-      for package in "${missing_packages[@]}"; do
-        print_msg "$BLUE" "Installing $package..."
-        if apt install -y "$package"; then
-          print_msg "$GREEN" "Installed $package successfully"
-          ((installed_count++))
+      apt update -q &>/dev/null
+      for package in $to_install; do
+        if apt install -y "$package" &>/dev/null; then
+          print_msg "$GREEN" "✓ Installed $package"
         else
-          print_msg "$RED" "Failed to install $package"
+          print_msg "$RED" "✗ Failed to install $package"
         fi
       done
     fi
   fi
-  
-  print_msg "$GREEN" "Package installation summary: ${installed_count} installed, ${skipped_count} already installed"
 }
 
 # Core packages (always installed)
@@ -263,7 +224,7 @@ CORE_PACKAGES=(
   "yazi"
 )
 
-install_packages "${CORE_PACKAGES[@]}"
+install_packages "Core" "${CORE_PACKAGES[@]}"
 
 # Server packages
 if [ "$INSTALL_SERVER" -eq 1 ]; then
@@ -278,40 +239,31 @@ if [ "$INSTALL_SERVER" -eq 1 ]; then
     "wget"  # Required for Jackett installation
   )
 
-  install_packages "${SERVER_PACKAGES[@]}"
-  
-  # Check if Jackett is already installed
+  install_packages "Server" "${SERVER_PACKAGES[@]}"
+
+    # Check if Jackett is already installed
   if [ -d "/opt/Jackett" ] && systemctl is-enabled --quiet jackett.service 2>/dev/null; then
-    print_msg "$GREEN" "Jackett is already installed, skipping installation..."
+    print_msg "$GREEN" "✓ Jackett already installed"
   else
     install_jackett
   fi
 
-  # Enable and start services only if needed
-  print_msg "$BLUE" "Checking service status..."
-  
-  # Manage services
-  manage_service "ssh"
-  manage_service "jellyfin"
-  manage_service "qbittorrent-nox"
+    # Manage services
+  for service in ssh jellyfin qbittorrent-nox; do
+    manage_service "$service"
+  done
 
   # Configure unattended upgrades if not already configured
   if [ ! -f "/etc/apt/apt.conf.d/20auto-upgrades" ]; then
     if [ "$DRY_RUN" -eq 1 ]; then
-      print_msg "$YELLOW" "[DRY RUN] Would configure unattended-upgrades"
+      print_msg "$YELLOW" "→ Would configure unattended-upgrades"
     else
-      print_msg "$BLUE" "Configuring unattended-upgrades..."
-      if ! dpkg-reconfigure -plow unattended-upgrades; then
-        print_msg "$RED" "Failed to configure unattended-upgrades"
-      else
-        print_msg "$GREEN" "Unattended upgrades configured successfully"
-      fi
+      dpkg-reconfigure -plow unattended-upgrades &>/dev/null
+      print_msg "$GREEN" "✓ Configured unattended-upgrades"
     fi
   else
-    print_msg "$GREEN" "Unattended upgrades already configured"
+    print_msg "$GREEN" "✓ Unattended upgrades already configured"
   fi
-
-  print_msg "$GREEN" "Server setup complete!"
 fi
 
 # Desktop packages
@@ -323,7 +275,7 @@ if [ "$INSTALL_DESKTOP" -eq 1 ]; then
     "xclip"
   )
 
-  install_packages "${DESKTOP_PACKAGES[@]}"
+  install_packages "Desktop" "${DESKTOP_PACKAGES[@]}"
   print_msg "$GREEN" "Desktop setup complete!"
 fi
 
@@ -335,15 +287,23 @@ if [ "$INSTALL_DEV" -eq 1 ]; then
     "ruby"
   )
 
-  install_packages "${DEV_PACKAGES[@]}"
+  install_packages "Development" "${DEV_PACKAGES[@]}"
   print_msg "$GREEN" "Development setup complete!"
 fi
 
+# Print final summary
+print_summary() {
+  echo "--------------------------------------------"
+  if [ -z "$MISSING_PACKAGES" ]; then
+    print_msg "$GREEN" "All packages already installed!"
+  else
+    print_msg "$YELLOW" "Packages to install: $MISSING_PACKAGES"
+  fi
+}
+
 if [ "$DRY_RUN" -eq 1 ]; then
-  print_msg "$YELLOW" "DRY RUN COMPLETE: No changes were made to your system"
-  print_msg "$YELLOW" "Run without --dry-run to apply the changes shown above"
-else
-  print_msg "$GREEN" "All selected package groups have been checked and installed as needed!"
+  print_summary
+  print_msg "$YELLOW" "No changes made. Run without --dry-run to install."
 fi
 
 echo "You can run this script again at any time - it will only install missing components."
