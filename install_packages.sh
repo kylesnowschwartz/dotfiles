@@ -76,17 +76,17 @@ fi
 # Function to check if a package is already installed
 is_package_installed() {
   local package=$1
-  
+
   # First check using dpkg
   if dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
     return 0
   fi
-  
+
   # Check for snap packages
   if command -v snap &>/dev/null && snap list 2>/dev/null | grep -q "^$package "; then
     return 0
   fi
-  
+
   # Check for alternative packages
   case "$package" in
     neovim)
@@ -126,7 +126,7 @@ is_package_installed() {
       fi
       ;;
   esac
-  
+
   return 1
 }
 
@@ -262,7 +262,7 @@ install_packages "Core" "${CORE_PACKAGES[@]}"
 
 # Install server packages if requested
 if [ "$INSTALL_SERVER" -eq 1 ]; then
-  SERVER_PACKAGES=("smbclient" "samba" "openssh-server" "unattended-upgrades" 
+  SERVER_PACKAGES=("smbclient" "samba" "openssh-server" "unattended-upgrades"
                   "jellyfin" "qbittorrent-nox" "wget")
   install_packages "Server" "${SERVER_PACKAGES[@]}"
 
@@ -277,7 +277,7 @@ if [ "$INSTALL_SERVER" -eq 1 ]; then
   for service in ssh jellyfin; do
     manage_service "$service"
   done
-  
+
   # Special handling for qbittorrent which uses a user-specific service name
   if systemctl list-units --all | grep -q "qbittorrent-nox@"; then
     print_msg "$GREEN" "✓ qBittorrent already running"
@@ -287,7 +287,7 @@ if [ "$INSTALL_SERVER" -eq 1 ]; then
     # Get current user for the service
     local qbit_user="${SUDO_USER:-$USER}"
     [ -z "$qbit_user" ] && qbit_user=$(who am i | awk '{print $1}')
-    
+
     systemctl enable "qbittorrent-nox@$qbit_user" &>/dev/null
     systemctl start "qbittorrent-nox@$qbit_user" &>/dev/null
     print_msg "$GREEN" "✓ Started qBittorrent service for user $qbit_user"
@@ -314,7 +314,7 @@ fi
 
 # Install development packages if requested
 if [ "$INSTALL_DEV" -eq 1 ]; then
-  DEV_PACKAGES=("build-essential" "ruby")
+  DEV_PACKAGES=("build-essential" "ruby" "tmux")
   install_packages "Development" "${DEV_PACKAGES[@]}"
 fi
 
