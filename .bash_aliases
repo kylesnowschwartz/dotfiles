@@ -224,3 +224,10 @@ tmh() {
   echo "tms        : Switch between sessions interactively (uses fzf if available)"
   echo "tmh        : Display this help message"
 }
+
+# CLAUDE
+#
+claude() {
+  NODENV_VERSION=23.9.0 command claude "$@"
+}
+
