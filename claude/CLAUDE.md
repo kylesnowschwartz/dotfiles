@@ -50,3 +50,7 @@
 - Prefer pure functions and clear, explicit data flow.
 - Never leave trailing whitespace in code or documentation.
 - Run whitespace checks before committing.
+
+## Hygiene
+- Always lint Ruby code with Rubocop `bundle exec rubocop --autocorrect`
+- DO NOT leave trailing whitespace
