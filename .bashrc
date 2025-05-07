@@ -25,9 +25,9 @@ fi
 
 # History management
 HISTCONTROL=ignoreboth        # Don't store duplicates or commands starting with space
+HISTSIZE=1000000
+HISTFILESIZE=1000000
 shopt -s histappend           # Append to history file, don't overwrite
-HISTSIZE=1000                 # Command history length
-HISTFILESIZE=2000             # History file size
 
 # Terminal behavior
 shopt -s checkwinsize         # Update window size after each command
@@ -179,6 +179,11 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+# Ghostty CLI action completions
+if [ -f "$HOME/.config/ghostty/ghostty-completion.bash" ]; then
+  . "$HOME/.config/ghostty/ghostty-completion.bash"
 fi
 
 # Clipboard support (handled in bash_aliases)

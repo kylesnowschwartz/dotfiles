@@ -228,6 +228,5 @@ tmh() {
 # CLAUDE
 #
 claude() {
-  NODENV_VERSION=23.9.0 command claude "$@"
+  /Users/kyle/.claude-wrapper "$@"
 }
-
