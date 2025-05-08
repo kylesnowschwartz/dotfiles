@@ -50,6 +50,9 @@ format = '\[[$symbol$branch]($style)\]'
 format = '([\[$all_status$ahead_behind\]]($style))'
 conflicted = '󰞇(bold red) '
 
+[cmd_duration]
+format = '\[[⏱ $duration]($style)\]'
+
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
