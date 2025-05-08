@@ -59,7 +59,3 @@ keybind = super+e=equalize_splits
 
 # https://ghostty.org/docs/config/keybind/reference#toggle_quick_terminal
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-
-
-keybind = super+f=write_screen_file:shell_exec:nvim -R $(pbpaste)
-
