@@ -138,7 +138,7 @@ gshow ()
 
 gitlog ()
 {
-    git log main.. --format="%Cgreen[$(git symbolic-ref --short HEAD) %C(bold blue)%h] %C(green)%ar %C(bold blue)%an %Creset%s" --no-merges --reverse
+    git log main.. --format="%Cgreen[ $(git symbolic-ref --short HEAD) %C(bold blue)%h ] %C(green)%ar %C(bold blue)%an %Creset%s" --no-merges --reverse
 }
 
 # show next (newer) commit
