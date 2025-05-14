@@ -1,56 +1,22 @@
-## Styling
-- **JavaScript/TypeScript**: No semicolons, modern ES/TS, functional patterns.
-- **Ruby**: RuboCop defaults (2-space indent, single quotes) on Ruby 3.3.7.
-- **HTML/CSS**: Semantic markup, minimal wrappers, Tailwind for styling.
-- **Docs**: PR descriptions and internal docs in Markdown.
-- No em dashes.
+**AI Pair‑Programming Guidelines**
 
-## Editor & CLI
-- Primary: Neovim (Kickstart) + tmux; occasional RubyMine.
-- Neovim: `<space>` leader key, which-key plugin, config in `~/.config`.
-- tmux config: `~/.config/tmux/tmux.conf`
+Follow these principles to produce high‑quality, production‑ready code and collaborate effectively.
 
-## Toolchain
-- Backend: Rails (Ruby 3.3.7); Frontend: JS/TS/HTML/CSS.
-- Package managers: Bundler, Yarn, Nodenv.
-- Tests: RSpec (Rails); Jasmine + Karma, Jest (JS).
-- Linters/security: RuboCop, Brakeman, ESLint.
-- Local env: Docker; Infra: Terraform, AWS CLI.
-
-## Git Conventions
-- Branch from `main`.
-- Git branches: `kyle/<short-description>`.
-- PRs must include clear title, purpose, and linked issues.
-- Prefer rebase over merge unless otherwise specified.
-
-## Debugging Approach
-- Fail fast by raising explicit errors early.
-- Create minimal reproducible examples where possible.
-- Use verbose logging temporarily, clean before committing.
-- Write specific failure messages in tests (avoid generic assertions).
-
-## Error Handling & Logging
-- Standardize log/error messages: `[Context] Clear description`.
-- Structured logging: JSON format preferred.
-- Logging Levels:
-  - `error`: critical failures
-  - `warn`: potential issues requiring attention
-  - `info`: standard operational messages
-
-## Commit Style
-- Use conventional commits strictly where appropriate.
-- Prefix commits when relevant: `feat:`, `fix:`, `maintain:`, `refactor:`, `style:`.
-- Use present tense, active voice (e.g., "Add login page").
-- Keep commits small and focused on one logical change.
-
-## Code Quality
-- Favor obvious code over clever code.
-- Minimize external dependencies unless necessary.
-- Document public methods/functions over 20 lines (brief purpose and usage).
-- Prefer pure functions and clear, explicit data flow.
-- Never leave trailing whitespace in code or documentation.
-- Run whitespace checks before committing.
-
-## Hygiene
-- Always lint Ruby code with Rubocop `bundle exec rubocop --autocorrect`
-- DO NOT leave trailing whitespace
+1. **Read Everything First** – Review all relevant files and docs before editing to understand context and prevent duplication.
+2. **Plan, Then Build** – Identify affected components, edge cases, and a clear step‑by‑step approach; present your plan for approval before coding.
+3. **Slice Work into Milestones** – Break large tasks into reviewable units and commit after each passes lint, tests, and user review.
+4. **Trust but Verify Libraries** – Confirm current APIs via Perplexity (preferred) or the web. Use libraries specified by the user; debug issues rather than switching.
+5. **Guard Quality Continuously** – Run linters and tests after significant changes to catch errors early.
+6. **Write Production‑Ready Code** – Deliver complete implementations; avoid placeholders unless explicitly requested.
+7. **Keep Code Clean** – Use clear names, small functions, modular files, and meaningful comments.
+8. **Limit Refactors** – Avoid large‑scale rewrites unless explicitly asked.
+9. **Diagnose, Don’t Guess** – When blocked, isolate the root cause systematically instead of random trial‑and‑error.
+10. **Prioritise Excellent UX** – For UI tasks, apply accessibility, aesthetics, and smooth interaction patterns.
+11. **Seek Clarity Early** – If requirements are vague or too broad, ask clarifying questions or propose a smaller first step.
+12. **Follow Style Guides & Linters** – Adhere to project‑defined formatting and lint rules across all languages.
+13. **Use Clear Git Conventions** – Branch from `main`, name branches descriptively, link PRs to issues, and prefer rebasing over merge commits unless instructed otherwise.
+14. **Commit with Purpose** – Use conventional commit prefixes (e.g., `feat:`, `fix:`, `style:`, `test:`) in present‑tense active voice; keep commits small and focused.
+15. **Debug Methodically** – Fail fast with explicit errors, craft minimal reproducible examples, employ temporary verbose logging, and clean logs before merging.
+16. **Standardise Structured Logging** – Emit concise, context‑rich messages (JSON preferred) and use appropriate levels (`error`, `warn`, `info`).
+17. **Favour Maintainability** – Prefer obvious, well‑documented solutions over cleverness; minimise external dependencies; document public interfaces.
+18. **Maintain Hygiene** – Run whitespace and formatting checks; never commit trailing whitespace or unrelated `.gitignore` changes.
