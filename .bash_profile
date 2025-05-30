@@ -8,3 +8,6 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 
 # Created by `pipx` on 2024-07-10 01:34:14
 export PATH="$PATH:/Users/kyle/.local/bin"
+
+# Ripgrep configuration
+export RIPGREP_CONFIG_PATH="$HOME/Code/dotfiles/.ripgreprc"

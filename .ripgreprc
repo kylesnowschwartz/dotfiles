@@ -1,7 +1,19 @@
---type-add
-web:*.{html,css,js}*
+--type-add=web:*.{html,css,js}*
 
---type-add
-feature:*.feature*
+--type-add=feature:*.feature*
+
+--type-add=rb:*.rb
+
+--type-add=erb:*.{erb,html.erb}
+
+--type-add=rails:*.{rb,erb,html.erb,rake,gemfile}
+
+--type-add=config:*.{yml,yaml,json,toml,env}
+
+--type-add=frontend:*.{js,ts,jsx,tsx,vue,scss,sass,less,css}
+
+--type-add=test:*.{rb,js,ts,feature,spec}
+
+--type-add=migration:*_*.rb
 
 --hidden
