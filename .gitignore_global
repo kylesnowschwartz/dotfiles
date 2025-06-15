@@ -1,3 +1,5 @@
 .rspec
 TAGS
 .dir-locals.el
+.claudepoint/
+.checkpoints/
