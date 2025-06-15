@@ -52,6 +52,7 @@ conflicted = '󰞇(bold red) '
 
 [cmd_duration]
 format = '\[[⏱ $duration]($style)\]'
+disabled = true
 
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
