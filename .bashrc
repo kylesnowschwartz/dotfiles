@@ -45,6 +45,7 @@ set -o vi                     # Use vi mode for command line
 [ -d "$HOME/.npm/bin" ] && export PATH="$HOME/.npm/bin:$PATH"
 [ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
 [ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 
 # Platform-specific paths
