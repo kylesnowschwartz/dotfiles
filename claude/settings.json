@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Task",
+      "Bash",
+      "Bash(find:*)",
+      "Bash(fd:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(mv:*)",
+      "Batch",
+      "Glob",
+      "Grep",
+      "LS",
+      "Read",
+      "WebFetch(*)",
+      "WebSearch(*)"
+    ],
+    "deny": []
+  },
+  "includeCoAuthoredBy": false
+}

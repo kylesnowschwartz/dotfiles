@@ -1,0 +1,28 @@
+# Project conversations and user data (contains private messages)
+projects/
+todos/
+statsig/
+
+# Environment files with sensitive tokens
+.envrc
+.env
+.env.local
+.env.*.local
+
+# Local settings overrides
+**/.claude/settings.local.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary and cache files
+*.tmp
+*.temp
+*.log
+*.cache
