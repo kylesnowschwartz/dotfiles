@@ -1,1 +1,28 @@
 tmux/plugins
+
+# Claude CLI private data (from ~/.claude/.gitignore)
+# Project conversations and user data (contains private messages)
+claude/projects/
+claude/todos/
+claude/statsig/
+
+# Environment files with sensitive tokens
+claude/.envrc
+claude/.env
+claude/.env.local
+claude/.env.*.local
+
+# OS generated files
+claude/.DS_Store
+claude/.DS_Store?
+claude/._*
+claude/.Spotlight-V100
+claude/.Trashes
+claude/ehthumbs.db
+claude/Thumbs.db
+
+# Temporary and cache files
+claude/*.tmp
+claude/*.temp
+claude/*.log
+claude/*.cache
