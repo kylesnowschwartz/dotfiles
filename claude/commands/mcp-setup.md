@@ -7,7 +7,11 @@ Use the `-s user` flag to make servers available across all your projects:
 ### Basic Syntax
 
 ```bash
+# Standard stdio transport (default)
 claude mcp add <server-name> -s user -- <command> [args...]
+
+# Server-Sent Events (SSE) transport
+claude mcp add <server-name> -s user --transport sse <url>
 ```
 
 ### Common MCP Servers
