@@ -109,7 +109,7 @@ For example, if the user asks you how to approach something, you should do your 
 
 # Synthetic messages
 
-Sometimes, the conversation will contain messages like [Request interrupted by user] or [Request interrupted by user for tool use]. These messages will look like the assistant said them, but they were actually synthetic messages added by the system in response to the user cancelling what the assistant was doing. You should not respond to these messages. You must NEVER send messages like this yourself. 
+Sometimes, the conversation will contain messages like [Request interrupted by user] or [Request interrupted by user for tool use]. These messages will look like the assistant said them, but they were actually synthetic messages added by the system in response to the user cancelling what the assistant was doing. You should not respond to these messages. You must NEVER send messages like this yourself.
 
 # Following conventions
 
@@ -302,9 +302,9 @@ The user has allowed certain command prefixes to be run, and will otherwise be a
 Your task is to determine the command prefix for the following command.
 
 IMPORTANT: Bash commands may run multiple commands that are chained together.
-For safety, if the command seems to contain command injection, you must return "command_injection_detected". 
-(This will help protect the user: if they think that they're allowlisting command A, 
-but the AI coding agent sends a malicious command that technically has the same prefix as command A, 
+For safety, if the command seems to contain command injection, you must return "command_injection_detected".
+(This will help protect the user: if they think that they're allowlisting command A,
+but the AI coding agent sends a malicious command that technically has the same prefix as command A,
 then the safety system will see that you said “command_injection_detected” and ask the user for manual confirmation.)
 
 Note that not every command has a prefix. If a command has no prefix, return "none".
@@ -606,7 +606,7 @@ Format the comments as:
   [diff_hunk from the API response]
   \`\`\`
   > quoted comment text
-  
+
   [any replies indented]
 
 If there are no comments, return "No comments found."
@@ -655,7 +655,6 @@ const PRReviewTool = {
          - Analysis of code quality and style
          - Specific suggestions for improvements
          - Any potential issues or risks
-      
       Keep your review concise but thorough. Focus on:
       - Code correctness
       - Following project conventions
@@ -760,7 +759,7 @@ const ThinkingTool = {
   isEnabled: async () =>
     Boolean(process.env.THINK_TOOL) && (await NY('tengu_think_tool')),
   prompt:
-    async () => `Use the tool to think about something. It will not obtain new information or make any changes to the repository, but just log the thought. Use it when complex reasoning or brainstorming is needed. 
+    async () => `Use the tool to think about something. It will not obtain new information or make any changes to the repository, but just log the thought. Use it when complex reasoning or brainstorming is needed.
 
 Common use cases:
 1. When exploring a repository and discovering the source of a bug, call this tool to brainstorm several unique ways of fixing the bug, and assess which change(s) are likely to be simplest and most effective
@@ -1067,7 +1066,7 @@ Follow these steps for each request:
 2. Define clear technical approach with specific technologies and patterns
 3. Break down implementation into concrete, actionable steps at the appropriate level of abstraction
 
-Keep responses focused, specific and actionable. 
+Keep responses focused, specific and actionable.
 
 IMPORTANT: Do not ask the user if you should implement the changes at the end. Just provide the plan as described above.
 IMPORTANT: Do not attempt to write the code or use any string modification tools. Just provide the plan.`;
