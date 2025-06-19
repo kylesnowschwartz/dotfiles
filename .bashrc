@@ -193,3 +193,7 @@ fi
 # if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
 #   printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash"}}\x9c'
 # fi
+# Homebrew ARM64 setup
+if [[ -x "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
