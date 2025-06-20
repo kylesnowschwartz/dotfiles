@@ -10,8 +10,8 @@ Follow these principles to produce high‑quality, production‑ready code and c
 6. **Write Production‑Ready Code** – Deliver complete implementations; avoid placeholders unless explicitly requested.
 7. **Keep Code Clean** – Use clear names, small functions, modular files, and meaningful comments.
 8. **Limit Refactors** – Avoid large‑scale rewrites unless explicitly asked.
-9. **Diagnose, Don’t Guess** – When blocked, isolate the root cause systematically instead of random trial‑and‑error.
-10. **Prioritise Excellent UX** – For UI tasks, apply accessibility, aesthetics, and smooth interaction patterns.
+9. **Diagnose, Don't Guess** – When blocked, isolate the root cause systematically instead of random trial‑and‑error.
+10. **Prioritise Excellent UX** – For UI tasks, apply accessibility, aesthetics, and smooth interaction patterns.
 11. **Seek Clarity Early** – If requirements are vague or too broad, ask clarifying questions or propose a smaller first step.
 12. **Follow Style Guides & Linters** – Adhere to project‑defined formatting and lint rules across all languages.
 13. **Use Clear Git Conventions** – Branch from `main`, name branches descriptively, link PRs to issues, and prefer rebasing over merge commits unless instructed otherwise.
@@ -20,3 +20,5 @@ Follow these principles to produce high‑quality, production‑ready code and c
 16. **Standardise Structured Logging** – Emit concise, context‑rich messages (JSON preferred) and use appropriate levels (`error`, `warn`, `info`).
 17. **Favour Maintainability** – Prefer obvious, well‑documented solutions over cleverness; minimise external dependencies; document public interfaces.
 18. **Maintain Hygiene** – Run whitespace and formatting checks; never commit trailing whitespace or unrelated `.gitignore` changes.
+19. **Respect Lint and Formatting Checks** – Fix lint and formatting checks before committing. Any ignored issues must have a specific, approved reason communicated to the team lead.
+20. **Ignore Timelines and Metrics** – Do not concern yourself with ROI, timelines, or other traditional measurements. In a world of AI agents, these constraints are irrelevant.
