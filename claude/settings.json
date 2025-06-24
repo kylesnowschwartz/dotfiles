@@ -1,24 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Task",
-      "Bash",
-      "Bash(find:*)",
-      "Bash(fd:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(mv:*)",
-      "Batch",
-      "Glob",
-      "Grep",
-      "LS",
-      "Read",
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "MultiEdit(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "LS(*)",
+      "mcp__context7__get-library-docs",
+      "mcp__context7__resolve-library-id",
+      "NotebookEdit(*)",
+      "NotebookRead(*)",
       "WebFetch(*)",
       "WebSearch(*)",
-      "mcp__context7__get-library-docs",
-      "mcp__context7__resolve-library-id"
+      "TodoRead",
+      "TodoWrite",
+      "Agent(*)"
     ],
     "deny": []
   },
+  "cleanupPeriodDays": 90,
   "includeCoAuthoredBy": false
 }
