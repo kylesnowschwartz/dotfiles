@@ -11,3 +11,9 @@ export PATH="$PATH:/Users/kyle/.local/bin"
 
 # Ripgrep configuration
 export RIPGREP_CONFIG_PATH="$HOME/Code/dotfiles/.ripgreprc"
+
+# Silence macOS zsh default shell warning
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Added by `rbenv init` on Fri 20 Jun 2025 22:28:01 NZST
+eval "$(rbenv init - --no-rehash bash)"
