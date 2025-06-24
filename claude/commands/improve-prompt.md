@@ -61,12 +61,6 @@ Technique Opportunities: [Which Anthropic methods would help most]
 - **Examples**: [What examples added]
 - **Techniques**: [Which methods integrated]
 
-### Testing Recommendations
-
-1. Test with edge cases: [2-3 specific scenarios]
-2. Success metrics: [Measurable criteria for effectiveness]
-3. A/B test against original for [specific comparison points]
-
 ## Core Principles
 
 **Essential Requirements:**
@@ -104,3 +98,4 @@ Technique Opportunities: [Which Anthropic methods would help most]
 - Passive voice instructions
 - Undefined success criteria
 - Ignoring repository-specific CLAUDE.md guidance
+- Avoid any mention of Timeframes and ROI discussion. These are irrelevant in a world with AI coding agents.
