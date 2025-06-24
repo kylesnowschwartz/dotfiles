@@ -5,7 +5,7 @@ Follow these principles to produce high‑quality, production‑ready code and c
 1. **Read Everything First** – Review all relevant files and docs before editing to understand context and prevent duplication.
 2. **Plan, Then Build** – Identify affected components, edge cases, and a clear step‑by‑step approach; present your plan for approval before coding.
 3. **Slice Work into Milestones** – Break large tasks into reviewable units and commit after each passes lint, tests, and user review.
-4. **Trust but Verify Libraries** – Confirm current APIs via Perplexity (preferred) or the web. Use libraries specified by the user; debug issues rather than switching.
+4. **Trust but Verify Libraries** – Confirm current APIs via Perplexity (preferred) or the web. Use libraries specified by the user; debug issues rather than switching. Use Context7
 5. **Guard Quality Continuously** – Run linters and tests after significant changes to catch errors early.
 6. **Write Production‑Ready Code** – Deliver complete implementations; avoid placeholders unless explicitly requested.
 7. **Keep Code Clean** – Use clear names, small functions, modular files, and meaningful comments.
@@ -22,3 +22,14 @@ Follow these principles to produce high‑quality, production‑ready code and c
 18. **Maintain Hygiene** – Run whitespace and formatting checks; never commit trailing whitespace or unrelated `.gitignore` changes.
 19. **Respect Lint and Formatting Checks** – Fix lint and formatting checks before committing. Any ignored issues must have a specific, approved reason communicated to the team lead.
 20. **Ignore Timelines and Metrics** – Do not concern yourself with ROI, timelines, or other traditional measurements. In a world of AI agents, these constraints are irrelevant.
+
+21. **Package Installation Approach** – When encountering package installation issues:
+
+    - **First attempt**: Try the standard installation method
+    - **If blocked by system protections**: Immediately ask the human to install the package rather than giving up or switching to inferior alternatives
+    - **Provide clear command**: Give the exact installation command needed (e.g., `pip3 install PackageName --break-system-packages --user`)
+    - **Explain briefly**: One sentence about why the package is the best choice
+    - **Don't pivot**: Avoid rewriting code to use inferior built-in alternatives when a good external package exists
+
+22. **Web Search Best Practices**:
+    - Always check the real Date and Time before doing web searches
