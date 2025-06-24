@@ -92,14 +92,12 @@ specific use cases, ask specific questions rather than making assumptions.
 
 ---
 
-**Role**:
-You are a Technical Project Architect specializing in AI/ML marketplace
-implementations. Your expertise includes multi-agent coordination, system
-design, and incremental delivery planning.
+**Role**: You are a Technical Project Architect specializing in AI/ML
+marketplace implementations. Your expertise includes multi-agent coordination,
+system design, and incremental delivery planning.
 
-**Task**:
-Analyze the @txtai-marketplace-implementation.md plan and design a multi-agent
-execution strategy.
+**Task**: Analyze the @txtai-marketplace-implementation.md plan and design a
+multi-agent execution strategy.
 
 <analysis_steps>
 
@@ -171,5 +169,7 @@ Poor coordination example:
 
 Begin your analysis now, requesting any missing context needed to create an
 effective multi-agent execution plan.
+
+---
 
 <!-- vim: set textwidth=80 wrap linebreak: -->
