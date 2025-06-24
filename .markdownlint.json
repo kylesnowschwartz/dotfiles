@@ -1,12 +1,33 @@
 {
-  "MD013": false,
+  "_description": "Markdownlint configuration with rule descriptions",
+
+  "MD013": {
+    "_description": "Line length - Disabled to allow long lines",
+    "line_length": false
+  },
+
   "MD024": {
+    "_description": "Multiple headings with the same content - Only check siblings, not all headings",
     "siblings_only": true
   },
+
   "MD033": {
+    "_description": "Inline HTML - Allow specific HTML elements",
     "allowed_elements": ["img", "details", "summary", "br", "thinking"]
   },
-  "MD034": false,
-  "MD036": false,
-  "MD040": false
+
+  "MD034": {
+    "_description": "Bare URL used - Disabled to allow bare URLs without link syntax",
+    "no_bare_urls": false
+  },
+
+  "MD036": {
+    "_description": "Emphasis used instead of a heading - Disabled to allow emphasized text",
+    "no_emphasis_as_heading": false
+  },
+
+  "MD040": {
+    "_description": "Fenced code blocks should have a language specified - Disabled to allow code blocks without language tags",
+    "fenced_code_language": false
+  }
 }

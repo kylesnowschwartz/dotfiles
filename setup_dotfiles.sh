@@ -250,6 +250,7 @@ HOME_FILES=(
   .bash_profile
   .gitconfig
   .inputrc
+  .markdownlint.json
 )
 
 CONFIG_FILES=(
