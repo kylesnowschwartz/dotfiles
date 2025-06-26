@@ -36,6 +36,8 @@ usage() {
 	echo "  setup                    - Configure Jira URL and email"
 	echo "  list [project]           - List tickets (optionally filter by project)"
 	echo "  show <ticket-id>         - Show details for a specific ticket"
+	echo "  children <ticket-id>     - Show child issues (subtasks and epic children)"
+	echo "  epic <epic-key>          - Show epic details with all child stories/tasks"
 	echo "  search <jql>             - Search tickets using JQL"
 	echo "  projects                 - List all projects"
 	echo ""
@@ -44,6 +46,8 @@ usage() {
 	echo "  $0 list"
 	echo "  $0 list PROJ"
 	echo "  $0 show PROJ-123"
+	echo "  $0 children PROJ-123"
+	echo "  $0 epic PROJ-456"
 	echo "  $0 search \"assignee = currentUser()\""
 	echo "  $0 projects"
 }
@@ -142,7 +146,8 @@ list_tickets() {
 		exit 1
 	fi
 
-	echo "$response" | jq -r '
+	local tickets_output
+	tickets_output=$(echo "$response" | jq -r '
 	if .issues and (.issues | length > 0) then
 		.issues[] |
 			"\(.key)\t\(.fields.status.name)\t\(.fields.priority.name // "None")\t\(.fields.assignee.displayName // "Unassigned")\t\(.fields.summary)"
@@ -151,7 +156,14 @@ list_tickets() {
 	else
 		"Error: " + (.errorMessages?[0] // "Invalid response")
 	end
-	' | column -t -s $'\t' -N "KEY,STATUS,PRIORITY,ASSIGNEE,SUMMARY"
+	')
+
+	if [[ "$tickets_output" != "No tickets found" && "$tickets_output" != Error:* ]]; then
+		echo -e "KEY\tSTATUS\tPRIORITY\tASSIGNEE\tSUMMARY"
+		echo "$tickets_output" | column -t -s $'\t'
+	else
+		echo "$tickets_output"
+	fi
 }
 
 # Function to show ticket details
@@ -221,6 +233,19 @@ show_ticket() {
 		"Error: " + (.errorMessages?[0] // "Invalid response")
 	end
 	' | sed 's/\\n/\n/g'
+
+	# Check if this issue has children and show them automatically
+	local issue_type
+	local has_subtasks
+	issue_type=$(echo "$response" | jq -r '.fields.issuetype.name')
+	has_subtasks=$(echo "$response" | jq -r '.fields.subtasks | length')
+
+	if [[ "$has_subtasks" -gt 0 ]] || [[ "$issue_type" == "Epic" ]]; then
+		echo ""
+		echo "=========================="
+		echo ""
+		show_children "$ticket_id"
+	fi
 }
 
 # Function to search tickets with JQL
@@ -251,7 +276,8 @@ search_tickets() {
 		exit 1
 	fi
 
-	echo "$response" | jq -r '
+	local search_output
+	search_output=$(echo "$response" | jq -r '
 	if .issues and (.issues | length > 0) then
 		.issues[] |
 			"\(.key)\t\(.fields.status.name)\t\(.fields.priority.name // "None")\t\(.fields.assignee.displayName // "Unassigned")\t\(.fields.summary)"
@@ -260,7 +286,110 @@ search_tickets() {
 	else
 		"Error: " + (.errorMessages?[0] // "Invalid response")
 	end
-	' | column -t -s $'\t' -N "KEY,STATUS,PRIORITY,ASSIGNEE,SUMMARY"
+	')
+
+	if [[ "$search_output" != "No tickets found matching the query" && "$search_output" != Error:* ]]; then
+		echo -e "KEY\tSTATUS\tPRIORITY\tASSIGNEE\tSUMMARY"
+		echo "$search_output" | column -t -s $'\t'
+	else
+		echo "$search_output"
+	fi
+}
+
+# Function to show child issues (subtasks)
+show_children() {
+	local ticket_id="$1"
+
+	if [[ -z "$ticket_id" ]]; then
+		echo -e "${RED}Error: Ticket ID required${NC}"
+		echo "Usage: $0 children <ticket-id>"
+		exit 1
+	fi
+
+	echo "Fetching child issues for $ticket_id..."
+
+	# First get the parent issue to check for subtasks
+	local full_response
+	full_response=$(api_request "issue/$ticket_id?fields=subtasks,issuelinks,issuetype")
+	local http_code
+	local response
+	http_code=$(echo "$full_response" | tail -n 1)
+	response=$(echo "$full_response" | sed '$d')
+
+	if [[ "$http_code" -ne 200 ]]; then
+		echo -e "${RED}Error: HTTP $http_code${NC}"
+		echo "$response" | jq -r '.errorMessages[]? // .errors? // "Ticket not found or access denied"' 2>/dev/null || echo "$response"
+		exit 1
+	fi
+
+	# Check if issue has subtasks
+	local has_subtasks
+	has_subtasks=$(echo "$response" | jq -r '.fields.subtasks | length')
+
+	if [[ "$has_subtasks" -gt 0 ]]; then
+		echo -e "${GREEN}Subtasks for $ticket_id:${NC}"
+		echo -e "KEY\tSTATUS\tPRIORITY\tASSIGNEE\tSUMMARY"
+		echo "$response" | jq -r '.fields.subtasks[] | "\(.key)\t\(.fields.status.name)\t\(.fields.priority.name // "None")\t\(.fields.assignee.displayName // "Unassigned")\t\(.fields.summary)"' | column -t -s $'\t'
+	else
+		echo -e "${YELLOW}No subtasks found for $ticket_id${NC}"
+	fi
+
+	# Check if this is an Epic and search for child issues using Epic Link
+	local issue_type
+	issue_type=$(echo "$response" | jq -r '.fields.issuetype.name')
+
+	if [[ "$issue_type" == "Epic" ]]; then
+		echo ""
+		echo -e "${GREEN}Epic children for $ticket_id:${NC}"
+
+		# Search for issues linked to this epic using parent field
+		local epic_children_response
+		local jql="parent = $ticket_id"
+		local jql_encoded
+		jql_encoded=$(printf '%s' "$jql" | jq -sRr @uri)
+		epic_children_response=$(api_request "search?jql=$jql_encoded&maxResults=100&fields=key,summary,status,priority,assignee,issuetype")
+
+		local children_http_code
+		local children_response
+		children_http_code=$(echo "$epic_children_response" | tail -n 1)
+		children_response=$(echo "$epic_children_response" | sed '$d')
+
+		if [[ "$children_http_code" -eq 200 ]]; then
+			local child_count
+			child_count=$(echo "$children_response" | jq -r '.issues | length')
+			if [[ "$child_count" -gt 0 ]]; then
+				echo -e "KEY\tTYPE\tSTATUS\tPRIORITY\tASSIGNEE\tSUMMARY"
+				echo "$children_response" | jq -r '.issues[] | "\(.key)\t\(.fields.issuetype.name)\t\(.fields.status.name)\t\(.fields.priority.name // "None")\t\(.fields.assignee.displayName // "Unassigned")\t\(.fields.summary)"' | column -t -s $'\t'
+			else
+				echo -e "${YELLOW}No child issues found for Epic $ticket_id${NC}"
+			fi
+		else
+			echo -e "${YELLOW}Could not fetch epic children (might need Epic Link custom field)${NC}"
+		fi
+	fi
+}
+
+# Function to show epic details with all children
+show_epic_details() {
+	local epic_key="$1"
+
+	if [[ -z "$epic_key" ]]; then
+		echo -e "${RED}Error: Epic key required${NC}"
+		echo "Usage: $0 epic <epic-key>"
+		exit 1
+	fi
+
+	echo "Fetching epic details for $epic_key..."
+
+	# First show the epic details
+	show_ticket "$epic_key"
+
+	echo ""
+	echo "=========================="
+	echo ""
+
+	# Then show all children
+	show_children "$epic_key"
 }
 
 # Function to list projects
@@ -280,7 +409,8 @@ list_projects() {
 		exit 1
 	fi
 
-	echo "$response" | jq -r '
+	local projects_output
+	projects_output=$(echo "$response" | jq -r '
 	if type == "array" and length > 0 then
 		.[] |
 			"\(.key)\t\(.name)\t\(.projectTypeKey)\t\(.lead.displayName // "No lead")"
@@ -289,7 +419,14 @@ list_projects() {
 	else
 		"Error: " + (.errorMessages?[0] // "Invalid response")
 	end
-	' | column -t -s $'\t' -N "KEY,NAME,TYPE,LEAD"
+	')
+
+	if [[ "$projects_output" != "No projects found" && "$projects_output" != Error:* ]]; then
+		echo -e "KEY\tNAME\tTYPE\tLEAD"
+		echo "$projects_output" | column -t -s $'\t'
+	else
+		echo "$projects_output"
+	fi
 }
 
 # Main script logic
@@ -305,6 +442,12 @@ main() {
 		;;
 	"show")
 		show_ticket "$2"
+		;;
+	"children")
+		show_children "$2"
+		;;
+	"epic")
+		show_epic_details "$2"
 		;;
 	"search")
 		search_tickets "$2"
