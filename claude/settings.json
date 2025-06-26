@@ -1,4 +1,6 @@
 {
+  "cleanupPeriodDays": 90,
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(*)",
@@ -17,10 +19,14 @@
       "WebSearch(*)",
       "TodoRead",
       "TodoWrite",
-      "Agent(*)"
+      "Agent(*)",
+      "playwright:*"
     ],
     "deny": []
   },
-  "cleanupPeriodDays": 90,
-  "includeCoAuthoredBy": false
+  "env": {
+    "MAX_MCP_OUTPUT_TOKENS": "50000",
+    "MCP_TOOL_TIMEOUT": "30000"
+  }
 }
+
