@@ -11,7 +11,7 @@ statsig/
 
 # Local settings overrides
 **/.claude/settings.local.json
-settings.json
+# settings.json
 
 # OS generated files
 .DS_Store
