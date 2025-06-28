@@ -125,6 +125,18 @@ is_package_installed() {
         return 0
       fi
       ;;
+    bat)
+      # Check if bat is available (could be installed elsewhere)
+      if command -v bat &>/dev/null || command -v batcat &>/dev/null; then
+        return 0
+      fi
+      ;;
+    git-delta)
+      # Check if delta is available (could be installed elsewhere)
+      if command -v delta &>/dev/null; then
+        return 0
+      fi
+      ;;
   esac
 
   return 1
@@ -257,7 +269,7 @@ install_packages() {
 }
 
 # Install core packages
-CORE_PACKAGES=("curl" "git" "neovim" "bash-completion" "ripgrep" "yazi")
+CORE_PACKAGES=("curl" "git" "neovim" "bash-completion" "ripgrep" "yazi" "git-delta" "bat")
 install_packages "Core" "${CORE_PACKAGES[@]}"
 
 # Install server packages if requested
