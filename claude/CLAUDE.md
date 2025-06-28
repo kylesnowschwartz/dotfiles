@@ -66,6 +66,16 @@ collaborate effectively.
 22. **Web Search Best Practices**:
     - Always check the real Date and Time before doing web searches
 
+## GitHub Configuration
+
+- Username: kylesnowschwartz
+- SSH keys configured and working
+- GitHub CLI (gh) installed and authenticated
+- Use SSH URLs for remotes (<git@github.com>:user/repo.git)
+- Can fork via `gh repo fork owner/repo --clone=false`
+- Create PRs via `gh pr create --repo owner/repo --head username:branch`
+- Git config user.name set to kylesnowschwartz
+
 ## macOS Screenshot Filename Issues
 
 ### Problem
