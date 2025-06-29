@@ -1,5 +1,10 @@
 {
   "cleanupPeriodDays": 90,
+  "env": {
+    "MAX_MCP_OUTPUT_TOKENS": "50000",
+    "MCP_TOOL_TIMEOUT": "30000",
+    "MCP_TIMEOUT": "30000"
+  },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
@@ -143,9 +148,5 @@
     ],
     "deny": []
   },
-  "env": {
-    "MAX_MCP_OUTPUT_TOKENS": "50000",
-    "MCP_TOOL_TIMEOUT": "30000",
-    "MCP_TIMEOUT": "30000"
-  }
+  "model": "opus"
 }
