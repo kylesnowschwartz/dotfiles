@@ -1,6 +1,7 @@
 # Pre-Commit Hook Setup
 
-🔧 **Smart Pre-Commit Hook Generator** - Analyze repository and generate appropriate Git pre-commit hooks with auto-formatting and linting.
+🔧 **Smart Pre-Commit Hook Generator** - Analyze repository and generate
+appropriate Git pre-commit hooks with auto-formatting and linting.
 
 ## Usage
 
@@ -12,7 +13,8 @@
 
 ## Instructions
 
-You are a DevOps engineer creating a production-ready Git pre-commit hook. Follow these steps:
+You are a DevOps engineer creating a production-ready Git pre-commit hook.
+Follow these steps:
 
 ### 1. Repository Analysis
 
@@ -43,6 +45,9 @@ You are a DevOps engineer creating a production-ready Git pre-commit hook. Follo
 
 **Generate POSIX shell script with:**
 
+- **Prettier first**: Use Prettier for markdown line length and formatting
+- **Complementary linting**: Use markdownlint for non-formatting issues (disable
+  MD013)
 - Auto-format files and re-stage changes
 - Fail on unresolved lint errors
 - Clear error messages
@@ -71,5 +76,55 @@ You are a DevOps engineer creating a production-ready Git pre-commit hook. Follo
 - Generate working POSIX shell (`#!/bin/sh`)
 - Handle initial commits (`git rev-parse --verify HEAD`)
 - Re-stage formatted files automatically
+- **Prettier configuration**: `--print-width 80 --prose-wrap always` for
+  markdown
+- **Disable conflicting rules**: Use `--disable MD013` for markdownlint
 - Provide installation commands for missing tools
 - Focus on auto-correction over error reporting
+
+## Best Practices for Markdown
+
+### Prettier Settings
+
+```bash
+prettier --write --print-width 80 --prose-wrap always "*.md"
+```
+
+### Markdownlint Integration
+
+- Use `markdownlint --disable MD013` to avoid line length conflicts
+- Let Prettier handle formatting, markdownlint handle content rules
+- Auto-fix with `markdownlint --fix` before validation
+
+### Tool Detection Priority
+
+1. `/Users/kyle/.local/share/nvim/mason/bin/prettier` (nvim mason)
+2. `./node_modules/.bin/prettier` (project local)
+3. `prettier` (global PATH)
+
+### Recommended Markdown Workflow
+
+```bash
+# 1. Format with Prettier (handles line length automatically)
+prettier --write --print-width 80 --prose-wrap always "$file"
+
+# 2. Auto-fix other markdown issues
+markdownlint --fix "$file"
+
+# 3. Validate remaining issues (excluding line length)
+markdownlint --disable MD013 "$file"
+
+# 4. Re-stage if files were modified
+git add "$file"
+```
+
+### Example Hook Output
+
+```
+Pre-commit: Validating staged files...
+Processing Markdown files...
+  Processing: README.md
+    Auto-formatted with line wrapping and re-staged
+    ✓ Markdown valid (line length handled by Prettier)
+Pre-commit: Files auto-formatted and re-staged
+```

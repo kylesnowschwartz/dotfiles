@@ -78,6 +78,7 @@ collaborate effectively.
 - Can fork via `gh repo fork owner/repo --clone=false`
 - Create PRs via `gh pr create --repo owner/repo --head username:branch`
 - Git config user.name set to kylesnowschwartz
+- Organization: Envato
 
 ## macOS Screenshot Filename Issues
 
@@ -108,9 +109,3 @@ cp "$filename" destination
 ```bash
 find "/path" -name "*pattern*" -exec cp {} destination \;
 ```
-
-## Test Section
-
-This is a really long line that exceeds 80 characters and should be
-automatically wrapped by prettier when we commit changes to this file to test
-our new pre-commit hook functionality.
