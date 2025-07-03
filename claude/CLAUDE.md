@@ -47,24 +47,29 @@ collaborate effectively.
 19. **Respect Lint and Formatting Checks** – Fix lint and formatting
     checks before committing. Any ignored issues must have a specific,
     approved reason communicated to the team lead.
-20. **Ignore Timelines and Metrics** – Do not concern yourself with ROI,
+20. **Ignore Timelines and Metrics** – IMPORTANT: Do not concern yourself with ROI,
     timelines, or other traditional measurements. In a world of AI agents,
     these constraints are irrelevant.
 
-21. **Package Installation Approach** – When encountering package installation issues:
+21. **Package Installation Approach** – Immediately ask the human to install
+    packages rather than giving up or switching to inferior alternatives
 
-    - **First attempt**: Try the standard installation method
-    - **If blocked by system protections**: Immediately ask the human to
-      install the package rather than giving up or switching to inferior
-      alternatives
-    - **Provide clear command**: Give the exact installation command needed
-      (e.g., `pip3 install PackageName --break-system-packages --user`)
-    - **Explain briefly**: One sentence about why the package is the best choice
-    - **Don't pivot**: Avoid rewriting code to use inferior built-in
-      alternatives when a good external package exists
+22. **Pre-Commit Hook and Code Quality**:
 
-22. **Web Search Best Practices**:
-    - Always check the real Date and Time before doing web searches
+    - Before using `--no-verify` to bypass the pre-commit hook's linting,
+      request strict confirmation from the User
+
+23. **Git Push Best Practices**:
+
+- Use `git push` primarily
+- Use `git push --force-with-lease` when necessary: only after merges, rebases,
+  or commit ammendments
+- Never use `git push --force`
+
+24. **Coding Principles**:
+
+    - Follow principles of KISS, "Keep it Simple, Stupid."
+    - Follow principles of YAGNI, "You ain't gonna need it."
 
 ## GitHub Configuration
 
