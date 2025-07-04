@@ -1,5 +1,9 @@
 # MCP Server Setup Instructions
 
+**⚠️ CLAUDE: DO NOT TAKE ANY ACTION WHEN THIS COMMAND IS RUN!** **This is a
+reference document only. Do not automatically execute any commands.** **Wait for
+explicit user instructions before running any `claude mcp add` commands.**
+
 ## Adding MCP Servers at User Level
 
 Use the `-s user` flag to make servers available across all your projects:
@@ -68,3 +72,8 @@ claude mcp remove server-name -s user  # Remove user-level server
 - Use `-s local` for project-specific servers
 - Check server documentation for required environment variables
 - Restart Claude Code after adding new servers
+
+---
+
+**⚠️ REMINDER FOR CLAUDE: This is informational only. Do not execute commands
+without explicit user permission.**
