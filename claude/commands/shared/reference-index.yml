@@ -3,26 +3,28 @@
 ## Legend
 @include universal-constants.yml#Universal_Legend
 
-## Command Files (19)
+## Command Files (20)
 ```yaml
-analyze.md: Analyze code/data/performance/architecture
-build.md: Create components/features/systems
-cleanup.md: Remove code/files/resources safely
-deploy.md: Deploy apps/services/infrastructure
-design.md: Design systems/APIs/architectures
-dev-setup.md: Configure dev environments
-document.md: Create/update documentation
-estimate.md: Estimate effort/time/resources
-explain.md: Explain code/concepts/patterns
-git.md: Git operations & workflows
-improve.md: Optimize/refactor/enhance code
-index.md: SuperClaude command reference
-load.md: Bulk file/context operations
-migrate.md: Migrate code/data/systems
-scan.md: Security/quality/compliance scanning
-spawn.md: Create projects/components/agents
-test.md: Testing operations & strategies
-troubleshoot.md: Debug/diagnose/fix issues
+scl-analyze.md: Analyze code/data/performance/architecture
+scl-build.md: Create components/features/systems
+scl-cleanup.md: Remove code/files/resources safely
+scl-deploy.md: Deploy apps/services/infrastructure
+scl-design.md: Design systems/APIs/architectures
+scl-dev-setup.md: Configure dev environments
+scl-document.md: Create/update documentation
+scl-estimate.md: Estimate effort/time/resources
+scl-explain.md: Explain code/concepts/patterns
+scl-git.md: Git operations & workflows
+scl-improve.md: Optimize/refactor/enhance code
+scl-index.md: SuperClaude command reference
+scl-load.md: Bulk file/context operations
+scl-migrate.md: Migrate code/data/systems
+scl-review.md: Code review operations
+scl-scan.md: Security/quality/compliance scanning
+scl-spawn.md: Create projects/components/agents
+scl-task.md: Task management operations
+scl-test.md: Testing operations & strategies
+scl-troubleshoot.md: Debug/diagnose/fix issues
 ```
 
 ## Optimized Shared Resources (12 core)

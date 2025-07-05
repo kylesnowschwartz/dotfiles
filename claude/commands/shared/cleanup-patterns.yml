@@ -3,16 +3,16 @@
 ## Safe→Remove (Auto)
 ```yaml
 Files:
-  - node_modules (if package-lock exists)
-  - dist/, build/, .next/, .nuxt/
-  - .tmp, temp/, cache/
+  - Dependencies directory (if lock file exists)
+  - Build output directories
+  - Temporary files and caches
   - *.log, *.tmp, *.cache
   - .DS_Store, thumbs.db, desktop.ini
-  - coverage/, .nyc_output/
+  - Test coverage reports
 
 Code:
-  - console.log(), console.debug()
-  - debugger; statements
+  - Debug/logging statements
+  - Debugger breakpoints
   - TODO comments >30 days old
   - Commented code blocks >7 days old
   - Unused imports (if safe analysis confirms)
@@ -33,10 +33,10 @@ Code:
   - Large commented blocks
 
 Deps:
-  - Unused packages in package.json
-  - Packages w/ security vulns
+  - Unused dependencies
+  - Dependencies w/ security vulns
   - Major version updates
-  - Dev deps in prod
+  - Dev dependencies in prod
 ```
 
 ## Never Remove (Protected)
@@ -45,8 +45,8 @@ Files:
   - .env.example, .env.template
   - README.md, LICENSE, CHANGELOG
   - .gitignore, .gitattributes
-  - package.json, package-lock.json
-  - Source code in src/, lib/
+  - Project manifest and lock files
+  - Source code directories
 
 Code:
   - Error handling blocks

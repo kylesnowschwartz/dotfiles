@@ -59,7 +59,7 @@ Detection_Triggers:
 Library_Research_Flow:
   Steps:
     1: "Detect library reference in code/request"
-    2: "Check if already in package.json/requirements.txt"
+    2: "Check if already in project dependencies"
     3: "C7 resolve-library-id → get-docs with topic"
     4: "If C7 fails → WebSearch '[library] official documentation'"
     5: "Extract: Installation|Basic usage|Common patterns|Error handling|Best practices"

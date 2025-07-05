@@ -35,7 +35,6 @@
  | ✏        | edit operation   |     | L        | low             |
  | 🗑       | delete operation |     |          |
 
-
 ## Universal Symbols & Process Flow
 
 ```yaml
@@ -110,7 +109,7 @@ Build_Artifacts:
   Next_Dir: ".next/"
   Temp_Dir: "tmp/"
   Cache_Dir: ".cache/"
-  Node_Modules: "node_modules/"
+  Dependencies_Dir: "dependencies/"
 
 Git_Paths:
   Git_Dir: ".git/"
@@ -248,7 +247,7 @@ Universal_Flags:
 
 Common_Commands:
   Git_Commands: ["status", "add", "commit", "push", "pull", "checkout", "branch", "merge"]
-  Build_Commands: ["build", "test", "lint", "format", "typecheck"]
+  Build_Commands: ["build", "test", "lint", "format", "check"]
   Package_Commands: ["install", "update", "audit", "outdated"]
 ```
 
@@ -327,15 +326,13 @@ Environment_Types:
 
 File_Extensions:
   Markdown: [".md", ".markdown"]
-  Code: [".js", ".ts", ".tsx", ".jsx", ".py", ".go", ".rs", ".cpp", ".c", ".java"]
+  Code: [".js", ".ts", ".tsx", ".jsx", ".py", ".go", ".rs", ".cpp", ".c", ".java", ".rb", ".php", ".cs", ".swift", ".kt"]
   Config: [".json", ".yml", ".yaml", ".toml", ".ini", ".env"]
   Documentation: [".md", ".rst", ".txt", ".adoc"]
 
 Supported_Frameworks:
-  Frontend: ["React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt.js"]
-  Backend: ["Express", "FastAPI", "Django", "Rails", "Spring", "Gin"]
-  Database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLite"]
-  Testing: ["Jest", "Mocha", "Pytest", "JUnit", "Cypress", "Playwright"]
+  # Common frameworks across different languages - AI will detect specific ones
+  Categories: ["Frontend", "Backend", "Database", "Testing", "Mobile", "Desktop"]
 ```
 
 ## Reference System

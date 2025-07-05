@@ -185,7 +185,7 @@ Command_Integration:
 
 Common_Error_Scenarios:
   Development:
-    Module_Not_Found: "Check package.json → npm install → verify import"
+    Module_Not_Found: "Check dependencies → install missing → verify import"
     Build_Failures: "Clean cache → check syntax → verify deps → partial build"
     Test_Failures: "Isolate failing → check environment → skip & continue"
 

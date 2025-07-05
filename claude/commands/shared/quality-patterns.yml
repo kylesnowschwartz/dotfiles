@@ -162,7 +162,7 @@ Structure_Requirements:
     Flags: ["Universal always available", "Document all unique"]
   Dependencies:
     MCP: ["Server configured", "Health check passes"]
-    CLI: ["git ≥2.0", "node ≥16.0", "python ≥3.8"]
+    CLI: ["git ≥2.0", "Development tools for detected stack"]
 ```
 
 ## Runtime Monitoring

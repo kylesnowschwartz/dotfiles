@@ -54,8 +54,8 @@ Examples:
 
 **Test Organization:**
 
-- `__tests__/` or `test/` directories
-- `*.test.{js,ts}` or `*.spec.{js,ts}` naming
+- Test directories following project conventions
+- Appropriate file naming patterns for detected language
 - Mirror source structure in test directories
 - Group by feature or component
 
@@ -63,15 +63,7 @@ Examples:
 
 ## Framework Support
 
-**JavaScript/TypeScript:** Jest (default) | Mocha + Chai | Vitest | Testing Library
-
-**Python:** pytest (default) | unittest | nose2 | doctest
-
-**Go:** Built-in testing | Testify | Ginkgo/Gomega
-
-**Java:** JUnit 5 | TestNG | Mockito | Spring Test
-
-**Other:** Framework-specific best practices | Native test runners
+**Framework Detection:** Automatically detects and uses appropriate testing framework based on project context | Adapts to language-specific conventions | Follows established project patterns
 
 ## Deliverables
 

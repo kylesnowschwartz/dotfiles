@@ -16,20 +16,19 @@ Configure comprehensive development environments and CI/CD pipelines for $ARGUME
 
 Examples:
 
-- `/dev-setup --type node --ci github --tools` - Node.js project with GitHub Actions
-- `/dev-setup --type python --tools --think` - Python project with comprehensive tooling
-- `/dev-setup --type monorepo --ci gitlab --think-hard` - Full-stack monorepo with GitLab CI
-- `/dev-setup --type react --tools --ci github` - React project with quality tools
+- `/dev-setup --ci github --tools` - Project setup with GitHub Actions
+- `/dev-setup --tools --think` - Comprehensive development tooling
+- `/dev-setup --monorepo --ci gitlab --think-hard` - Monorepo with GitLab CI
+- `/dev-setup --tools --ci github` - Development environment with quality tools
 
 ## Setup Types
 
---type flag:
+**Automatic Detection:** Identifies project type from existing files and structure | Adapts to language-specific conventions | Configures appropriate tooling
 
-- node: Node.js/TypeScript project setup
-- python: Python virtual environment & tooling
-- react: React + Vite/Next.js configuration
-- fullstack: Complete full-stack environment
-- monorepo: Multi-package monorepo setup
+**Optional Overrides:**
+
+- --monorepo: Multi-package repository setup
+- --microservices: Distributed services configuration
 
 --ci flag:
 
@@ -50,16 +49,16 @@ Examples:
 
 Environment Configuration:
 
-- Package manager setup (npm/yarn/pnpm)
-- Version management (.nvmrc, .python-version)
+- Package manager setup based on project type
+- Version management files for detected language
 - Environment variables & .env structure
-- Docker configuration if needed
+- Container configuration if needed
 
 Code Quality:
 
-- ESLint/Prettier configuration
-- Pre-commit hooks (husky, lint-staged)
-- Test framework setup (Jest, Pytest, etc)
+- Language-appropriate linters and formatters
+- Pre-commit hooks for quality checks
+- Test framework setup matching project language
 - Code coverage configuration
 
 CI/CD Pipeline:
