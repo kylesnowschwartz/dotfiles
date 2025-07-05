@@ -2,38 +2,39 @@
 # Single source of truth for all legends, symbols, paths, and common constants
 
 ## Universal_Legend
-| Symbol | Meaning | | Abbrev | Meaning |
-|--------|---------|---|--------|---------|
-| → | leads to | | cfg | configuration |
-| & | and/with | | impl | implementation |
-| w/ | with | | perf | performance |
-| @ | at/located | | ops | operations |
-| > | greater than | | val | validation |
-| ∀ | for all/every | | req | requirements |
-| ∃ | exists/there is | | deps | dependencies |
-| ∴ | therefore | | env | environment |
-| ∵ | because | | db | database |
-| ≡ | equivalent | | api | interface |
-| ≈ | approximately | | docs | documentation |
-| 📁 | directory/path | | std | standard |
-| 🔢 | number/count | | def | default |
-| 📝 | text/string | | ctx | context |
-| ⚙ | setting/config | | err | error |
-| 🎛 | control/flags | | exec | execution |
-| 🔧 | configuration | | qual | quality |
-| 📋 | group/category | | rec | recovery |
-| 🚨 | critical/urgent | | sev | severity |
-| ⚠ | warning/caution | | resp | response |
-| 🔄 | retry/recovery | | esc | escalation |
-| ✅ | success/fixed | | tok | token |
-| ❌ | failure/error | | opt | optimization |
-| ℹ | information | | UX | user experience |
-| ⚡ | fast/quick | | UI | user interface |
-| 🐌 | slow/delayed | | C | critical |
-| ✨ | complete/done | | H | high |
-| 📖 | read operation | | M | medium |
-| ✏ | edit operation | | L | low |
-| 🗑 | delete operation | | |
+ | Symbol   | Meaning          |     | Abbrev   | Meaning         |
+ | -------- | ---------        | --- | -------- | ---------       |
+ | →        | leads to         |     | cfg      | configuration   |
+ | &        | and/with         |     | impl     | implementation  |
+ | w/       | with             |     | perf     | performance     |
+ | @        | at/located       |     | ops      | operations      |
+ | >        | greater than     |     | val      | validation      |
+ | ∀        | for all/every    |     | req      | requirements    |
+ | ∃        | exists/there is  |     | deps     | dependencies    |
+ | ∴        | therefore        |     | env      | environment     |
+ | ∵        | because          |     | db       | database        |
+ | ≡        | equivalent       |     | api      | interface       |
+ | ≈        | approximately    |     | docs     | documentation   |
+ | 📁       | directory/path   |     | std      | standard        |
+ | 🔢       | number/count     |     | def      | default         |
+ | 📝       | text/string      |     | ctx      | context         |
+ | ⚙        | setting/config   |     | err      | error           |
+ | 🎛       | control/flags    |     | exec     | execution       |
+ | 🔧       | configuration    |     | qual     | quality         |
+ | 📋       | group/category   |     | rec      | recovery        |
+ | 🚨       | critical/urgent  |     | sev      | severity        |
+ | ⚠        | warning/caution  |     | resp     | response        |
+ | 🔄       | retry/recovery   |     | esc      | escalation      |
+ | ✅       | success/fixed    |     | tok      | token           |
+ | ❌       | failure/error    |     | opt      | optimization    |
+ | ℹ        | information      |     | UX       | user experience |
+ | ⚡       | fast/quick       |     | UI       | user interface  |
+ | 🐌       | slow/delayed     |     | C        | critical        |
+ | ✨       | complete/done    |     | H        | high            |
+ | 📖       | read operation   |     | M        | medium          |
+ | ✏        | edit operation   |     | L        | low             |
+ | 🗑       | delete operation |     |          |
+
 
 ## Universal Symbols & Process Flow
 
