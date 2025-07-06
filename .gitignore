@@ -26,3 +26,4 @@ claude/*.tmp
 claude/*.temp
 claude/*.log
 claude/*.cache
+claude/ide/
