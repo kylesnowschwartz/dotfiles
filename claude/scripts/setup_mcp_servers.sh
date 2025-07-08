@@ -184,11 +184,13 @@ main() {
   # Format: "server_name:command"
   declare -a mcp_servers=(
     "figma-developer:claude mcp add -s user figma-developer -- npx -y figma-developer-mcp --figma-api-key=$FIGMA_API_KEY --stdio"
-    "figma-dev-mode-mcp-server:claude mcp add --transport sse figma-dev-mode-mcp-server http://127.0.0.1:3845/sse"
+    "figma-dev-mode-mcp-server:claude mcp add -s user figma-dev-mode-mcp-server --transport sse http://127.0.0.1:3845/sse"
+    "buildkite:claude mcp add buildkite -s user -e BUILDKITE_API_TOKEN=$BUILDKITE_API_TOKEN -- docker run -i --rm -e BUILDKITE_API_TOKEN ghcr.io/buildkite/buildkite-mcp-server stdio
+"
     "rollbar-marketplace:cd /Users/kyle/Code/market/marketplace && claude mcp add rollbar-marketplace -s local -t stdio -e ROLLBAR_ACCESS_TOKEN=$ROLLBAR_MARKETPLACE_TOKEN -- node /Users/kyle/Code/rollbar-mcp-server/build/index.js"
     "rollbar-solid-octane-service:cd /Users/kyle/Code/market/solid_octane_service && claude mcp add rollbar-solid-octane-service -s local -t stdio -e ROLLBAR_ACCESS_TOKEN=$ROLLBAR_SOLID_OCTANE_SERVICE_TOKEN -- node /Users/kyle/Code/rollbar-mcp-server/build/index.js"
     "github:claude mcp add github -s user -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_API_KEY -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server stdio --dynamic-toolsets"
-    "playwright:claude mcp add playwright -s user -- npx @playwright/mcp --image-responses=omit --output-dir=./screenshots --headless"
+    "playwright:claude mcp add playwright -s user -- npx @playwright/mcp --image-responses=omit --output-dir=./screenshots --headless --viewport-size 1920,1080"
     "context7:claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest"
     "OpenMemory:claude mcp add -s user --transport sse OpenMemory http://localhost:8765/mcp/openmemory/sse/$(whoami)"
     "ref:claude mcp add ref -s user -- npx mcp-remote@0.1.0-0 https://api.ref.tools/mcp --header x-ref-api-key:[REF_API_KEY_REMOVED]"
