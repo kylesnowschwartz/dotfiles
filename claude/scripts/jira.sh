@@ -40,6 +40,7 @@ usage() {
 	echo "  epic <epic-key>          - Show epic details with all child stories/tasks"
 	echo "  search <jql>             - Search tickets using JQL"
 	echo "  projects                 - List all projects"
+	echo "  create                   - Create a new issue"
 	echo ""
 	echo "Examples:"
 	echo "  $0 setup"
@@ -50,6 +51,26 @@ usage() {
 	echo "  $0 epic PROJ-456"
 	echo "  $0 search \"assignee = currentUser()\""
 	echo "  $0 projects"
+	echo "  $0 create"
+	echo ""
+	echo "Create issue examples:"
+	echo "  $0 create -p PROJ -t \"New feature\" -d \"Add login functionality\""
+	echo "  $0 create -p PROJ -t \"Bug in login\" -d \"Users can't log in\" -i Bug"
+	echo "  $0 create -p PROJ -t \"Update docs\" -P PROJ-123  # Create subtask"
+	echo "  $0 create -p PROJ -t \"Q4 Features\" -i Epic  # Create epic"
+	echo ""
+	echo "Market-Sustain Epic workflow example:"
+	echo "  1. Create an Epic:"
+	echo "     $0 create -p MTMS -t \"Implement new payment gateway\" -i Epic -d \"Support for Stripe payment processing\""
+	echo ""
+	echo "  2. Create stories linked to the Epic (assuming the epic key is MTMS-1979):"
+	echo "     $0 create -p MTMS -t \"Design payment gateway interface\" -i Story -e MTMS-1979"
+	echo "     $0 create -p MTMS -t \"Implement Stripe API integration\" -i Story -e MTMS-1979"
+	echo "     $0 create -p MTMS -t \"Add payment webhook handlers\" -i Story -e MTMS-1979"
+	echo "     $0 create -p MTMS -t \"Write payment gateway tests\" -i Story -e MTMS-1979"
+	echo ""
+	echo "  3. View the Epic and all its children:"
+	echo "     $0 epic MTMS-1979"
 }
 
 # Function to check if jq is installed
@@ -429,6 +450,260 @@ list_projects() {
 	fi
 }
 
+# Function to create an issue
+create_issue() {
+	local project=""
+	local summary=""
+	local description=""
+	local issue_type="Task"
+	local parent=""
+	local priority=""
+	local assignee=""
+	local labels=""
+	local epic_name=""
+	local epic_link=""
+
+	# Parse command line arguments
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+		-p | --project)
+			project="$2"
+			shift 2
+			;;
+		-t | --title | --summary)
+			summary="$2"
+			shift 2
+			;;
+		-d | --description)
+			description="$2"
+			shift 2
+			;;
+		-i | --issuetype | --type)
+			issue_type="$2"
+			shift 2
+			;;
+		-P | --parent)
+			parent="$2"
+			shift 2
+			;;
+		-e | --epic)
+			epic_link="$2"
+			shift 2
+			;;
+		--priority)
+			priority="$2"
+			shift 2
+			;;
+		-a | --assignee)
+			assignee="$2"
+			shift 2
+			;;
+		-l | --labels)
+			labels="$2"
+			shift 2
+			;;
+		--epic-name)
+			epic_name="$2"
+			shift 2
+			;;
+		-h | --help)
+			echo "Usage: $0 create [options]"
+			echo ""
+			echo "Options:"
+			echo "  -p, --project <key>      Project key (required)"
+			echo "  -t, --title <summary>    Issue summary/title (required)"
+			echo "  -d, --description <text> Issue description"
+			echo "  -i, --issuetype <type>   Issue type (default: Task)"
+			echo "  -P, --parent <key>       Parent issue key (for subtasks)"
+			echo "  -e, --epic <key>         Epic key to link story to"
+			echo "  --priority <name>        Priority (e.g., High, Medium, Low)"
+			echo "  -a, --assignee <email>   Assignee email address"
+			echo "  -l, --labels <list>      Comma-separated list of labels"
+			echo "  --epic-name <name>       Epic name (required for Epic type)"
+			echo ""
+			echo "Examples:"
+			echo "  Create a task:"
+			echo "    $0 create -p PROJ -t \"Fix login bug\" -d \"Users can't log in\""
+			echo ""
+			echo "  Create a bug:"
+			echo "    $0 create -p PROJ -t \"Login broken\" -i Bug --priority High"
+			echo ""
+			echo "  Create a subtask:"
+			echo "    $0 create -p PROJ -t \"Write unit tests\" -P PROJ-123"
+			echo ""
+			echo "  Create a story linked to an epic:"
+			echo "    $0 create -p PROJ -t \"User authentication\" -i Story -e PROJ-100"
+			echo ""
+			echo "  Create an epic:"
+			echo "    $0 create -p PROJ -t \"Q4 Features\" -i Epic --epic-name \"Q4 Features\""
+			echo ""
+			echo "Market-Sustain Epic workflow:"
+			echo "  1. Create an Epic in MTMS project:"
+			echo "    $0 create -p MTMS -t \"Implement payment gateway\" -i Epic -d \"Support for Stripe payments\""
+			echo ""
+			echo "  2. Create stories linked to the epic (assuming epic key is MTMS-1979):"
+			echo "    $0 create -p MTMS -t \"Design payment interface\" -i Story -e MTMS-1979 -d \"Create UI mockups\""
+			echo "    $0 create -p MTMS -t \"Implement Stripe API\" -i Story -e MTMS-1979 --priority High"
+			echo "    $0 create -p MTMS -t \"Add webhook handlers\" -i Story -e MTMS-1979 -l \"backend,api\""
+			echo "    $0 create -p MTMS -t \"Write integration tests\" -i Story -e MTMS-1979 -a developer@envato.com"
+			return 0
+			;;
+		*)
+			echo -e "${RED}Error: Unknown option $1${NC}"
+			return 1
+			;;
+		esac
+	done
+
+	# Validate required fields
+	if [[ -z "$project" ]]; then
+		echo -e "${RED}Error: Project key is required${NC}"
+		echo "Use -p or --project to specify the project"
+		return 1
+	fi
+
+	if [[ -z "$summary" ]]; then
+		echo -e "${RED}Error: Issue summary/title is required${NC}"
+		echo "Use -t or --title to specify the summary"
+		return 1
+	fi
+
+	# If parent is specified, force issue type to Sub-task
+	if [[ -n "$parent" ]]; then
+		issue_type="Sub-task"
+	fi
+
+	# If creating an Epic and no epic name provided, use the summary
+	if [[ "$issue_type" == "Epic" ]] && [[ -z "$epic_name" ]]; then
+		epic_name="$summary"
+	fi
+
+	echo "Creating $issue_type in project $project..."
+
+	# Build the JSON payload
+	local json_payload='{"fields":{'
+	json_payload+="\"project\":{\"key\":\"$project\"},"
+	json_payload+="\"summary\":$(echo -n "$summary" | jq -Rs .),"
+	json_payload+="\"issuetype\":{\"name\":\"$issue_type\"}"
+
+	# Add optional fields
+	if [[ -n "$description" ]]; then
+		# Convert plain text to Atlassian Document Format
+		local adf_description=$(echo -n "$description" | jq -Rs '{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":.}]}]}')
+		json_payload+=",\"description\":$adf_description"
+	fi
+
+	if [[ -n "$parent" ]]; then
+		json_payload+=",\"parent\":{\"key\":\"$parent\"}"
+	fi
+
+	if [[ -n "$priority" ]]; then
+		json_payload+=",\"priority\":{\"name\":\"$priority\"}"
+	fi
+
+	if [[ -n "$assignee" ]]; then
+		# Try to find the user by email
+		local user_search_response
+		local user_search_url="user/search?query=$assignee"
+		user_search_response=$(api_request "$user_search_url")
+		local user_http_code
+		local user_response
+		user_http_code=$(echo "$user_search_response" | tail -n 1)
+		user_response=$(echo "$user_search_response" | sed '$d')
+
+		if [[ "$user_http_code" -eq 200 ]]; then
+			local account_id
+			account_id=$(echo "$user_response" | jq -r '.[0].accountId // empty')
+			if [[ -n "$account_id" ]]; then
+				json_payload+=",\"assignee\":{\"accountId\":\"$account_id\"}"
+			else
+				echo -e "${YELLOW}Warning: Could not find user with email $assignee${NC}"
+			fi
+		fi
+	fi
+
+	if [[ -n "$labels" ]]; then
+		# Convert comma-separated labels to JSON array
+		local labels_json
+		labels_json=$(echo "$labels" | tr ',' '\n' | jq -R . | jq -s .)
+		json_payload+=",\"labels\":$labels_json"
+	fi
+
+	# Add Epic Link for Stories linked to Epics
+	if [[ -n "$epic_link" ]]; then
+		# First, we need to find the Epic Link custom field ID
+		local fields_response
+		fields_response=$(api_request "field")
+		local fields_http_code
+		local fields_data
+		fields_http_code=$(echo "$fields_response" | tail -n 1)
+		fields_data=$(echo "$fields_response" | sed '$d')
+
+		if [[ "$fields_http_code" -eq 200 ]]; then
+			local epic_link_field_id
+			epic_link_field_id=$(echo "$fields_data" | jq -r '.[] | select(.name == "Epic Link") | .id // empty')
+			if [[ -n "$epic_link_field_id" ]]; then
+				json_payload+=",\"$epic_link_field_id\":\"$epic_link\""
+			else
+				echo -e "${YELLOW}Warning: Epic Link field not found. The story will be created without epic linking.${NC}"
+			fi
+		fi
+	fi
+
+	# Add Epic name for Epic issue types
+	if [[ "$issue_type" == "Epic" ]] && [[ -n "$epic_name" ]]; then
+		# First, we need to find the Epic Name custom field ID
+		local fields_response
+		fields_response=$(api_request "field")
+		local fields_http_code
+		local fields_data
+		fields_http_code=$(echo "$fields_response" | tail -n 1)
+		fields_data=$(echo "$fields_response" | sed '$d')
+
+		if [[ "$fields_http_code" -eq 200 ]]; then
+			local epic_name_field_id
+			epic_name_field_id=$(echo "$fields_data" | jq -r '.[] | select(.name == "Epic Name") | .id // empty')
+			if [[ -n "$epic_name_field_id" ]]; then
+				json_payload+=",\"$epic_name_field_id\":$(echo -n "$epic_name" | jq -Rs .)"
+			fi
+		fi
+	fi
+
+	json_payload+='}}'
+
+	# Make the API request to create the issue
+	local full_response
+	full_response=$(api_request "issue" "POST" "$json_payload")
+	local http_code
+	local response
+	http_code=$(echo "$full_response" | tail -n 1)
+	response=$(echo "$full_response" | sed '$d')
+
+	if [[ "$http_code" -eq 201 ]]; then
+		local issue_key
+		local issue_id
+		local issue_self
+		issue_key=$(echo "$response" | jq -r '.key')
+		issue_id=$(echo "$response" | jq -r '.id')
+		issue_self=$(echo "$response" | jq -r '.self')
+
+		echo -e "${GREEN}Successfully created $issue_type: $issue_key${NC}"
+		echo "Issue ID: $issue_id"
+		echo "URL: $JIRA_BASE_URL/browse/$issue_key"
+
+		# Show transition status if there was one
+		local transition_status
+		transition_status=$(echo "$response" | jq -r '.transition.status // empty')
+		if [[ -n "$transition_status" ]] && [[ "$transition_status" != "null" ]]; then
+			echo "Transition status: $transition_status"
+		fi
+	else
+		echo -e "${RED}Error: Failed to create issue (HTTP $http_code)${NC}"
+		echo "$response" | jq -r '.errorMessages[]? // .errors? // "Unknown error"' 2>/dev/null || echo "$response"
+		return 1
+	fi
+}
+
 # Main script logic
 main() {
 	check_dependencies
@@ -454,6 +729,10 @@ main() {
 		;;
 	"projects")
 		list_projects
+		;;
+	"create")
+		shift
+		create_issue "$@"
 		;;
 	"--help" | "-h" | "help" | "")
 		usage
