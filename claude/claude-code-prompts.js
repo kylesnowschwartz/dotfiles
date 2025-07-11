@@ -655,6 +655,7 @@ const PRReviewTool = {
          - Analysis of code quality and style
          - Specific suggestions for improvements
          - Any potential issues or risks
+
       Keep your review concise but thorough. Focus on:
       - Code correctness
       - Following project conventions
