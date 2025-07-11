@@ -183,7 +183,7 @@ main() {
   # Array of MCP server configurations
   # Format: "server_name:command"
   declare -a mcp_servers=(
-    "figma-developer:claude mcp add -s user figma-developer -- npx -y figma-developer-mcp --figma-api-key=$FIGMA_API_KEY --stdio"
+    # "figma-developer:claude mcp add -s user figma-developer -- npx -y figma-developer-mcp --figma-api-key=$FIGMA_API_KEY --stdio"
     "figma-dev-mode-mcp-server:claude mcp add -s user figma-dev-mode-mcp-server --transport sse http://127.0.0.1:3845/sse"
     "buildkite:claude mcp add buildkite -s user -e BUILDKITE_API_TOKEN=$BUILDKITE_API_TOKEN -- docker run -i --rm -e BUILDKITE_API_TOKEN ghcr.io/buildkite/buildkite-mcp-server stdio
 "
@@ -192,7 +192,7 @@ main() {
     "github:claude mcp add github -s user -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_API_KEY -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server stdio --dynamic-toolsets"
     "playwright:claude mcp add playwright -s user -- npx @playwright/mcp --image-responses=omit --output-dir=./screenshots --headless --viewport-size 1920,1080"
     "context7:claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest"
-    "OpenMemory:claude mcp add -s user --transport sse OpenMemory http://localhost:8765/mcp/openmemory/sse/$(whoami)"
+    # "OpenMemory:claude mcp add -s user --transport sse OpenMemory http://localhost:8765/mcp/openmemory/sse/$(whoami)"
     "ref:claude mcp add ref -s user -- npx mcp-remote@0.1.0-0 https://api.ref.tools/mcp --header x-ref-api-key:[REF_API_KEY_REMOVED]"
     "Zapier:claude mcp add -s user --transport sse Zapier https://mcp.zapier.com/api/mcp/a/73617/sse"
     "zen:claude mcp add zen -s user -- /Users/kyle/Code/zen-mcp-server/.zen_venv/bin/python /Users/kyle/Code/zen-mcp-server/server.py"
