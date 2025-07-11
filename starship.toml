@@ -36,7 +36,7 @@ show_always = false
 [directory]
 # truncation_length = 1
 # home_symbol = '󰋜 ~'
-home_symbol = '󰋜'
+home_symbol = '󰋜 '
 read_only_style = '197'
 read_only = '  '
 format = '[$path]($style)[$read_only]($read_only_style) '
