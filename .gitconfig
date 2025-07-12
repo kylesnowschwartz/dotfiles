@@ -35,10 +35,12 @@
 [delta]
 	navigate = true
 	light = false
-	hyperlinks = true
-; 	hyperlinks-file-link-format = "idea://open?file={path}&line={line}"
-	hyperlinks-file-link-format = "file://{path}:{line}"
-    keep-plus-minus-markers = true
+	; hyperlinks = true
+	; hyperlinks-file-link-format = "file://{path}:{line}"
+  keep-plus-minus-markers = true
+  syntax-theme = 1337
+  file-decoration-style = "none"
+  file-style = "green"
 [merge]
 	conflictstyle = diff3
 [diff]

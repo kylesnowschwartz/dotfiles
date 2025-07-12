@@ -11,9 +11,9 @@
       "Bash(ls:*)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:www.anthropic.com)"
+      "WebFetch(domain:www.anthropic.com)",
+      "mcp__ref__ref_search_documentation"
     ],
     "deny": []
   }
 }
-

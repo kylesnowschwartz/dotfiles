@@ -4,7 +4,7 @@
 
 The `kitty.conf.default` file contains the complete default Kitty configuration with extensive documentation. However, it exceeds Claude Code's token limit for single file reads (~29,000 tokens).
 
-### How to parse the large config file:
+### How to parse the large config file
 
 1. **Search for specific sections**:
 
@@ -36,7 +36,7 @@ The `kitty.conf.default` file contains the complete default Kitty configuration 
    rg -F -n "#: .* {{{" kitty.conf.default
    ```
 
-## Common sections and their approximate line numbers:
+## Common sections and their approximate line numbers
 
 - **Fonts**: Lines 1-400
 - **Cursor customization**: Lines 400-500
@@ -51,7 +51,7 @@ The `kitty.conf.default` file contains the complete default Kitty configuration 
 - **OS specific**: Lines 2000-2300
 - **Keyboard shortcuts**: Lines 2300-2900
 
-## Quick search commands:
+## Quick search commands
 
 ```bash
 # Find all available options for a feature
@@ -76,7 +76,7 @@ rg -c "map cmd" kitty.conf.default
 rg -l "pattern" *.conf
 ```
 
-## Using fd for Kitty configuration management:
+## Using fd for Kitty configuration management
 
 ```bash
 # Find all Kitty config files
