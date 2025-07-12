@@ -259,6 +259,7 @@ CONFIG_FILES=(
   yazi
   git
   tmux
+  kitty
 )
 
 # Set up symlinks for home files
