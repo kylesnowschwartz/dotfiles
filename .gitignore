@@ -31,3 +31,4 @@ claude/*.temp
 claude/*.log
 claude/*.cache
 claude/ide/
+claude/backups/
