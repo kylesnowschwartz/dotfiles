@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# IMPORTANT - THIS SCRIPT NOT CURRENTLY USED OR PRODUCTION READY
+
 # Script to install packages on a new system - Idempotent version
 # Usage: ./install_packages.sh [--server] [--desktop] [--dev] [--all] [--dry-run]
 
-set -e  # Exit on any error
+set -e # Exit on any error
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -37,33 +39,33 @@ DRY_RUN=0
 
 for arg in "$@"; do
   case $arg in
-    --server)
-      INSTALL_SERVER=1
-      ;;
-    --desktop)
-      INSTALL_DESKTOP=1
-      ;;
-    --dev)
-      INSTALL_DEV=1
-      ;;
-    --all)
-      INSTALL_SERVER=1
-      INSTALL_DESKTOP=1
-      INSTALL_DEV=1
-      ;;
-    --dry-run)
-      DRY_RUN=1
-      print_msg "$YELLOW" "DRY RUN MODE: No changes will be made to your system"
-      ;;
-    --help)
-      echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run]"
-      echo "  --server    Install server packages (jellyfin, samba, etc.)"
-      echo "  --desktop   Install desktop packages (gnome-tweaks, etc.)"
-      echo "  --dev       Install development packages (build-essential, etc.)"
-      echo "  --all       Install all packages"
-      echo "  --dry-run   Show what would be installed/configured without making changes"
-      exit 0
-      ;;
+  --server)
+    INSTALL_SERVER=1
+    ;;
+  --desktop)
+    INSTALL_DESKTOP=1
+    ;;
+  --dev)
+    INSTALL_DEV=1
+    ;;
+  --all)
+    INSTALL_SERVER=1
+    INSTALL_DESKTOP=1
+    INSTALL_DEV=1
+    ;;
+  --dry-run)
+    DRY_RUN=1
+    print_msg "$YELLOW" "DRY RUN MODE: No changes will be made to your system"
+    ;;
+  --help)
+    echo "Usage: $0 [--server] [--desktop] [--dev] [--all] [--dry-run]"
+    echo "  --server    Install server packages (jellyfin, samba, etc.)"
+    echo "  --desktop   Install desktop packages (gnome-tweaks, etc.)"
+    echo "  --dev       Install development packages (build-essential, etc.)"
+    echo "  --all       Install all packages"
+    echo "  --dry-run   Show what would be installed/configured without making changes"
+    exit 0
+    ;;
   esac
 done
 
@@ -89,54 +91,54 @@ is_package_installed() {
 
   # Check for alternative packages
   case "$package" in
-    neovim)
-      # Check if nvim executable is available
-      if command -v nvim &>/dev/null; then
-        return 0
-      fi
-      ;;
-    libfuse2)
-      # Check if libfuse is available
-      if ldconfig -p 2>/dev/null | grep -q libfuse; then
-        return 0
-      fi
-      ;;
-    ruby)
-      # Check if ruby is available from other sources (rvm, rbenv)
-      if command -v ruby &>/dev/null; then
-        return 0
-      fi
-      ;;
-    wget)
-      # Check if wget is available (could be installed elsewhere)
-      if command -v wget &>/dev/null; then
-        return 0
-      fi
-      ;;
-    curl)
-      # Check if curl is available (could be installed elsewhere)
-      if command -v curl &>/dev/null; then
-        return 0
-      fi
-      ;;
-    git)
-      # Check if git is available (could be installed elsewhere)
-      if command -v git &>/dev/null; then
-        return 0
-      fi
-      ;;
-    bat)
-      # Check if bat is available (could be installed elsewhere)
-      if command -v bat &>/dev/null || command -v batcat &>/dev/null; then
-        return 0
-      fi
-      ;;
-    git-delta)
-      # Check if delta is available (could be installed elsewhere)
-      if command -v delta &>/dev/null; then
-        return 0
-      fi
-      ;;
+  neovim)
+    # Check if nvim executable is available
+    if command -v nvim &>/dev/null; then
+      return 0
+    fi
+    ;;
+  libfuse2)
+    # Check if libfuse is available
+    if ldconfig -p 2>/dev/null | grep -q libfuse; then
+      return 0
+    fi
+    ;;
+  ruby)
+    # Check if ruby is available from other sources (rvm, rbenv)
+    if command -v ruby &>/dev/null; then
+      return 0
+    fi
+    ;;
+  wget)
+    # Check if wget is available (could be installed elsewhere)
+    if command -v wget &>/dev/null; then
+      return 0
+    fi
+    ;;
+  curl)
+    # Check if curl is available (could be installed elsewhere)
+    if command -v curl &>/dev/null; then
+      return 0
+    fi
+    ;;
+  git)
+    # Check if git is available (could be installed elsewhere)
+    if command -v git &>/dev/null; then
+      return 0
+    fi
+    ;;
+  bat)
+    # Check if bat is available (could be installed elsewhere)
+    if command -v bat &>/dev/null || command -v batcat &>/dev/null; then
+      return 0
+    fi
+    ;;
+  git-delta)
+    # Check if delta is available (could be installed elsewhere)
+    if command -v delta &>/dev/null; then
+      return 0
+    fi
+    ;;
   esac
 
   return 1
@@ -275,7 +277,7 @@ install_packages "Core" "${CORE_PACKAGES[@]}"
 # Install server packages if requested
 if [ "$INSTALL_SERVER" -eq 1 ]; then
   SERVER_PACKAGES=("smbclient" "samba" "openssh-server" "unattended-upgrades"
-                  "jellyfin" "qbittorrent-nox" "wget")
+    "jellyfin" "qbittorrent-nox" "wget")
   install_packages "Server" "${SERVER_PACKAGES[@]}"
 
   # Check if Jackett is already installed
