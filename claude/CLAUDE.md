@@ -173,7 +173,7 @@ Follow these principles to produce high‑quality, production‑ready code and c
 ### Guideline CFG-002: **GitHub Configuration**
 
 - **Purpose:** Ensure proper GitHub integration and workflow
-- **Description:** Git config user.name set to kylesnowschwartz; SSH keys configured and working; GitHub CLI (gh) installed and authenticated; Use SSH URLs for remotes \git@github.com:user/repo.git\; Can fork via `gh repo fork owner/repo --clone=false`; Create PRs via `gh pr create --repo owner/repo --head username:branch`; Organization: Envato
+- **Description:** Git config user.name set to kylesnowschwartz; SSH keys configured and working; GitHub CLI (gh) installed and authenticated; Use SSH URLs for remotes `git@github.com:user/repo.git`; Can fork via `gh repo fork owner/repo --clone=false`; Create PRs via `gh pr create --repo owner/repo --head username:branch`; Organization: Envato
 - **Priority:** Medium
 - **Applicability:** GitHub operations
 - **Keywords:** GitHub, SSH, CLI, PRs, Envato
