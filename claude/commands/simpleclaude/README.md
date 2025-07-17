@@ -9,16 +9,13 @@ This directory contains the 5 core Simple-Claude commands:
 5. **sc-review.md** - Validate quality (merges review, scan, test)
 
 Each command:
-
 - Auto-detects context and chooses appropriate mode
 - Accepts natural language arguments instead of complex flags
 - Routes to existing SuperClaude logic for proven functionality
 - Provides helpful suggestions when intent is unclear
 
 ## Command Structure
-
 Commands follow a consistent pattern:
-
 1. Parse natural language input
 2. Detect context (project type, files, current state)
 3. Select appropriate mode (or use override)
@@ -26,5 +23,4 @@ Commands follow a consistent pattern:
 5. Use sub-agents for token-intensive operations
 
 ## Implementation Note
-
 These commands will be created in Phase 2, building on the foundation established in Phase 1.

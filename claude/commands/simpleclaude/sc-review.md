@@ -2,14 +2,14 @@
 
 ---
 
-@include shared/simpleclaude/includes.md
+@.claude/shared/simpleclaude/includes.md
 
 ## Command Execution
 
-**If "$ARGUMENTS" is empty**: Display usage suggestions and stop.  
-**If "$ARGUMENTS" has content**: Think step-by-step, then execute.
+**If "{{ARGUMENTS}}" is empty**: Display usage suggestions and stop.  
+**If "{{ARGUMENTS}}" has content**: Think step-by-step, then execute.
 
-Transforms: "$ARGUMENTS" into structured intent:
+Transforms: "{{ARGUMENTS}}" into structured intent:
 
 - What: [extracted-target]
 - How: [detected-approach]
@@ -32,10 +32,9 @@ Comprehensive review router that transforms natural language into structured exp
 1. use `gh pr list` if PR # is not provided
 2. Use `gh pr view <number>` for PR details
 3. Use `gh pr diff <number>` for code changes
-4. Use the **Buildkite MCP server** to find CI/CD builds for the given PR
-5. Analyze changes for code quality, style, and potential issues
-6. Provide structured review with improvement suggestions
-7. Focus on correctness, conventions, performance, testing, and security
+4. Analyze changes for code quality, style, and potential issues
+5. Provide structured review with improvement suggestions
+6. Focus on correctness, conventions, performance, testing, and security
 
 ### Semantic Transformations
 
