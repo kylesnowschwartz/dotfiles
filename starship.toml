@@ -3,7 +3,7 @@ command_timeout = 2000
 
 format = """\
 [╭╴](fg:250)[󰭼](bold white) \
-$all[╰─](fg:250)$character"""
+$all[╰─](fg:250)$character$jobs"""
 
 # Drop ugly default prompt characters
 [character]
@@ -67,6 +67,11 @@ format = ' []($style)'
 format = '\[[$symbol($version)]($style)\]'
 disabled = true
 
+
+[jobs]
+format = "[$symbol$number]($style)"
+symbol = "✦ "
+style = "bold purple"
 
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
