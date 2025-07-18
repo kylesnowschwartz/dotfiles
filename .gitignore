@@ -32,3 +32,4 @@ claude/*.log
 claude/*.cache
 claude/ide/
 claude/backups/
+claude/.update.lock
