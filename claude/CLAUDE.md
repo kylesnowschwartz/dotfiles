@@ -76,6 +76,14 @@ Follow these principles to produce high‑quality, production‑ready code and c
 - **Applicability:** UI/UX tasks
 - **Keywords:** UX, accessibility, aesthetics, interactions
 
+### Guideline CDP-010: **Avoid Emoji Usage**
+
+- **Purpose:** Maintain professional communication
+- **Description:** Do not use emojis in code, comments, documentation, or communication unless explicitly requested
+- **Priority:** Low
+- **Applicability:** All communication
+- **Keywords:** communication, professionalism, style
+
 ## Code Quality & Standards
 
 ### Guideline CQS-001: **Seek Clarity Early**
