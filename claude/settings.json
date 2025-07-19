@@ -111,7 +111,7 @@
       "mcp__rollbar-marketplace",
       "mcp__zen",
       "mcp__buildkite",
-      "mcp_ref"
+      "mcp__ref"
     ],
     "deny": []
   }
