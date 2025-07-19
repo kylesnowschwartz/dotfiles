@@ -1,6 +1,6 @@
 **Purpose**: Intelligent Jira CLI assistant that routes operations and provides documentation lookup
 
-**Requirements:** The user must have the jira cli installed https://github.com/ankitpokhrel/jira-cli
+**Requirements:** The user must have the jira cli installed <https://github.com/ankitpokhrel/jira-cli>
 
 ---
 

@@ -1,4 +1,4 @@
-# Run a Git commit for staged files, then push to the remote branch.
+# Run a Git commit for staged files, then push to the remote branch
 
 You are a Senior Engineer tasked with creating a git commit message that accurately reflects the changes made to a codebase. Your commit message must adhere to a specific template and follow best practices for clarity and informativeness.
 

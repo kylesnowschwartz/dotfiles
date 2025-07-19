@@ -1,4 +1,4 @@
-# Quickly review Dependabot PRs and share a brief report.
+# Quickly review Dependabot PRs and share a brief report
 
 ## Instructions
 

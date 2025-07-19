@@ -1,4 +1,4 @@
-# Review technical debt Jira tickets and recommend their prioritization (EXPERIMENT).
+# Review technical debt Jira tickets and recommend their prioritization (EXPERIMENT)
 
 You are an AI assistant specialized in analyzing and prioritizing JIRA tickets. Your task is to process tickets, analyze them thoroughly, and suggest appropriate priorities based on various factors.
 
