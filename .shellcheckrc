@@ -1,0 +1,8 @@
+# Disable warnings for non-constant source paths in dotfiles
+disable=SC1090
+
+# Disable sourcing warnings for dotfiles pattern
+disable=SC1091
+
+# Disable variable assignment warnings for dotfiles context
+disable=SC2155

@@ -1,10 +1,11 @@
+#!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # Cross-platform configuration for macOS and Linux
 
 # Exit if not running interactively
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 #################################################
@@ -24,17 +25,17 @@ fi
 #################################################
 
 # History management
-HISTCONTROL=ignoreboth        # Don't store duplicates or commands starting with space
+HISTCONTROL=ignoreboth # Don't store duplicates or commands starting with space
 HISTSIZE=1000000
 HISTFILESIZE=1000000
-shopt -s histappend           # Append to history file, don't overwrite
+shopt -s histappend # Append to history file, don't overwrite
 
 # Terminal behavior
-shopt -s checkwinsize         # Update window size after each command
+shopt -s checkwinsize # Update window size after each command
 
 # Input mode
-set editing-mode vi           # Use vi mode for readline
-set -o vi                     # Use vi mode for command line
+set editing-mode vi # Use vi mode for readline
+set -o vi           # Use vi mode for command line
 
 #################################################
 # PATH CONFIGURATION
@@ -65,11 +66,15 @@ export EDITOR=nvim
 # Java configuration
 if [ "$OS" = "macos" ]; then
   # macOS Java
-  [ -x /usr/libexec/java_home ] && export JAVA_HOME=$(/usr/libexec/java_home)
+  if [ -x /usr/libexec/java_home ]; then
+    JAVA_HOME=$(/usr/libexec/java_home)
+    export JAVA_HOME
+  fi
 
   # macOS Ruby with Homebrew openssl
   if command -v brew >/dev/null 2>&1; then
-    RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1 2>/dev/null || echo '/usr/local')"
+    openssl_dir=$(brew --prefix openssl@1.1 2>/dev/null || echo '/usr/local')
+    export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_dir"
   fi
 fi
 
@@ -157,10 +162,11 @@ fi
 # Yazi file manager
 if command -v yazi >/dev/null 2>&1; then
   function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    local tmp cwd
+    tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     yazi "$@" --cwd-file="$tmp"
     if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-      builtin cd -- "$cwd"
+      builtin cd -- "$cwd" || return
     fi
     rm -f -- "$tmp"
   }
