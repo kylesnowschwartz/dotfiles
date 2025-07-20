@@ -60,9 +60,9 @@ echo "[DEBUG] Parsed response_file_path: '$response_file_path'" >&2
 
 # Exit early if invalid input or failed operation
 # Success means: we have a file path and either type="create" or response_file_path matches
-if [[ -z "$file_path" || ( "$response_type" != "create" && "$response_file_path" != "$file_path" ) ]]; then
-    echo "[DEBUG] Exiting - invalid input or failed operation" >&2
-    exit 0
+if [[ -z "$file_path" || ("$response_type" != "create" && "$response_file_path" != "$file_path") ]]; then
+  echo "[DEBUG] Exiting - invalid input or failed operation" >&2
+  exit 0
 fi
 
 # Verify file exists (defensive programming)
@@ -95,4 +95,3 @@ else
   echo "Failed to stage file: $file_path" >&2
   exit 1
 fi
-
