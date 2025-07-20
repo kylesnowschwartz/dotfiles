@@ -114,5 +114,18 @@
       "mcp__ref"
     ],
     "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/scripts/auto-stage-new-files.sh"
+          }
+        ]
+      }
+    ]
   }
 }
