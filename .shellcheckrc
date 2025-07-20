@@ -6,3 +6,6 @@ disable=SC1091
 
 # Disable variable assignment warnings for dotfiles context
 disable=SC2155
+
+# Disable shebang warnings for dotfiles (they're sourced, not executed)
+disable=SC2148
