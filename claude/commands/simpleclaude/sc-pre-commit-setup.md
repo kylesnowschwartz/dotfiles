@@ -143,7 +143,7 @@ repos:
     rev: v3.8.0
     hooks:
       - id: shfmt
-        args: [-w, -s, -i, "2"]
+        args: [-w, -i, "2"]
         stages: [pre-commit]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
