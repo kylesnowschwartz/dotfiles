@@ -33,23 +33,23 @@ fi
 NO_BACKUP=0
 while getopts "qvhnf:" opt; do
   case $opt in
-    q) VERBOSE=0 ;; # Quiet mode
-    v) VERBOSE=2 ;; # Extra verbose
-    n) NO_BACKUP=1 ;; # Skip backups
-    f) DOTFILES_DIR="$OPTARG" ;; # Custom dotfiles directory path
-    h)
-      echo "Usage: $0 [-q] [-v] [-n] [-f path] [-h]"
-      echo "  -q  Quiet mode (minimal output)"
-      echo "  -v  Verbose mode (extra output)"
-      echo "  -n  No backup (don't create backups of existing files)"
-      echo "  -f  Specify custom dotfiles directory path"
-      echo "  -h  Show this help message"
-      exit 0
-      ;;
-    *)
-      echo "Invalid option. Use -h for help."
-      exit 1
-      ;;
+  q) VERBOSE=0 ;;              # Quiet mode
+  v) VERBOSE=2 ;;              # Extra verbose
+  n) NO_BACKUP=1 ;;            # Skip backups
+  f) DOTFILES_DIR="$OPTARG" ;; # Custom dotfiles directory path
+  h)
+    echo "Usage: $0 [-q] [-v] [-n] [-f path] [-h]"
+    echo "  -q  Quiet mode (minimal output)"
+    echo "  -v  Verbose mode (extra output)"
+    echo "  -n  No backup (don't create backups of existing files)"
+    echo "  -f  Specify custom dotfiles directory path"
+    echo "  -h  Show this help message"
+    exit 0
+    ;;
+  *)
+    echo "Invalid option. Use -h for help."
+    exit 1
+    ;;
   esac
 done
 
@@ -71,7 +71,7 @@ if [ "$NO_BACKUP" -eq 1 ]; then
   TEMP_LOG_FILE="${TMPDIR:-/tmp}/dotfiles_setup_$$.log"
   touch "$TEMP_LOG_FILE"
   LOG_FILE="$TEMP_LOG_FILE"
-  echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup (no backups)" > "$LOG_FILE"
+  echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup (no backups)" >"$LOG_FILE"
 else
   echo "Creating backup directory at $BACKUP_DIR"
   if ! mkdir -p "$BACKUP_BASE_DIR"; then
@@ -86,7 +86,7 @@ else
 
   # Now that backup directory exists, set up log file
   LOG_FILE="$BACKUP_DIR/setup.log"
-  echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup" > "$LOG_FILE"
+  echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup" >"$LOG_FILE"
 fi
 
 # Check for required commands
@@ -122,15 +122,15 @@ log() {
   local level="$1"
   local message="$2"
   local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-  echo "[$timestamp] [$level] $log_prefix $message" >> "$LOG_FILE"
+  echo "[$timestamp] [$level] $log_prefix $message" >>"$LOG_FILE"
 
   # Error messages are always displayed
   # INFO messages are displayed in normal and verbose mode
   # DEBUG messages are only displayed in verbose mode
-  if [ "$level" = "ERROR" ] || \
-     [ "$level" = "WARNING" ] || \
-     ([ "$level" = "INFO" ] && [ "$VERBOSE" -ge 1 ]) || \
-     ([ "$level" = "DEBUG" ] && [ "$VERBOSE" -ge 2 ]); then
+  if [ "$level" = "ERROR" ] ||
+    [ "$level" = "WARNING" ] ||
+    ([ "$level" = "INFO" ] && [ "$VERBOSE" -ge 1 ]) ||
+    ([ "$level" = "DEBUG" ] && [ "$VERBOSE" -ge 2 ]); then
     echo "[$level] $log_prefix $message"
   fi
 }
@@ -296,12 +296,12 @@ fi
 
 # Determine appropriate primary bash file by OS
 case "$OS" in
-  macos)
-    primary_file=".bash_profile"
-    ;;
-  linux|freebsd|*)
-    primary_file=".bashrc"
-    ;;
+macos)
+  primary_file=".bash_profile"
+  ;;
+linux | freebsd | *)
+  primary_file=".bashrc"
+  ;;
 esac
 
 # Source the bash configuration to apply changes immediately
