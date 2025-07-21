@@ -2,7 +2,7 @@
 
 ---
 
-@.claude/shared/simpleclaude/includes.md
+Prepare by reading the includes in: @shared/simpleclaude/includes.md
 
 ## Command Execution
 

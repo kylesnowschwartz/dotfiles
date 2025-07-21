@@ -1,239 +1,224 @@
-**Purpose**: Intelligently setup and enhance pre-commit configurations for any repository with context-aware analysis
-
-Intelligent pre-commit configuration system that analyzes existing setups and repository characteristics to create or enhance `.pre-commit-config.yaml` with appropriate hooks, preserving customizations while adding missing essential validations.
+**Purpose**: Intelligently automate pre-commit framework setup with dynamic research and repository-tailored configuration
 
 ---
 
+Prepare by reading the includes in: @shared/simpleclaude/includes.md
+
 ## Command Execution
 
-- Analyze existing @.pre-commit-config.yaml configuration
-- Analyze existing @.git/hooks/pre-commit configuration
-- Install pre-commit hooks if not already installed
-- Run validation tests on all files
-- Display status and recommendations
+Ultrathink step-by-step, then execute.
 
-**Auto-Spawning:** Spawns specialized sub-agents for parallel task execution.  
-**Context Detection:** Analyze existing configuration → Detect project type and file patterns → Select appropriate hooks → Generate enhanced configuration → Install pre-commit
+- What: [repository-analysis]
+- How: [automated-research-and-setup]
+- Mode: [progressive-validation]
+- Agents: [research-specialist, configuration-generator, validator]
 
-## Dotfiles-Specific Hook Categories
+**Auto-Spawning:** Spawns specialized sub-agents for parallel research, configuration, and validation.
 
-### File Hygiene Hooks
+## Core Workflows
 
-- `trailing-whitespace` - Remove trailing whitespace (exclude .md files)
-- `end-of-file-fixer` - Ensure files end with newline
-- `check-merge-conflict` - Check for merge conflict markers
-- `check-added-large-files` - Prevent large file commits
+**Research-First Setup:** Sub-agents → Repository Analysis → Version Research → Configuration Generation → Validation  
+**Language-Targeted:** Sub-agents → Language Detection → Hook Research → Specialized Configuration → Testing  
+**Update & Repair:** Sub-agents → Current Config Analysis → Version Research → Incremental Updates → Validation
 
-### Configuration File Validation
+## Research & Configuration Protocol
 
-- `check-yaml` - Validate YAML syntax (starship.toml, workflows)
-- `check-json` - Validate JSON syntax (settings, configs)
-- `check-toml` - Validate TOML syntax (starship.toml, cargo configs)
+<repository_analysis> Use TodoWrite to track this systematic analysis:
 
-### Shell Script Quality
+1. **Repository Discovery**
 
-- `shellcheck` - Shell script static analysis
-- `shfmt` - Shell script formatting
-- `check-executables-have-shebangs` - Ensure executable scripts have shebangs
+   - Extract repository name: `basename "$(git rev-parse --show-toplevel)"`
+   - Detect project languages via file analysis and package manifests
+   - Identify existing `.pre-commit-config.yaml`, `.git/hooks/pre-commit`, or additional setup requirements
 
-### Git Repository Hygiene
+2. **Language Detection Logic**
 
-- `check-case-conflict` - Check for case conflicts
-- `mixed-line-ending` - Check for mixed line endings
-- `check-symlinks` - Check for broken symlinks
+## Example Detection Logic
 
-### Documentation Quality
+```bash
+# Priority: Configuration files (fast detection)
+[[ -f "package.json" ]] && languages+=("javascript")
+[[ -f "pyproject.toml" || -f "requirements.txt" ]] && languages+=("python")
+[[ -f "go.mod" ]] && languages+=("go")
+[[ -f "Cargo.toml" ]] && languages+=("rust")
 
-- `markdownlint` - Markdown linting and formatting
-- `check-docstring-first` - Python docstring validation (if Python files exist)
+# Secondary: File extensions (optimized scanning)
+find . -maxdepth 2 -name "*.sh" -o -name "*.bash" | head -1 && languages+=("shell")
+find . -maxdepth 2 -name "*.ts" -o -name "*.tsx" | head -1 && languages+=("typescript")
+```
 
-### Security and Safety Hooks
+</repository_analysis>
 
-- `detect-private-key` - Prevent committing private keys or sensitive data
-- `check-ast` - Validate Python syntax (if Python files exist)
+<version_research> Use `mcp__context7` and GitHub API for authoritative version discovery:
 
-## Global Configuration Options
+1. **Primary Research Sources**
 
-### Default Hook Types
+   - `mcp__context7__resolve-library-id "pre-commit hooks"` for latest documentation
+   - GitHub API: `gh api repos/pre-commit/pre-commit-hooks/releases/latest` or `gh api repos/shellcheck-py/shellcheck-py/tags` or `gh repo view scop/pre-commit-shfmt`
+   - Context7 queries for best practices and current examples
 
-- `default_install_hook_types: [pre-commit, pre-push]` - Install hooks for both commit and push stages
-- Allows running quick checks on commit and comprehensive validation on push
+2. **Repository Validation**
 
-### Fail-Fast Behavior
+   - Test each repository with: `pre-commit try-repo <repo-url> --verbose`
+   - Only include validated, accessible repositories in configuration
+   - Document any repositories that fail validation
 
-- `fail_fast: false` - Run all hooks even if some fail, providing complete feedback
-- Set to `true` for faster feedback cycles during active development
+3. **Fallback Strategy**
+   - If GitHub API fails: use `pre-commit sample-config` as reference with the knowledge that the sample-config is out-of-date
+   - If specific repositories fail: use alternative mirrors or skip with warning
+   - Comprehensively report failures to setup specific repos or hooks
 
-### Stage Configuration
+</version_research>
 
-- `default_stages: [pre-commit]` - Most hooks run during pre-commit stage
-- Individual hooks can override with specific `stages` configuration
+<configuration_generation> Progressive configuration building with validation at each step:
 
-## Default Pre-commit Configuration Template
+1. **Base Configuration Template**
+
+   ```yaml
+   # {repository_name} Pre-commit Configuration
+   # Auto-generated for detected languages: {detected_languages}
+   default_install_hook_types: [pre-commit]
+   default_stages: [pre-commit]
+   fail_fast: false
+
+   repos:
+     # Core file hygiene (Essential - Priority 1)
+     - repo: https://github.com/pre-commit/pre-commit-hooks
+       rev: { researched_version }
+       hooks:
+         - id: trailing-whitespace
+           exclude: '\.md$' # Preserve markdown formatting
+         - id: end-of-file-fixer
+         - id: check-merge-conflict
+         - id: check-added-large-files
+           args: [--maxkb=2084]
+         - id: check-yaml
+         - id: check-json
+         - id: detect-private-key
+   ```
+
+2. **Language-Specific Addition Logic**
+
+   - **Shell detected**: Add shellcheck-py
+   - **Python detected**: Add language-specific hooks
+   - **JavaScript/TypeScript**: Consider additional hooks
+   - **Documentation (.md files)**: Add markdownlint-cli with pragmatic rule exclusions
+
+3. **Validation After Each Addition**
+   - Test configuration: `pre-commit run --files <sample-file>`
+   - If hook fails: investigate, fix, or remove with documented reasoning
+   - Ensure minimal working configuration always available
+
+</configuration_generation>
+
+<progressive_validation> Systematic testing with rollback capability:
+
+1. **Installation Verification**
+
+   - `pre-commit --version` (verify tool availability)
+   - `pre-commit install` (hook installation)
+   - `pre-commit validate-config` (configuration syntax)
+
+2. **Incremental Hook Testing**
+
+   - Test core hooks first: `pre-commit run trailing-whitespace --all-files`
+   - Add language-specific hooks one category at a time
+   - Roll back to last working configuration on failure
+
+3. **Performance Validation**
+
+   - Measure hook execution time on representative files
+   - Adjust configuration if hooks take >10 seconds
+   - Document any performance considerations
+
+4. **Final Integration Test**
+   - `pre-commit run --all-files` (comprehensive test)
+   - Simulate actual commit workflow
+   - Generate human-readable summary of active hooks
+
+</progressive_validation>
+
+## Success Criteria & Human QA
+
+**Minimum Success (Required)**
+
+- ✅ Valid `.pre-commit-config.yaml` with working core hooks
+- ✅ `pre-commit install` completes successfully
+- ✅ Security hooks active (detect-private-key, check-merge-conflict)
+- ✅ Basic file hygiene (trailing-whitespace, end-of-file-fixer)
+
+**Optimal Success (Target)**
+
+- ✅ Language-specific hooks for detected project types
+- ✅ Current versions from GitHub API research
+- ✅ Repository-specific customization and comments
+- ✅ Performance optimized (sub-10 second execution)
+- ✅ Comprehensive validation with error-free test run
+
+## Error Handling & Recovery
+
+<example_configuration>
 
 ```yaml
+# `.pre-commit-config.yaml`
 # Global Configuration
-default_install_hook_types: [pre-commit, pre-push]
+default_install_hook_types: [pre-commit]
 default_stages: [pre-commit]
 fail_fast: false
 
 repos:
+  # Standard pre-commit hooks for file hygiene and basic validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         exclude: '\.md$'
-        stages: [pre-commit]
       - id: end-of-file-fixer
-        stages: [pre-commit]
       - id: check-merge-conflict
-        stages: [pre-commit]
       - id: check-added-large-files
-        stages: [pre-commit]
         args: [--maxkb=1024]
       - id: check-yaml
-        stages: [pre-commit]
       - id: check-json
-        stages: [pre-commit]
       - id: check-toml
-        stages: [pre-commit]
       - id: check-case-conflict
-        stages: [pre-commit]
       - id: mixed-line-ending
-        stages: [pre-commit]
       - id: check-executables-have-shebangs
-        stages: [pre-commit]
       - id: check-symlinks
-        stages: [pre-commit]
       - id: detect-private-key
-        stages: [pre-commit]
-      - id: check-ast
-        types: [python]
-        stages: [pre-commit]
 
+  # Shell script quality assurance
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.10.0
     hooks:
       - id: shellcheck
         args: [--severity=warning]
-        stages: [pre-commit]
 
-  - repo: https://github.com/mvdan/sh
-    rev: v3.8.0
+  # Shell script formatting
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.12.0-2
     hooks:
       - id: shfmt
         args: [-w, -i, "2"]
-        stages: [pre-commit]
 
+  # Documentation hooks (Priority 3 - Optional)
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.41.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
-        args: [--fix]
-        stages: [pre-commit]
+        args: [
+            --fix,
+            --disable,
+            MD013, # Line length (disabled for long technical content)
+            MD041, # First line H1 (disabled for purpose/command docs)
+            MD026, # Trailing punctuation in headings (disabled for "Variables:")
+            MD012, # Multiple blank lines (disabled for visual spacing)
+          ]
 ```
 
-## Enhanced Installation Process
+</example_configuration>
 
-### Phase 1: Discovery and Analysis
+---
 
-1. **Existing Configuration Analysis**:
-
-   - Check for existing `.pre-commit-config.yaml` file
-   - Parse current hooks, versions, and custom configurations
-   - Identify user customizations and exclusion patterns
-   - Assess hook performance and staging setup
-
-2. **Project Type Detection**:
-   - Scan for language indicators (`package.json`, `pyproject.toml`, `Cargo.toml`, etc.)
-   - Detect frameworks and build tools
-   - Identify file patterns and repository structure
-   - Determine CI/CD integration requirements
-
-### Phase 2: Intelligent Configuration
-
-3. **Configuration Enhancement Strategy**:
-
-   - Preserve existing hooks and user customizations
-   - Suggest missing hooks based on project type
-   - Recommend version updates for outdated hooks
-   - Identify conflicting or redundant hooks
-
-4. **Incremental Configuration Generation**:
-   - Merge existing configuration with recommended enhancements
-   - Maintain user-specified exclusion patterns and arguments
-   - Add missing global configuration options (fail_fast, stages)
-   - Generate backup of original configuration
-
-### Phase 3: Installation and Validation
-
-5. **Pre-commit Environment Validation**:
-
-   - Verify `pre-commit --version` is available and functional
-   - Check `pre-commit --help` for supported commands and options
-   - Validate system dependencies and installation integrity
-   - Exit gracefully if pre-commit is not properly installed
-
-6. **Hook Installation**:
-
-   - Run `pre-commit install` to setup default hook types (pre-commit, pre-push)
-   - Install any additional hook types based on project needs
-
-7. **Progressive Validation**:
-
-   - Test existing hooks first to ensure no regressions
-   - Run new hooks incrementally to identify conflicts
-   - Execute `pre-commit run --all-files` for comprehensive validation
-   - Test both pre-commit and pre-push stages
-
-8. **Configuration Optimization**:
-   - Analyze hook execution performance
-   - Suggest staging optimizations (pre-commit vs pre-push)
-   - Generate usage documentation and maintenance commands
-
-## Advanced Configuration Options
-
-### Custom Fail-Fast Setup
-
-```bash
-# For development - fail fast for quick feedback
-pre-commit install --config .pre-commit-config-dev.yaml
-```
-
-### Hook Stage Management
-
-- **pre-commit**: Fast checks for immediate feedback (syntax, formatting)
-
-### Environment Validation Commands
-
-```bash
-pre-commit --version               # Verify installation and version
-pre-commit --help                  # Check available commands and options
-which pre-commit                   # Locate pre-commit binary
-```
-
-### Maintenance Commands
-
-```bash
-pre-commit autoupdate              # Update hook versions
-pre-commit run --all-files         # Run on all files manually
-pre-commit install --hook-type pre-push  # Add additional hook types
-pre-commit uninstall              # Remove hooks
-```
-
-### Installation Validation Workflow
-
-```bash
-# 1. Environment check
-pre-commit --version || { echo "ERROR: pre-commit not installed"; exit 1; }
-
-# 2. Display available functionality
-pre-commit --help
-
-# 3. Setup hooks
-pre-commit install
-pre-commit install --hook-type pre-push
-
-# 4. Validate configuration
-pre-commit run --files .pre-commit-config.yaml
-```
+**Generated Configuration Location**: `.pre-commit-config.yaml`  
+**Maintenance Commands**: `pre-commit autoupdate`, `pre-commit run --all-files`  
+**Documentation**: All hook purposes explained in configuration comments
