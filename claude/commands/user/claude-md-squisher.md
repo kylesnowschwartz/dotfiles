@@ -1,14 +1,6 @@
-# Claude MD Squisher
+# Markdown Squisher
 
-**Context Optimization Tool** - Reduce CLAUDE.md bloat while preserving all AI functionality.
-
-## Usage
-
-```bash
-@claude-md-squisher                    # Full analysis and optimization
-@claude-md-squisher --analyze         # Analysis only, no changes
-@claude-md-squisher --target 70       # Target 70% reduction
-```
+**Context Optimization Tool** - Reduce Markdown bloat while preserving all AI functionality.
 
 ## Instructions
 
