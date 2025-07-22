@@ -83,6 +83,8 @@ if [ -f "$HOME/config/.ripgreprc" ]; then
   export RIPGREP_CONFIG_PATH="$HOME/config/.ripgreprc"
 elif [ -f "$HOME/.config/ripgrep/config" ]; then
   export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
+elif [ -f "$HOME/Code/Dotefiles/.ripgreprc" ]; then
+  export RIPGREP_CONFIG_PATH="$HOME/Code/Dotefiles/.ripgreprc"
 fi
 
 # Man pages with neovim if available
@@ -110,7 +112,7 @@ alias l='ls -CF'
 
 # rbenv
 if command -v rbenv >/dev/null 2>&1; then
-  eval "$(rbenv init -)"
+  eval "$(rbenv init - bash)"
   # [ -f "$HOME/set_rbenv_shell.sh" ] && "$HOME/set_rbenv_shell.sh"
 fi
 
@@ -130,7 +132,13 @@ fi
 # -----------------------
 
 # direnv
+# export DIRENV_LOG_FORMAT=""
 [ -x "$(command -v direnv 2>/dev/null)" ] && eval "$(direnv hook bash)"
+
+# ImageMagick
+# export MAGICK_HOME=/usr/local/opt/imagemagick@6j
+# export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$$DYLD_LIBRARY_PATH"
+export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_PATH"
 
 # FZF fuzzy finder
 if [ -f ~/.fzf.bash ]; then
@@ -189,9 +197,9 @@ if ! shopt -oq posix; then
 fi
 
 # Ghostty CLI action completions
-if [ -f "$HOME/.config/ghostty/ghostty-completion.bash" ]; then
-  . "$HOME/.config/ghostty/ghostty-completion.bash"
-fi
+# if [ -f "$HOME/.config/ghostty/ghostty-completion.bash" ]; then
+#   . "$HOME/.config/ghostty/ghostty-completion.bash"
+# fi
 
 # Clipboard support (handled in bash_aliases)
 
@@ -203,3 +211,7 @@ fi
 if [[ -x "/usr/local/bin/brew" ]]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
+
+# Zoxide better cd
+#
+eval "$(zoxide init bash --cmd cd)"

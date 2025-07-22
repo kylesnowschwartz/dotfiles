@@ -29,6 +29,7 @@ repos:
     hooks:
       - id: shellcheck
         args: [--severity=warning]
+        exclude: '^\.bash(rc|_profile|_aliases)$'
 
   # Shell script formatting
   - repo: https://github.com/scop/pre-commit-shfmt
@@ -36,6 +37,7 @@ repos:
     hooks:
       - id: shfmt
         args: [-w, -i, "2"]
+        exclude: '^\.bash(rc|_profile|_aliases)$'
 
   # Documentation hooks (Priority 3 - Optional)
   - repo: https://github.com/igorshubovych/markdownlint-cli

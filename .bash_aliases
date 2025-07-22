@@ -223,3 +223,7 @@ tmh() {
 claude() {
   /Users/kyle/.claude-wrapper "$@"
 }
+
+# Turn .mov into gif
+#
+gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
