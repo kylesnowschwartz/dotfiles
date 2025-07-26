@@ -67,6 +67,8 @@ format = ' []($style)'
 format = '\[[$symbol($version)]($style)\]'
 disabled = true
 
+[package]
+format = '\[[$symbol$version]($style)\]'
 
 [jobs]
 format = "[$symbol$number]($style)"
@@ -79,3 +81,7 @@ command = "~/.config/starship_cf_vault.sh"
 when = "test -n \"$CLOUDFLARE_SESSION_EXPIRY\" && test -n \"$CLOUDFLARE_VAULT_SESSION\""
 format = '\[[($output)]($style)\]'
 shell = "bash"
+
+# Warp.dev setting?
+# [line_break]
+# disabled = false
