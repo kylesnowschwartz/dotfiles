@@ -2,14 +2,16 @@
 
 ---
 
-**CRITICAL DO NOT SKIP** Use the Read() tool to load content framework from:
+## Agent Orchestration
 
-<framework files>
-$HOME/.claude/shared/simpleclaude/00_core_principles.md  
-$HOME/.claude/shared/simpleclaude/01_orchestration.md  
-$HOME/.claude/shared/simpleclaude/02_workflows_and_patterns.md  
-$HOME/.claude/shared/simpleclaude/03_sub_agent_delegation.md
-</framework files>
+Based on request complexity and intent, delegate to specialized agents using Task() calls:
+
+**Context Analysis**: `Task("context-analyzer", "analyze existing code structure, dependencies, and modification impact scope")`  
+**Modification Planning**: `Task("system-architect", "design safe modification strategy with rollback plan and dependency mapping")`  
+**Safe Implementation**: `Task("implementation-specialist", "execute modifications with incremental changes and continuous validation")`  
+**Regression Testing**: `Task("validation-review-specialist", "verify modifications preserve existing behavior and improve target metrics")`
+
+**Execution Strategy**: For complex modifications, spawn agents in sequence for safety (context → planning → implementation → validation) or parallel for independent modification streams.
 
 ## Command Execution
 
@@ -21,9 +23,9 @@ Transforms: "{{ARGUMENTS}}" into structured intent:
 - What: [extracted-target]
 - How: [detected-approach]
 - Mode: [execution-mode]
-- Agents: [auto-spawned sub-agents]
+- Agents: [specialized Task() agents]
 
-**Auto-Spawning:** Spawns specialized sub-agents for parallel task execution.
+**Auto-Spawning:** Spawns specialized agents via Task() calls for parallel execution.
 
 Smart modification router that transforms natural language into structured improvement directives for performance optimization, refactoring, migration, and deployment tasks.
 
@@ -58,10 +60,10 @@ Examples:
 - `/sc-modify quickly fix typo in README` - Immediate fix with minimal overhead
 - `/sc-modify migrate to React 18` - Framework upgrade with testing
 
-**Context Detection:** Request analysis → Scope identification → Approach selection → Mode detection → Sub-agent spawning
+**Context Detection:** Request analysis → Scope identification → Approach selection → Mode detection → Agent spawning
 
 ## Core Workflows
 
-**Planner:** Sub-agents → Analyze current state → Design improvement strategy → Create safety plan → Document changes  
-**Implementer:** Sub-agents → Apply modifications → Run tests → Validate behavior → Measure improvements  
-**Tester:** Sub-agents → Create test scenarios → Validate changes → Performance benchmarks → Regression testing
+**Planner:** Agents → Analyze current state → Design improvement strategy → Create safety plan → Document changes  
+**Implementer:** Agents → Apply modifications → Run tests → Validate behavior → Measure improvements  
+**Tester:** Agents → Create test scenarios → Validate changes → Performance benchmarks → Regression testing

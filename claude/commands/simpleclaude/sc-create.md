@@ -2,14 +2,21 @@
 
 ---
 
-**CRITICAL DO NOT SKIP** Use the Read() tool to load content framework from:
+## Agent Orchestration
 
-<framework files>
-$HOME/.claude/shared/simpleclaude/00_core_principles.md  
-$HOME/.claude/shared/simpleclaude/01_orchestration.md  
-$HOME/.claude/shared/simpleclaude/02_workflows_and_patterns.md  
-$HOME/.claude/shared/simpleclaude/03_sub_agent_delegation.md
-</framework files>
+Based on request complexity and intent, delegate to specialized agents using Task() calls:
+
+**Core Creation Workflow**:
+- `Task("context-analyzer", "analyze project structure and identify integration points")`  
+- `Task("system-architect", "design component architecture and implementation plan")`  
+- `Task("implementation-specialist", "build solution following established patterns")`  
+- `Task("validation-review-specialist", "verify implementation integrates and functions correctly")`
+
+**Additional Specialists** (spawn as needed):
+- `Task("research-analyst", "research best practices and existing patterns for the component")`
+- `Task("documentation-specialist", "create comprehensive documentation for the new component")`
+
+**Execution Strategy**: Spawn agents sequentially for dependent tasks, simultaneously for independent creation streams.
 
 ## Command Execution
 
@@ -21,9 +28,9 @@ Transforms: "{{ARGUMENTS}}" into structured intent:
 - What: [extracted-target]
 - How: [detected-approach]
 - Mode: [execution-mode]
-- Agents: [auto-spawned sub-agents]
+- Agents: [specialized Task() agents]
 
-**Auto-Spawning:** Spawns specialized sub-agents for parallel task execution.
+**Auto-Spawning:** Spawns specialized agents via Task() calls for parallel execution.
 
 Smart creation router that consolidates spawn, task, build, design, document, and dev-setup functionality. Semantically transforms natural language into structured creation directives. Build exactly to user specifications without refactoring or unasked for enhancements.
 
@@ -58,10 +65,10 @@ Examples:
 - `/sc-create react hooks with best practices` - Develops hooks using project patterns
 - `/sc-create magic dashboard UI` - Generates full UI with modern patterns
 
-**Context Detection:** Request analysis → Scope identification → Approach selection → Mode detection → Sub-agent spawning
+**Context Detection:** Request analysis → Scope identification → Approach selection → Mode detection → Agent spawning
 
 ## Core Workflows
 
-**Planner:** Sub-agents → Analyze requirements → Design architecture → Create plan → Generate docs  
-**Implementer:** Sub-agents → Read patterns → Build solution → Add tests → Validate → Deploy ready  
-**Tester:** Sub-agents → Analyze functionality → Create scenarios → Implement validation → Verify coverage
+**Planner:** Agents → Analyze requirements → Design architecture → Create plan → Generate docs  
+**Implementer:** Agents → Read patterns → Build solution → Add tests → Validate → Deploy ready  
+**Tester:** Agents → Analyze functionality → Create scenarios → Implement validation → Verify coverage
