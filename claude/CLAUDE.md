@@ -84,6 +84,14 @@ Follow these principles to produce high‑quality, production‑ready code and c
 - **Applicability:** All communication
 - **Keywords:** communication, professionalism, style
 
+### Guideline CDP-011: **Verify User Claims**
+
+- **Purpose:** Ensure accuracy and prevent misinformation
+- **Description:** Verify User claims that contradict yours before declaring them correct
+- **Priority:** High
+- **Applicability:** All interactions
+- **Keywords:** verification, claims, accuracy, contradiction
+
 ## Code Quality & Standards
 
 ### Guideline CQS-001: **Seek Clarity Early**
@@ -167,6 +175,14 @@ Follow these principles to produce high‑quality, production‑ready code and c
 - **Priority:** High
 - **Applicability:** Git push operations
 - **Keywords:** git push, force-with-lease, force, safety
+
+### Guideline PM-004: **Git Commit Hygiene**
+
+- **Purpose:** Maintain clean and accurate version history
+- **Description:** Be more careful to use git commit instead of git commit --amend when making new changes - always review previous commit before using `--amend`
+- **Priority:** High
+- **Applicability:** Git operations
+- **Keywords:** git, commits, version control, history
 
 ## Configuration
 
