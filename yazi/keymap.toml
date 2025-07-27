@@ -1,0 +1,39 @@
+# Yazi Custom Keymaps
+# Aligned with neovim file navigation vernacular
+# Schema: https://yazi-rs.github.io/schemas/keymap.json
+
+[manager]
+prepend_keymap = [
+    # Search Operations (s* prefix) - Aligned with neovim telescope patterns
+    # Replaces default single-key search bindings with hierarchical approach
+
+    # File search (replaces default "s")
+    { on = ["s", "f"], run = "search --via=fd", desc = "Search files (fd)" },
+
+    # Content search (replaces default "S")
+    { on = ["s", "g"], run = "search --via=rg", desc = "Search grep content (ripgrep)" },
+
+    # Resume search (new functionality matching neovim <leader>sr)
+    { on = ["s", "r"], run = "escape --search", desc = "Search resume/cancel" },
+
+    # In-buffer find (enhanced version of default "/")
+    { on = ["s", "/"], run = "find --smart", desc = "Search in filenames" },
+    { on = ["s", "?"], run = "find --previous --smart", desc = "Search previous in filenames" },
+
+    # Search navigation (enhanced)
+    # { on = ["s", "n"], run = "find_arrow", desc = "Search next match" },
+    # { on = ["s", "N"], run = "find_arrow --previous", desc = "Search previous match" },
+]
+
+# Keep all other default keymaps unchanged for gradual adoption
+# Original search keys are now available as fallbacks until muscle memory develops:
+# - "s" still works for fd search (will show in help as deprecated)
+# - "S" still works for ripgrep search
+# - "/" still works for find
+# - "n"/"N" still work for find navigation
+
+# Note: This preserves all existing yazi functionality while adding
+# hierarchical search commands that match neovim telescope patterns:
+# - sf (search files) matches <leader>sf pattern
+# - sg (search grep) matches <leader>sg pattern
+# - sr (search resume) matches <leader>sr pattern

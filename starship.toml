@@ -75,6 +75,10 @@ format = "[$symbol$number]($style)"
 symbol = "✦ "
 style = "bold purple"
 
+[rust]
+format = '\[[$symbol($version)]($style)\]'
+
+
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
 command = "~/.config/starship_cf_vault.sh"
