@@ -2,28 +2,32 @@
 
 ---
 
-**CRITICAL DO NOT SKIP** Use the Read() tool to load content framework from:
+## Agent Orchestration
 
-<framework files>
-$HOME/.claude/shared/simpleclaude/00_core_principles.md  
-$HOME/.claude/shared/simpleclaude/01_orchestration.md  
-$HOME/.claude/shared/simpleclaude/02_workflows_and_patterns.md  
-$HOME/.claude/shared/simpleclaude/03_sub_agent_delegation.md
-</framework files>
+Based on request complexity and intent, delegate to specialized agents using Task() calls:
+
+**MVP Easter Egg Discovery Set**:
+
+- `Task("context-analyzer", "analyze codebase structure and identify potential hidden features")`
+- `Task("research-analyst", "investigate undocumented patterns and hidden functionality")`
+- `Task("debugging-specialist", "trace execution paths and discover hidden debug modes")`
+- `Task("documentation-specialist", "document discovered features and categorize findings")`
+
+**Execution Strategy**: For complex discovery tasks, spawn agents simultaneously for parallel investigation streams focusing on discovery, investigation, and documentation rather than implementation.
 
 ## Command Execution
 
-**If "$ARGUMENTS" is empty**: Display usage suggestions and stop.  
-**If "$ARGUMENTS" has content**: Think step-by-step, then execute.
+**If "{{ARGUMENTS}}" is empty**: Display usage suggestions and stop.  
+**If "{{ARGUMENTS}}" has content**: Think step-by-step, then execute.
 
-Transforms: "$ARGUMENTS" into structured intent:
+Transforms: "{{ARGUMENTS}}" into structured intent:
 
 - What: [extracted-target]
 - How: [detected-approach]
 - Mode: [execution-mode]
-- Agents: [auto-spawned sub-agents]
+- Agents: [specialized Task() agents]
 
-**Auto-Spawning:** Spawns specialized sub-agents for parallel task execution.
+**Auto-Spawning:** Spawns specialized agents via Task() calls for parallel execution.
 
 Intelligent discovery router that transforms natural language queries into systematic searches for hidden features, undocumented capabilities, and clever implementations that aren't explicitly documented.
 
@@ -62,6 +66,6 @@ Examples:
 
 ## Core Workflows
 
-**Planner:** Sub-agents → Ingest README/docs → Map documented features → Identify search patterns → Plan discovery strategy  
-**Implementer:** Sub-agents → Search codebase → Extract hidden features → Analyze implementations → Categorize findings  
-**Tester:** Sub-agents → Validate discoveries → Test feature combinations → Document edge cases → Verify functionality
+**Planner:** Agents → Ingest README/docs → Map documented features → Identify search patterns → Plan discovery strategy  
+**Implementer:** Agents → Search codebase → Extract hidden features → Analyze implementations → Categorize findings  
+**Tester:** Agents → Validate discoveries → Test feature combinations → Document edge cases → Verify functionality
