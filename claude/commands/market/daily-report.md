@@ -41,7 +41,8 @@ Ensure the following tools are installed and configured:
    - Filter for pull request related notifications
    - Show unread PR comments and review requests
 
-4. **Generate Action Items** Based on the collected data, create actionable items such as:
+4. **Generate Action Items**
+   Based on the collected data, create actionable items such as:
    - "Review comments on PR #123"
    - "Merge ready PR #456"
    - "Move Jira ticket ABC-123 to In Progress"

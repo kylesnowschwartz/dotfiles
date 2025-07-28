@@ -1,92 +1,95 @@
-**Purpose**: Intelligent Jira CLI assistant that routes operations and provides documentation lookup
+**Purpose**: Intelligent Jira assistant using Atlassian MCP server for direct API integration
 
-**Requirements:** The user must have the jira cli installed <https://github.com/ankitpokhrel/jira-cli>
+**Requirements:** Atlassian MCP server configured with Jira credentials
 
 ---
 
 ## Command Execution
 
-**If "$ARGUMENTS" is empty**: Display usage suggestions and stop. **If "$ARGUMENTS" has content**: Think step-by-step, then execute.
+**If "$ARGUMENTS" is empty**: Display usage suggestions and stop.
+**If "$ARGUMENTS" has content**: Think step-by-step, then execute.
 
 Transforms: "$ARGUMENTS" into structured intent:
 
 - What: [jira-operation]
-- How: [cli-command-approach]
+- How: [mcp-tool-approach]
 - Mode: [execution-mode]
-- Agents: [auto-spawned sub-agents]
+- Data: [structured-response]
 
-**Auto-Spawning:** Spawns specialized sub-agents for parallel task execution.
+**Direct API Integration:** Uses Atlassian MCP server tools for immediate Jira API access.
 
 ### Semantic Transformations
 
-Intelligent routing for Jira CLI operations that transforms natural language requests into proper Jira CLI commands. Automatically looks up documentation when needed.
+Intelligent routing for Jira operations that transforms natural language requests into appropriate MCP tool calls. Provides rich structured data responses.
 
 ```
-"how to create an issue" → What: documentation lookup | How: jira issue create --help | Mode: helper
-"create bug in PROJ about login" → What: issue creation | How: jira issue create -tBug -s"Login issue" -pPROJ | Mode: executor
-"list my issues" → What: issue listing | How: jira issue list -a$(jira me) | Mode: executor
-"show epic PROJ-123 with children" → What: epic visualization | How: jira epic list PROJ-123 --table | Mode: analyzer
-"help with transitions" → What: documentation | How: jira issue move --help | Mode: helper
+"analyse issue PROJ-123" → What: issue analysis | How: mcp__Atlassian__jira_get_issue | Mode: analyzer
+"create bug in PROJ about login" → What: issue creation | How: mcp__Atlassian__jira_create_issue | Mode: executor  
+"list my issues" → What: issue search | How: mcp__Atlassian__jira_search with assignee=currentUser() | Mode: executor
+"show epic PROJ-123 children" → What: epic analysis | How: mcp__Atlassian__jira_search parent=PROJ-123 | Mode: analyzer
+"transition PROJ-123 to done" → What: status change | How: mcp__Atlassian__jira_transition_issue | Mode: executor
 ```
 
 Examples:
 
-- `/jira how to create an epic` - Shows documentation for epic creation
-- `/jira create story "Add auth" in PROJ-100` - Creates story linked to epic PROJ-100
-- `/jira list open bugs in PROJ` - Lists all open bugs in project
-- `/jira show sprint board` - Displays active sprint board
-- `/jira transition PROJ-123 to done` - Moves issue to done status
+- `/jira analyse issue PROJ-123` - Detailed issue analysis with context
+- `/jira create story "Add auth" in PROJ linked to EPIC-100` - Creates story with epic link
+- `/jira search "project = PROJ AND status = Open AND type = Bug"` - JQL search for open bugs
+- `/jira get boards for project PROJ` - Lists project boards and sprints  
+- `/jira transition PROJ-123 to "In Progress"` - Changes issue status
 
-**Context Detection:** Request analysis → Command mapping → Documentation lookup → Execution strategy → Output formatting
+**Context Detection:** Request analysis → MCP tool selection → API call → Structured response → Analysis
 
 ## Core Workflows
 
-**Helper Mode:** Documentation lookup → Command examples → Interactive guidance → Best practices **Executor Mode:** Command construction → Validation → Execution → Result formatting **Analyzer Mode:** Data retrieval → Relationship mapping → Visualization → Insights
+**Helper Mode:** Tool documentation → MCP examples → Best practices → Guided execution
+**Executor Mode:** Tool selection → Parameter mapping → API execution → Response formatting
+**Analyzer Mode:** Data retrieval → Relationship analysis → Context enrichment → Actionable insights
 
-## Documentation Lookup Strategy
+## MCP Tool Strategy
 
-When user needs help or asks "how to", the assistant will:
+When processing requests, the assistant will:
+1. Parse user intent and identify required Jira operations
+2. Select appropriate `mcp__Atlassian__jira_*` tools
+3. Execute API calls with proper parameters
+4. Format structured responses for clarity
 
-1. Run `jira [command] --help` to get official documentation
-2. Provide practical examples based on common use cases
-3. Suggest related commands that might be useful
-
-## Common Operations Reference
-
-### Authentication & Setup
-
-- `jira init` - Interactive setup wizard
-- `jira config` - View/edit configuration
-- `jira me` - Show current user info
+## Available MCP Tools Reference
 
 ### Issue Management
+- `mcp__Atlassian__jira_get_issue` - Get detailed issue information
+- `mcp__Atlassian__jira_search` - Search issues with JQL queries  
+- `mcp__Atlassian__jira_create_issue` - Create new issues
+- `mcp__Atlassian__jira_update_issue` - Update existing issues
+- `mcp__Atlassian__jira_delete_issue` - Delete issues
+- `mcp__Atlassian__jira_add_comment` - Add comments to issues
+- `mcp__Atlassian__jira_transition_issue` - Change issue status
+- `mcp__Atlassian__jira_get_transitions` - Get available transitions
 
-- `jira issue create` - Create new issues
-- `jira issue list` - List and filter issues
-- `jira issue view [KEY]` - View issue details
-- `jira issue edit [KEY]` - Edit issue fields
-- `jira issue move [KEY]` - Transition issue status
-- `jira issue assign [KEY] [USER]` - Assign issues
-- `jira issue comment [KEY]` - Add comments
-- `jira issue link [KEY1] [KEY2]` - Link issues
+### Issue Linking & Relationships
+- `mcp__Atlassian__jira_link_to_epic` - Link issues to epics
+- `mcp__Atlassian__jira_create_issue_link` - Create issue links
+- `mcp__Atlassian__jira_remove_issue_link` - Remove issue links
 
-### Epic Management
+### Agile & Sprint Management  
+- `mcp__Atlassian__jira_get_agile_boards` - List boards
+- `mcp__Atlassian__jira_get_sprints_from_board` - Get board sprints
+- `mcp__Atlassian__jira_get_sprint_issues` - Get sprint issues
+- `mcp__Atlassian__jira_create_sprint` - Create new sprints
+- `mcp__Atlassian__jira_update_sprint` - Update sprint details
 
-- `jira epic create` - Create new epics
-- `jira epic list [KEY]` - List epic children
-- `jira epic add [EPIC] [ISSUES...]` - Add issues to epic
+### Time Tracking & Workflow
+- `mcp__Atlassian__jira_add_worklog` - Log time on issues
+- `mcp__Atlassian__jira_get_worklog` - Get worklog entries
 
-### Sprint Operations
+### User & Project Info
+- `mcp__Atlassian__jira_get_user_profile` - Get user information
+- `mcp__Atlassian__jira_get_project_issues` - Get all project issues
+- `mcp__Atlassian__jira_search_fields` - Search available fields
 
-- `jira sprint list` - List sprints
-- `jira sprint add [ISSUES...]` - Add to active sprint
-- `jira board list` - Show boards
+### Confluence Integration
+- `mcp__Atlassian__confluence_search` - Search Confluence pages
+- `mcp__Atlassian__confluence_get_page` - Get page content
+- `mcp__Atlassian__confluence_create_page` - Create new pages
 
-### Advanced Features
-
-- Custom JQL queries with `jira issue list --jql`
-- Bulk operations with issue lists
-- Interactive mode for complex workflows
-- Output formatting (table, json, csv)
-
-**Auto-Documentation:** When unsure about syntax, automatically runs --help and provides context-aware examples based on user intent.
+**Rich Data Integration:** All tools return structured JSON data with comprehensive issue details, relationships, and metadata for enhanced analysis and reporting.
