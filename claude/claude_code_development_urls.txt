@@ -1,0 +1,145 @@
+# Claude Code Development Documentation URLs
+
+## Core Claude Code Documentation
+https://docs.anthropic.com/en/docs/claude-code/overview
+https://docs.anthropic.com/en/docs/claude-code/quickstart
+https://docs.anthropic.com/en/docs/claude-code/setup
+https://docs.anthropic.com/en/docs/claude-code/cli-reference
+https://docs.anthropic.com/en/docs/claude-code/common-workflows
+https://docs.anthropic.com/en/docs/claude-code/interactive-mode
+https://docs.anthropic.com/en/docs/claude-code/memory
+https://docs.anthropic.com/en/docs/claude-code/settings
+https://docs.anthropic.com/en/docs/claude-code/slash-commands
+https://docs.anthropic.com/en/docs/claude-code/sub-agents
+https://docs.anthropic.com/en/docs/claude-code/troubleshooting
+https://docs.anthropic.com/en/release-notes/claude-code
+
+## Integration & Deployment
+https://docs.anthropic.com/en/docs/claude-code/ide-integrations
+https://docs.anthropic.com/en/docs/claude-code/github-actions
+https://docs.anthropic.com/en/docs/claude-code/devcontainer
+https://docs.anthropic.com/en/docs/claude-code/hooks
+https://docs.anthropic.com/en/docs/claude-code/hooks-guide
+https://docs.anthropic.com/en/docs/claude-code/mcp
+https://docs.anthropic.com/en/docs/claude-code/third-party-integrations
+https://docs.anthropic.com/en/docs/claude-code/terminal-config
+
+## Cloud Platforms & Enterprise
+https://docs.anthropic.com/en/docs/claude-code/amazon-bedrock
+https://docs.anthropic.com/en/docs/claude-code/google-vertex-ai
+https://docs.anthropic.com/en/docs/claude-code/corporate-proxy
+https://docs.anthropic.com/en/docs/claude-code/llm-gateway
+https://docs.anthropic.com/en/docs/claude-code/iam
+https://docs.anthropic.com/en/docs/claude-code/security
+https://docs.anthropic.com/en/docs/claude-code/legal-and-compliance
+
+## Monitoring & Analytics
+https://docs.anthropic.com/en/docs/claude-code/analytics
+https://docs.anthropic.com/en/docs/claude-code/monitoring-usage
+https://docs.anthropic.com/en/docs/claude-code/costs
+https://docs.anthropic.com/en/docs/claude-code/data-usage
+
+## SDK & API Development
+https://docs.anthropic.com/en/docs/claude-code/sdk
+https://docs.anthropic.com/en/api/overview
+https://docs.anthropic.com/en/api/messages
+https://docs.anthropic.com/en/api/messages-examples
+https://docs.anthropic.com/en/api/models
+https://docs.anthropic.com/en/api/client-sdks
+https://docs.anthropic.com/en/api/errors
+https://docs.anthropic.com/en/api/rate-limits
+https://docs.anthropic.com/en/api/versioning
+
+## File Handling & Batch Processing
+https://docs.anthropic.com/en/api/files-create
+https://docs.anthropic.com/en/api/files-list
+https://docs.anthropic.com/en/api/files-metadata
+https://docs.anthropic.com/en/api/files-content
+https://docs.anthropic.com/en/api/files-delete
+https://docs.anthropic.com/en/api/creating-message-batches
+https://docs.anthropic.com/en/api/listing-message-batches
+https://docs.anthropic.com/en/api/retrieving-message-batches
+https://docs.anthropic.com/en/api/retrieving-message-batch-results
+https://docs.anthropic.com/en/api/canceling-message-batches
+https://docs.anthropic.com/en/api/deleting-message-batches
+https://docs.anthropic.com/en/api/messages-batch-examples
+
+## Building with Claude
+https://docs.anthropic.com/en/docs/build-with-claude/overview
+https://docs.anthropic.com/en/docs/build-with-claude/batch-processing
+https://docs.anthropic.com/en/docs/build-with-claude/citations
+https://docs.anthropic.com/en/docs/build-with-claude/context-windows
+https://docs.anthropic.com/en/docs/build-with-claude/embeddings
+https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking
+https://docs.anthropic.com/en/docs/build-with-claude/files
+https://docs.anthropic.com/en/docs/build-with-claude/multilingual-support
+https://docs.anthropic.com/en/docs/build-with-claude/pdf-support
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching
+https://docs.anthropic.com/en/docs/build-with-claude/search-results
+https://docs.anthropic.com/en/docs/build-with-claude/streaming
+https://docs.anthropic.com/en/docs/build-with-claude/token-counting
+https://docs.anthropic.com/en/docs/build-with-claude/vision
+
+## Prompt Engineering
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-prompts
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-generator
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-improver
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-templates-and-variables
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts
+https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags
+
+## Tools & Agents
+https://docs.anthropic.com/en/docs/agents-and-tools/claude-for-sheets
+https://docs.anthropic.com/en/docs/agents-and-tools/mcp-connector
+https://docs.anthropic.com/en/docs/agents-and-tools/remote-mcp-servers
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/implement-tool-use
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/bash-tool
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/code-execution-tool
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/computer-use-tool
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/text-editor-tool
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/web-search-tool
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming
+https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/token-efficient-tool-use
+
+## Testing & Evaluation
+https://docs.anthropic.com/en/docs/test-and-evaluate/define-success
+https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests
+https://docs.anthropic.com/en/docs/test-and-evaluate/eval-tool
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/handle-streaming-refusals
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/keep-claude-in-character
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-latency
+https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-prompt-leak
+
+## Model Information
+https://docs.anthropic.com/en/docs/about-claude/models/overview
+https://docs.anthropic.com/en/docs/about-claude/models/choosing-a-model
+https://docs.anthropic.com/en/docs/about-claude/models/migrating-to-claude-4
+https://docs.anthropic.com/en/docs/about-claude/pricing
+https://docs.anthropic.com/en/docs/about-claude/model-deprecations
+
+## Getting Started
+https://docs.anthropic.com/en/docs/get-started
+https://docs.anthropic.com/en/docs/intro
+https://docs.anthropic.com/en/docs/overview
+https://docs.anthropic.com/en/docs/mcp
+
+## Additional Resources
+https://docs.anthropic.com/en/api/getting-help
+https://docs.anthropic.com/en/api/supported-regions
+https://docs.anthropic.com/en/api/service-tiers
+https://docs.anthropic.com/en/api/ip-addresses
+https://docs.anthropic.com/en/release-notes/overview
+https://docs.anthropic.com/en/release-notes/api
+https://docs.anthropic.com/en/resources/overview
