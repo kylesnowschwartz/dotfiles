@@ -126,6 +126,20 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/.local/bin/copy-claude-response"
+          }
+        ]
+      }
     ]
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1753924880079
   }
 }
