@@ -227,3 +227,8 @@ claude() {
 # Turn .mov into gif
 #
 gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
+
+# Works with files, directories, and OpenInTerminal app
+# $ defaults write /Users/kyle/Library/Group\ Containers/group.wang.jianing.app.OpenInTerminal/Library/Preferences/group.wang.jianing.app.OpenInTerminal.plist NeovimCommand "/usr/local/bin/iterm-nvim PATH"
+#
+alias iterm_nvim='iterm-nvim'
