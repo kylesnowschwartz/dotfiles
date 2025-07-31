@@ -20,6 +20,7 @@ check_hook_modifications() {
   if [[ -n "$modified_files" ]]; then
     echo -e "${YELLOW}📝 Pre-commit hooks modified the following files:${NC}"
     echo "$modified_files" | sed 's/^/  /'
+
     return 0
   else
     return 1
@@ -33,8 +34,28 @@ stage_modified_files() {
 
   if [[ -n "$modified_files" ]]; then
     echo -e "${BLUE}🔄 Restaging modified files...${NC}"
-    # Stage only the files that were modified by hooks
-    echo "$modified_files" | xargs git add
+
+    # Stage files one by one with proper error handling
+    local failed_files=()
+    while IFS= read -r file; do
+      if [[ -n "$file" ]]; then
+        if git add "$file" 2>/dev/null; then
+          echo "  ✓ Staged: $file"
+        else
+          echo "  ✗ Failed to stage: $file"
+          failed_files+=("$file")
+        fi
+      fi
+    done <<<"$modified_files"
+
+    # Report any failures
+    if [[ ${#failed_files[@]} -gt 0 ]]; then
+      echo -e "${YELLOW}⚠️  Failed to stage ${#failed_files[@]} file(s). Continuing with successful stages.${NC}"
+      for file in "${failed_files[@]}"; do
+        echo "    - $file"
+      done
+    fi
+
     return 0
   else
     return 1
