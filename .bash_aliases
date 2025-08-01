@@ -125,6 +125,38 @@ function opensearch() {
   JAVA_HOME="$(asdf where java zulu-17.46.19)" "$(asdf which opensearch)"
 }
 
+# Terraform aliases for Envato/Datadog monitoring
+# Usage: tf-plan, tf-apply in infrastructure/terraform/datadog/monitors directory
+#
+# Required environment variables (add to your .bashrc or .bash_profile):
+# export DATADOG_API_KEY="your_datadog_api_key"
+# export DATADOG_APP_KEY="your_datadog_app_key"
+#
+# Get keys from: https://app.datadoghq.com/organization-settings/api-keys
+#                https://app.datadoghq.com/organization-settings/application-keys
+
+# Terraform plan with Envato credentials for Datadog monitors
+alias tf-plan='export TF_VAR_DATADOG_API_KEY=$DATADOG_API_KEY && export TF_VAR_DATADOG_APP_KEY=$DATADOG_APP_KEY && aws-vault exec Market-Production.Developer -- terraform plan'
+
+# Terraform apply with Envato credentials for Datadog monitors
+alias tf-apply='export TF_VAR_DATADOG_API_KEY=$DATADOG_API_KEY && export TF_VAR_DATADOG_APP_KEY=$DATADOG_APP_KEY && aws-vault exec Market-Production.Developer -- terraform apply'
+
+# Terraform apply with auto-approve for quick deployments (use with caution)
+alias tf-apply-yes='export TF_VAR_DATADOG_API_KEY=$DATADOG_API_KEY && export TF_VAR_DATADOG_APP_KEY=$DATADOG_APP_KEY && aws-vault exec Market-Production.Developer -- terraform apply -auto-approve'
+
+# Terraform init with proper AWS credentials
+alias tf-init='aws-vault exec Market-Production.Developer -- terraform init'
+
+# Terraform format check and fix
+alias tf-fmt='terraform fmt -check=true -diff=true'
+alias tf-fmt-fix='terraform fmt'
+
+# Terraform validate
+alias tf-validate='terraform validate'
+
+# Combined Terraform workflow: init, format, validate, plan
+alias tf-check='tf-init && tf-fmt && tf-validate && tf-plan'
+
 ## End Envato Aliases
 gshow() {
   git show "${1:null}" --word-diff=color
