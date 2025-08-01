@@ -54,14 +54,8 @@ conflicted = '󰞇(bold red) '
 format = '\[[⏱ $duration]($style)\]'
 disabled = true
 
-[aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
-
-[nodejs]
-format = ' []($style)'
-
-[ruby]
-format = ' []($style)'
+[python]
+format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [lua]
 format = '\[[$symbol($version)]($style)\]'
@@ -78,6 +72,14 @@ style = "bold purple"
 [rust]
 format = '\[[$symbol($version)]($style)\]'
 
+[nodejs]
+format = '\[[$symbol($version)]($style)\]'
+
+[ruby]
+format = '\[[$symbol($version)]($style)\]'
+
+[aws]
+format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
