@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Reload bash configuration - works with symlinks
 # This sources .bashrc which in turn sources .bash_aliases
 alias reload="source ~/.bashrc && echo 'Bash configuration reloaded'"
@@ -7,7 +8,7 @@ alias reload="source ~/.bashrc && echo 'Bash configuration reloaded'"
 if [ "$(uname)" = "Darwin" ]; then
   # macOS notification
   if command -v terminal-notifier >/dev/null 2>&1; then
-    alias alert='terminal-notifier -title "Terminal" -message "$([ $? = 0 ] && echo Command finished successfully || echo Command failed)"'
+    alias alert='terminal-notifier -title "O Captain! My Captain!" -message "$([ $? = 0 ] && echo Command finished successfully || echo Command failed)"'
   else
     alias alert='echo "Command completed with status: $?"'
   fi
@@ -21,26 +22,49 @@ else
 fi
 alias be="bundle exec"
 alias mkdir='mkdir -v'
-# Cross-platform ls with colors
-if [ "$(uname)" = "Darwin" ]; then
-  # macOS
-  alias ls='ls -AGghs'
-else
-  # Linux/Unix
-  alias ls='ls -Aghs --color=auto'
-fi
+
+# Shortcut Aliases
+
 alias cp='cp -v'
 alias ..="cd ../"
 alias ...="cd ../../"
 alias ....="cd ../../../"
+alias .....="cd ../../../../"
 
 rubymine() {
   open -a RubyMine "$@"
 }
 
-ss() {
-  rfv "$@"
-}
+# Modern CLI Alternatives
+# ls - eza
+# ps - procs
+# df - duf
+# grep - rg
+# cat - bat
+# find - fd
+#
+if command -v eza >/dev/null 2>&1; then
+  # Use eza if available
+  alias ls='eza -lA --no-user --no-permissions -o --time-style=relative --total-size --group-directories-first --icons=always'
+elif [ "$(uname)" = "Darwin" ]; then
+  # macOS fallback
+  alias ls='ls -AGhs'
+else
+  # Linux/Unix fallback
+  alias ls='ls -Ahs --color=auto'
+fi
+
+if command -v procs >/dev/null 2>&1; then
+  alias ps='procs'
+fi
+
+if command -v duf >/dev/null 2>&1; then
+  alias df='duf'
+fi
+
+alias grep='rg'
+alias cat='bat --paging=never'
+alias find='fd'
 
 # Clipboard handling - cross-platform support
 # On macOS, pbcopy and pbpaste are native commands
@@ -60,8 +84,6 @@ fi
 #alias review='open "https://github.com/envato/marketplace/compare/$(git symbolic-ref --short HEAD)"'
 alias review='open "https://github.com/$(git remote get-url origin | sed -E "s/.*:(.+)\/(.+).git/\\1\/\\2/")/compare/$(git symbolic-ref --short HEAD)"'
 
-alias prep="rails db:migrate db:test:prepare"
-
 #git aliases
 alias gc="~/Code/dotfiles/scripts/smart-commit.sh -v"
 alias ga="git add"
@@ -77,27 +99,12 @@ irebase() {
   EDITOR=vim git rebase -i HEAD~"$n"
 }
 
-#rails_upgrade
-alias dn="DEPENDENCIES_NEXT=1"
-
 ## Envato Aliases
 
+alias dn="DEPENDENCIES_NEXT=1" #rails_upgrade
 alias marketplace_server="MARKET_SOCKET_DIR=/tmp bundle exec unicorn_rails -c config/unicorn.rb"
-alias cdm="cd /Users/kyle/Code/market/"
 
 # /aws accounts <account-id> # in slack
-
-# aws-vault login Customer-Production.Developer
-# aws-login Customer-Production.Developer
-aws-login() {
-  aws-vault login "$1"
-}
-
-# takes a role as $1 e.g. Customer-Production.Developer, and then all the rest of the arguments as your command to be
-# executed
-aws-exec() {
-  aws-vault exec "$1" -- "${@:2}"
-}
 
 list-instances() {
   (
@@ -113,12 +120,6 @@ list-instances() {
 list_instances() {
   list-instances
 }
-
-# Example stackmaster apply
-# staging
-# aws-exec cloudformation-user@envato-customer-staging bundle exec stack_master apply eu-west-1 shopfront_ext_alb_storefront_tg
-# production
-# aws exec cloudformation@envato-customer-production bundle exec stack_master apply us-east-1 shopfront_ext_alb_storefront_tg
 
 # Opensearch
 function opensearch() {
@@ -158,9 +159,6 @@ alias tf-validate='terraform validate'
 alias tf-check='tf-init && tf-fmt && tf-validate && tf-plan'
 
 ## End Envato Aliases
-gshow() {
-  git show "${1:null}" --word-diff=color
-}
 
 gitlog() {
   git log main.. --format="%Cgreen[ $(git symbolic-ref --short HEAD) %C(bold blue)%h ] %C(green)%ar %C(bold blue)%an %Creset%s" --no-merges --reverse

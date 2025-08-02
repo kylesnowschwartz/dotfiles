@@ -83,22 +83,19 @@ if [ -f "$HOME/config/.ripgreprc" ]; then
   export RIPGREP_CONFIG_PATH="$HOME/config/.ripgreprc"
 elif [ -f "$HOME/.config/ripgrep/config" ]; then
   export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
-elif [ -f "$HOME/Code/Dotefiles/.ripgreprc" ]; then
-  export RIPGREP_CONFIG_PATH="$HOME/Code/Dotefiles/.ripgreprc"
+elif [ -f "$HOME/Code/Dotfiles/.ripgreprc" ]; then
+  export RIPGREP_CONFIG_PATH="$HOME/Code/Dotfiles/.ripgreprc"
 fi
 
 # Man pages with neovim if available
-[ -x "$(command -v nvim 2>/dev/null)" ] && export MANPAGER="nvim +':setlocal nomodifiable' +Man!"
+# [ -x "$(command -v nvim 2>/dev/null)" ] && export MANPAGER="nvim +':setlocal nomodifiable' +Man!"
+#
+# Man pages with less but with some enhancements
+export MANPAGER="less -R -s -M +Gg --use-color -Dd+r -Du+b"
 
 #################################################
 # ALIASES
 #################################################
-
-# Aliases are all defined in ~/.bash_aliases
-# Only basic aliases that are essential for this file should be kept here
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 # Source additional aliases if available
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
@@ -201,12 +198,11 @@ fi
 #   . "$HOME/.config/ghostty/ghostty-completion.bash"
 # fi
 
-# Clipboard support (handled in bash_aliases)
-
 # For Warp Terminal integration (uncomment if needed)
 # if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
 #   printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash"}}\x9c'
 # fi
+#
 # Intel Homebrew (x86_64) only for consistency
 if [[ -x "/usr/local/bin/brew" ]]; then
   eval "$(/usr/local/bin/brew shellenv)"
