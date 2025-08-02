@@ -66,6 +66,44 @@ alias grep='rg'
 alias cat='bat --paging=never'
 alias find='fd'
 
+# Make a new file
+#
+new() {
+  local target="$1"
+  [[ -z "$target" ]] && {
+    echo "Usage: new <file>"
+    return 1
+  }
+
+  # Always create parent directories
+  /bin/mkdir -p "$(dirname "$target")"
+
+  if [[ ! -f "$target" ]]; then
+    /usr/bin/touch "$target"
+    echo "Created file: $target"
+  else
+    echo "File already exists: $target"
+  fi
+}
+
+# Make a new directory
+#
+newd() {
+  local target="$1"
+  [[ -z "$target" ]] && {
+    echo "Usage: newd <directory>"
+    return 1
+  }
+
+  if [[ ! -d "$target" ]]; then
+    /bin/mkdir -p "$target"
+    echo "Created directory: $target"
+    cd "$target" || return
+  else
+    echo "Directory already exists: $target"
+  fi
+}
+
 # Clipboard handling - cross-platform support
 # On macOS, pbcopy and pbpaste are native commands
 # On Linux, we need to create aliases that use xclip or xsel
