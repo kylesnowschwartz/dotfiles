@@ -113,7 +113,8 @@
       "mcp__rollbar-marketplace",
       "mcp__zen",
       "mcp__buildkite",
-      "mcp__ref"
+      "mcp__ref",
+      "mcp__ide"
     ],
     "deny": []
   },
@@ -142,6 +143,6 @@
     ]
   },
   "feedbackSurveyState": {
-    "lastShownTime": 1754045607628
+    "lastShownTime": 1754082284047
   }
 }
