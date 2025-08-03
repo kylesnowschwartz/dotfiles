@@ -5,13 +5,13 @@ command_timeout = 2000
 
 format = """\
 [╭╴](fg:250)[󰭼](bold white) \
-$all\
-[╰─](fg:250)$character$jobs"""
+$all$time$line_break\
+$character$jobs"""
 
 # Drop ugly default prompt characters
 [character]
-success_symbol = "[╼](250)"
-error_symbol = "[╼](250)"
+success_symbol = "[╰─╼](250)"
+error_symbol = "[╰─╼](250)"
 
 # ---
 
@@ -46,18 +46,21 @@ format = '[$path]($style)[$read_only]($read_only_style) '
 
 # Shows current git branch
 [git_branch]
-format = '\[[$symbol$branch]($style)\]'
+symbol = ""
+format = '\[[$symbol$branch]($style)'
 
 # Shows current git status
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style))'
-conflicted = '󰞇(bold red) '
+format = '([ $ahead_behind $all_status]($style)\])'
+conflicted = '[󰞇](bold red) '
+up_to_date = '[](purple)'
 
 [cmd_duration]
 format = '\[[⏱ $duration]($style)\]'
 disabled = true
 
 [python]
+symbol = ""
 format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [lua]
@@ -76,13 +79,19 @@ style = "bold purple"
 format = '\[[$symbol($version)]($style)\]'
 
 [nodejs]
+symbol = " "
 format = '\[[$symbol($version)]($style)\]'
 
 [ruby]
+symbol = ' '
 format = '\[[$symbol($version)]($style)\]'
 
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+
+[docker_context]
+symbol = ""
+format = '\[[$symbol( $context )]($style)\]'
 
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
@@ -94,3 +103,9 @@ shell = "bash"
 # Warp.dev setting?
 # [line_break]
 # disabled = false
+
+[time]
+disabled = false
+time_format = "%R"
+format = '\[[ $time]($style)\]'
+style = 'white'
