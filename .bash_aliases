@@ -45,7 +45,7 @@ rubymine() {
 #
 if command -v eza >/dev/null 2>&1; then
   # Use eza if available
-  alias ls='eza -lA --no-user --no-permissions -o --time-style=relative --total-size --group-directories-first --icons=always'
+  alias ls='eza -lA --no-user --no-permissions -o --time-style=relative --group-directories-first --icons=always'
 elif [ "$(uname)" = "Darwin" ]; then
   # macOS fallback
   alias ls='ls -AGhs'
@@ -295,6 +295,69 @@ claude() {
 # Turn .mov into gif
 #
 gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
+
+# Starship theme switcher
+#
+starship-set() {
+  local theme="$1"
+  local starship_dir="/Users/kyle/Code/dotfiles/starship"
+  local config_path="$HOME/.config/starship.toml"
+
+  [[ -z "$theme" ]] && {
+    echo "Usage: starship-set <theme-name>"
+    echo ""
+    echo "Available themes:"
+    ls "$starship_dir"/*-starship.toml 2>/dev/null | sed 's/.*\///;s/-starship\.toml//' | sort
+    echo ""
+    echo "Downloadable presets:"
+    starship preset -l | while read -r preset; do
+      [[ ! -f "$starship_dir/${preset}-starship.toml" ]] && echo "$preset"
+    done
+    return 1
+  }
+
+  # Check if it's a built-in preset first
+  if starship preset -l | grep -q "^${theme}$"; then
+    local preset_file="$starship_dir/${theme}-starship.toml"
+
+    # Check if preset file already exists (might be customized)
+    if [[ -f "$preset_file" ]]; then
+      ln -sf "$preset_file" "$config_path"
+      echo "Switched to existing preset '$theme': $preset_file"
+    else
+      # Download fresh preset
+      {
+        echo "# Starship preset: $theme"
+        echo "# Downloaded: $(date '+%Y-%m-%d')"
+        echo "# Customize as needed - remove these comments to make it 'custom'"
+        echo ""
+        starship preset "$theme"
+      } > "$preset_file"
+      ln -sf "$preset_file" "$config_path"
+      echo "Downloaded and switched to preset '$theme': $preset_file"
+    fi
+    return 0
+  fi
+
+  # Check for custom themes
+  local theme_file="$starship_dir/${theme}-starship.toml"
+
+  if [[ ! -f "$theme_file" ]]; then
+    echo "Theme '$theme' not found."
+    echo ""
+    echo "Available themes:"
+    ls "$starship_dir"/*-starship.toml 2>/dev/null | sed 's/.*\///;s/-starship\.toml//' | sort
+    echo ""
+    echo "Downloadable presets:"
+    starship preset -l | while read -r preset; do
+      [[ ! -f "$starship_dir/${preset}-starship.toml" ]] && echo "$preset"
+    done
+    return 1
+  fi
+
+  ln -sf "$theme_file" "$config_path"
+  echo "Switched to theme '$theme': $theme_file"
+}
 
 # Works with files, directories, and OpenInTerminal app
 # $ defaults write /Users/kyle/Library/Group\ Containers/group.wang.jianing.app.OpenInTerminal/Library/Preferences/group.wang.jianing.app.OpenInTerminal.plist NeovimCommand "/usr/local/bin/iterm-nvim PATH"
