@@ -1,9 +1,12 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = true
 command_timeout = 2000
 
 format = """\
 [╭╴](fg:250)[󰭼](bold white) \
-$all[╰─](fg:250)$character$jobs"""
+$all\
+[╰─](fg:250)$character$jobs"""
 
 # Drop ugly default prompt characters
 [character]
