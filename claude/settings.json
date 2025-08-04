@@ -114,7 +114,8 @@
       "mcp__zen",
       "mcp__buildkite",
       "mcp__ref",
-      "mcp__ide"
+      "mcp__ide",
+      "mcp__mcphub"
     ],
     "deny": []
   },
