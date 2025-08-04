@@ -126,6 +126,10 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/dotfiles/claude/scripts/auto-stage-new-files.sh"
+          },
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
           }
         ]
       }
@@ -137,6 +141,65 @@
           {
             "type": "command",
             "command": "/Users/kyle/.local/bin/copy-claude-response"
+          },
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c --arg pid \"$PPID\" '{instance: $pid, event: .hook_event_name, tool: (.tool_name // null), details: (.prompt // .compact_trigger // (.tool_input | tojson) // null), working_directory: .cwd}' | \"/Applications/Chive.app/Contents/Resources/chive.sh\""
           }
         ]
       }
