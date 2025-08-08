@@ -206,6 +206,10 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "input=$(cat); model_name=\"$(echo \"$input\" | jq -r '.model.display_name')\"; current_dir=\"$(echo \"$input\" | jq -r '.workspace.current_dir')\"; session_id=\"$(echo \"$input\" | jq -r '.session_id' | cut -c1-8)\"; echo \"$model_name | $(basename \"$current_dir\") | $session_id\""
+  },
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
   }
