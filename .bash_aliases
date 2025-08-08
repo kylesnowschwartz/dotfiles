@@ -363,3 +363,8 @@ starship-set() {
 # $ defaults write /Users/kyle/Library/Group\ Containers/group.wang.jianing.app.OpenInTerminal/Library/Preferences/group.wang.jianing.app.OpenInTerminal.plist NeovimCommand "/usr/local/bin/iterm-nvim PATH"
 #
 alias iterm_nvim='iterm-nvim'
+
+# Delta color scheme switching - uses delta's built-in --light/--dark defaults
+alias delta-light='git config --global delta.light true && git config --global --unset-all delta.dark 2>/dev/null; echo "Delta switched to light mode"'
+alias delta-dark='git config --global delta.dark true && git config --global --unset-all delta.light 2>/dev/null; echo "Delta switched to dark mode"'
+alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git config --global --unset-all delta.dark 2>/dev/null; echo "Delta reset to default"'
