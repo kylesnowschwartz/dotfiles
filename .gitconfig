@@ -34,13 +34,11 @@
     updateRefs = true
 [delta]
 	navigate = true
-	light = true
 	; hyperlinks = true
 	; hyperlinks-file-link-format = "file://{path}:{line}"
   keep-plus-minus-markers = true
-	syntax-theme = OneHalfLight
   file-decoration-style = "none"
-  file-style = "green"
+	features = dark
 
 [delta "light"]
 	light = true

@@ -364,7 +364,7 @@ starship-set() {
 #
 alias iterm_nvim='iterm-nvim'
 
-# Delta color scheme switching - uses delta's built-in --light/--dark defaults
-alias delta-light='git config --global delta.light true && git config --global --unset-all delta.dark 2>/dev/null; echo "Delta switched to light mode"'
-alias delta-dark='git config --global delta.dark true && git config --global --unset-all delta.light 2>/dev/null; echo "Delta switched to dark mode"'
-alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git config --global --unset-all delta.dark 2>/dev/null; echo "Delta reset to default"'
+# Delta color scheme switching - uses delta's features system with proper cleanup
+alias delta-light='git config --global --unset delta.dark 2>/dev/null; git config --global --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config delta.features light; echo "Delta switched to light mode"'
+alias delta-dark='git config --global --unset delta.light 2>/dev/null; git config --global --unset delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config delta.features dark; echo "Delta switched to dark mode"'
+alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git config --global --unset-all delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config --unset delta.features 2>/dev/null; echo "Delta reset to default"'
