@@ -2,8 +2,8 @@
 # If the shell is interactive and .bashrc exists, get the aliases and functions
 if [[ $- == *i* && -f ~/.bashrc ]]; then
   . ~/.bashrc
-else
-  echo 'Shell is not interactive'
+  # else
+  # echo 'Shell is not interactive'
 fi
 
 # Not needed if loading automatically:
