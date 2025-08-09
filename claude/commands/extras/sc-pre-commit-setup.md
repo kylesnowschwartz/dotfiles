@@ -1,164 +1,64 @@
-# sc-pre-commit-setup: automate pre-commit framework setup
+# sc-pre-commit-setup-2: Streamlined Pre-commit Framework Setup
 
-**Purpose**: Intelligently automate pre-commit framework setup with dynamic research and repository-tailored configuration. Analyze the current repository and setup comprehensive pre-commit configuration. Use the provided examples and additional research via mcp servers within a dedicted @research-analyst agent to ensure idiomatic and up to date pre-commit configuration.
-**Auto-Spawning:** Spawns specialized agents via Task() calls for parallel execution of research, configuration, and validation.
-**Context Detection:** Repository analysis → Language detection → Hook research → Configuration generation → Validation
+**Purpose**: Set up pre-commit framework with repository-specific hooks and intelligent auto-restaging behavior for seamless development workflow.
 
-## Research & Configuration Protocol
+## Step 1: Verify Pre-commit Installation
 
-<repository_analysis> Use TodoWrite to track this systematic analysis:
-
-1. **Repository Discovery**
-
-   - Extract repository name: `basename "$(git rev-parse --show-toplevel)"`
-   - Detect project languages via file analysis and package manifests
-   - Identify existing `.pre-commit-config.yaml`, `.git/hooks/pre-commit`, or additional setup requirements
-
-2. **Language Detection Logic**
-
-## Example Detection Logic
+Before configuring hooks, ensure pre-commit is properly installed:
 
 ```bash
-# Use the List() tool to view directory structure
-# Priority: Configuration files (fast detection)
-[[ -f "package.json" ]] && languages+=("javascript")
-[[ -f "pyproject.toml" || -f "requirements.txt" ]] && languages+=("python")
-[[ -f "go.mod" ]] && languages+=("go")
-[[ -f "Cargo.toml" ]] && languages+=("rust")
-# Additional languages as required
+# Check if pre-commit is available
+if ! command -v pre-commit >/dev/null; then
+  echo "Installing pre-commit via Homebrew..."
+  brew install pre-commit
+fi
 
-# Secondary: File extensions (optimized scanning)
-find . -maxdepth 2 -name "*.sh" -o -name "*.bash" | head -1 && languages+=("shell")
-find . -maxdepth 2 -name "*.ts" -o -name "*.tsx" | head -1 && languages+=("typescript")
+# Verify installation
+pre-commit --version
+
+# Install git hooks (creates .git/hooks/pre-commit)
+pre-commit install
 ```
 
-</repository_analysis>
+**Expected Output**: `pre-commit installed at .git/hooks/pre-commit`
 
-<version_research> Use `mcp__context7` and GitHub API (`gh ...`) for authoritative version discovery:
+## Step 2: Repository Analysis
 
-1. **Primary Research Sources**
+Use GitHub CLI to detect repository technologies and appropriate hooks:
 
-   - `mcp__context7__resolve-library-id "pre-commit hooks"` for latest documentation
-   - GitHub API: `gh api repos/pre-commit/pre-commit-hooks/releases/latest` or `gh api repos/shellcheck-py/shellcheck-py/tags` or `gh repo view scop/pre-commit-shfmt`
-   - Context7 queries for best practices and current examples
+```bash
+# Verify required tools are installed
+if ! command -v gh &> /dev/null || ! command -v jq &> /dev/null; then
+    echo "Error: Missing dependencies. Please install 'gh' and 'jq'" >&2
+    exit 1
+fi
 
-2. **Repository Validation**
+# Get repository languages
+REPO_LANGS=$(gh repo view --json languages | jq -r '.languages | map(.node.name) | join(" ")')
+echo "Detected languages: $REPO_LANGS"
 
-   - Test each repository with: `pre-commit try-repo <repo-url> --verbose`
-   - Only include validated, accessible repositories in configuration
-   - Document any repositories that fail validation
+# Check for common configuration files
+find . -maxdepth 2 \( -name ".git" -o -name "node_modules" \) -prune -o -type f \( -name "package.json" -o -name "requirements.txt" -o -name "go.mod" -o -name "Cargo.toml" -o -name "pyproject.toml" -o -name "tsconfig.json" -o -name ".pre-commit-config.yaml" \) -print
+```
 
-3. **Fallback Strategy**
-   - If GitHub API fails: use `pre-commit sample-config` as reference with the knowledge that the sample-config is out-of-date
-   - If specific repositories fail: use alternative mirrors or skip with warning
-   - Comprehensively report failures to setup specific repos or hooks
+Based on detected languages, select appropriate hook repositories:
 
-</version_research>
+- **Python**: `psf/black`, `PyCQA/flake8`
+- **JavaScript/TypeScript**: `pre-commit/mirrors-prettier`
+- **Shell**: `koalaman/shellcheck-precommit`, `scop/pre-commit-shfmt`
+- **Go**: `dnephin/pre-commit-golang`
+- **Universal**: `pre-commit/pre-commit-hooks` (always include)
 
-<configuration_generation> Progressive configuration building with validation at each step:
+## Step 3: Create Configuration
 
-1. **Base Configuration Template**
-
-   ```yaml
-   # {repository_name} Pre-commit Configuration
-   # Auto-generated for detected languages: {detected_languages}
-   default_install_hook_types: [pre-commit]
-   default_stages: [pre-commit]
-   fail_fast: false
-
-   repos:
-     # Core file hygiene (Essential - Priority 1)
-     - repo: https://github.com/pre-commit/pre-commit-hooks
-       rev: { researched_version }
-       hooks:
-         - id: trailing-whitespace
-           exclude: '\.md$' # Preserve markdown formatting
-         - id: end-of-file-fixer
-         - id: check-merge-conflict
-         - id: check-added-large-files
-           args: [--maxkb=2084]
-         - id: check-yaml
-         - id: check-json
-         - id: detect-private-key
-   ```
-
-2. **Language-Specific Addition Logic**
-
-   - **Shell detected**: Add shellcheck-py
-   - **Python detected**: Add language-specific hooks
-   - **JavaScript/TypeScript**: Consider additional hooks
-   - **Documentation (.md files)**: Add markdownlint-cli with pragmatic rule exclusions
-
-3. **Validation After Each Addition**
-   - Test configuration: `pre-commit run --files <sample-file>`
-   - If hook fails: investigate, fix, or remove with documented reasoning
-   - Ensure minimal working configuration always available
-
-</configuration_generation>
-
-<progressive_validation> Systematic testing with rollback capability:
-
-1. **Installation Verification**
-
-   - `pre-commit --version` (verify tool availability)
-   - `pre-commit install` (hook installation)
-   - `pre-commit validate-config` (configuration syntax)
-
-2. **Incremental Hook Testing**
-
-   - Test core hooks first: `pre-commit run trailing-whitespace --all-files`
-   - Add language-specific hooks one category at a time
-   - Roll back to last working configuration on failure
-
-3. **Performance Validation**
-
-   - Measure hook execution time on representative files
-   - Adjust configuration if hooks take >10 seconds
-   - Document any performance considerations
-
-4. **Final Integration Test**
-   - `pre-commit run --all-files` (comprehensive test)
-   - Simulate actual commit workflow
-   - Generate human-readable summary of active hooks
-
-</progressive_validation>
-
-## Success Criteria & Human QA
-
-**Minimum Success (Required)**
-
-- ✅ Valid `.pre-commit-config.yaml` with working core hooks
-- ✅ `pre-commit install` completes successfully
-- ✅ Security hooks active (detect-private-key, check-merge-conflict)
-- ✅ Basic file hygiene (trailing-whitespace, end-of-file-fixer)
-
-**Optimal Success (Target)**
-
-- ✅ Language-specific hooks for detected project types
-- ✅ Current versions from GitHub API research
-- ✅ Repository-specific customization and comments
-- ✅ Performance optimized (sub-10 second execution)
-- ✅ Comprehensive validation with error-free test run
-
-## Error Handling & Recovery
-
-## Staging-Aware Hook Wrapper Implementation
-
-**Internal AI Agent Instructions**: When setting up pre-commit frameworks, automatically detect if staging preservation is required and implement wrapper solution. The pre-commit framework intentionally doesn't preserve original staging context (maintainer design philosophy: "pre-commit takes a strong stance on never modifying the staging area"). This creates a critical workflow issue where auto-formatting hooks (shfmt, markdownlint --fix, trailing-whitespace, end-of-file-fixer) cause retry mechanisms to stage ALL modified files instead of preserving the user's original commit intent. **Detection Criteria**: Implement wrapper when configuration contains any auto-formatting hooks that modify files in-place. Check for hooks with `--fix` arguments, formatters like `shfmt`, `black`, `prettier`, or file hygiene hooks like `trailing-whitespace` and `end-of-file-fixer`. **Wrapper Implementation**: After successful `pre-commit install`, replace the generated `.git/hooks/pre-commit` with the staging-aware wrapper. Preserve the original pre-commit framework configuration while adding staging intelligence. **Wrapper Script**: Use this complete implementation: `#!/usr/bin/env bash` followed by staging capture logic `original_staged_files=$(git diff --cached --name-only --diff-filter=ACM $against)` where `$against` handles initial commits via `git rev-parse --verify HEAD >/dev/null 2>&1` check. Execute original pre-commit framework with preserved arguments and environment. On exit code 1 (file modifications detected), reset staging completely with `git reset HEAD --quiet`, then restore only originally staged files using `echo "$original_staged_files" | while IFS= read -r file; do [ -f "$file" ] && git add "$file"; done`. Exit success (code 0) to indicate files are properly staged with modifications. **Integration with Progressive Validation**: After implementing wrapper, add validation step `git add test-file.md && git commit --dry-run -m "Test staging preservation"` to confirm wrapper preserves staging intent. Test mixed staging scenarios where some files are staged and others unstaged, verify only originally staged files are committed after auto-formatting. **Validation Protocol**: Create test files with formatting issues, stage only subset of files, run commit process, verify unstaged files remain unstaged while staged files include formatting modifications. **Error Recovery**: If wrapper causes issues, restore original pre-commit hook from backup and fall back to standard framework behavior. Document any compatibility issues with specific hook configurations. **Performance Considerations**: Wrapper adds minimal overhead (single git command for staging capture and restoration). Monitor pre-commit execution time to ensure sub-10 second performance target is maintained. **Implementation Context**: This addresses GitHub issues #806 and #1817 in pre-commit repository where users repeatedly request automatic re-staging functionality that maintainers reject by design. The wrapper solution provides this functionality while respecting framework architecture and maintaining compatibility with all existing hook configurations and validation procedures.
-
-<example_configuration>
+Generate `.pre-commit-config.yaml` based on detected languages:
 
 ```yaml
-# `.pre-commit-config.yaml`
-# Global Configuration
-default_install_hook_types: [pre-commit]
-default_stages: [pre-commit]
-fail_fast: false
-
+# Pre-commit configuration for [REPOSITORY_NAME]
 repos:
-  # Standard pre-commit hooks for file hygiene and basic validation
+  # Core file hygiene (always include)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v5.0.0 # Use latest from: gh api repos/pre-commit/pre-commit-hooks/releases/latest
     hooks:
       - id: trailing-whitespace
         exclude: '\.md$'
@@ -168,46 +68,198 @@ repos:
         args: [--maxkb=1024]
       - id: check-yaml
       - id: check-json
-      - id: check-toml
-      - id: check-case-conflict
-      - id: mixed-line-ending
-      - id: check-executables-have-shebangs
-      - id: check-symlinks
       - id: detect-private-key
 
-  # Shell script quality assurance
+  # Language-specific hooks (add based on repository analysis)
+  # Example for shell scripts:
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.10.0
     hooks:
       - id: shellcheck
         args: [--severity=warning]
 
-  # Shell script formatting
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.12.0-2
     hooks:
       - id: shfmt
-        args: [-w, -i, "2"]
-
-  # Documentation hooks (Priority 3 - Optional)
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
-    hooks:
-      - id: markdownlint
-        args: [
-            --fix,
-            --disable,
-            MD013, # Line length (disabled for long technical content)
-            MD041, # First line H1 (disabled for purpose/command docs)
-            MD026, # Trailing punctuation in headings (disabled for "Variables:")
-            MD012, # Multiple blank lines (disabled for visual spacing)
-          ]
+        args: [-w, -i, "2"] # 2-space indentation
 ```
 
-</example_configuration>
+**Get latest versions**:
 
----
+```bash
+# Get latest versions (using releases for repos that have them, tags for others)
+gh api repos/pre-commit/pre-commit-hooks/releases/latest | jq -r '.tag_name'
+gh api repos/koalaman/shellcheck-precommit/tags | jq -r '.[0].name'
+gh api repos/scop/pre-commit-shfmt/tags | jq -r '.[0].name'
+```
 
-**Generated Configuration Location**: `.pre-commit-config.yaml`  
-**Maintenance Commands**: `pre-commit autoupdate`, `pre-commit run --all-files`  
-**Documentation**: All hook purposes explained in configuration comments
+## Step 4: Test Configuration
+
+Validate and test the configuration incrementally:
+
+```bash
+# Validate YAML syntax
+pre-commit validate-config
+
+# Test core hooks first
+pre-commit run trailing-whitespace --all-files
+pre-commit run end-of-file-fixer --all-files
+
+# Run all hooks
+pre-commit run --all-files
+```
+
+**If hooks modify files**: They will exit with code 1 and require manual re-staging.
+
+## Step 5: Add Auto-restaging Wrapper (Optional)
+
+Pre-commit **does not** have built-in auto-restaging. If your hooks modify files (formatters, fixers), add a custom wrapper to preserve staging intent.
+
+**Detection**: Your config contains file-modifying hooks like:
+
+- `shfmt`, `black`, `prettier` (formatters)
+- `trailing-whitespace`, `end-of-file-fixer` (fixers)
+- Hooks with `--fix` arguments
+
+**Implementation**:
+
+1. Backup the generated hook: `cp .git/hooks/pre-commit .git/hooks/pre-commit.original`
+
+2. Replace with staging-aware wrapper:
+
+```bash
+#!/usr/bin/env bash
+# Staging-aware pre-commit wrapper
+# Preserves original staging intent while using pre-commit framework
+
+# start templated (preserve this section from original)
+INSTALL_PYTHON=/usr/local/opt/pre-commit/libexec/bin/python3.13
+ARGS=(hook-impl --config=.pre-commit-config.yaml --hook-type=pre-commit)
+# end templated
+
+HERE="$(cd "$(dirname "$0")" && pwd)"
+ARGS+=(--hook-dir "$HERE" -- "$@")
+
+# Check if this is an initial commit
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  against=HEAD
+else
+  against=$(git hash-object -t tree /dev/null)
+fi
+
+# Store originally staged files BEFORE pre-commit runs
+original_staged_files=$(git diff --cached --name-only --diff-filter=ACM $against)
+
+# Run original pre-commit framework logic
+if [ -x "$INSTALL_PYTHON" ]; then
+  "$INSTALL_PYTHON" -mpre_commit "${ARGS[@]}"
+  result=$?
+elif command -v pre-commit >/dev/null; then
+  pre-commit "${ARGS[@]}"
+  result=$?
+else
+  echo '`pre-commit` not found.  Did you forget to activate your virtualenv?' 1>&2
+  exit 1
+fi
+
+# If pre-commit failed due to file modifications (exit code 1),
+# restore proper staging to only include originally staged files
+if [ $result -eq 1 ] && [ -n "$original_staged_files" ]; then
+  # Reset staging area completely
+  git reset HEAD --quiet
+
+  # Re-stage only originally staged files (which now include hook modifications)
+  echo "$original_staged_files" | while IFS= read -r file; do
+    if [ -f "$file" ]; then
+      git add "$file"
+    fi
+  done
+
+  echo "Pre-commit: Auto-formatted files and preserved original staging intent"
+  exit 0
+fi
+
+# Pass through original exit code for other scenarios
+exit $result
+```
+
+3. Make executable: `chmod +x .git/hooks/pre-commit`
+
+## Step 6: Final Verification
+
+Test the complete setup:
+
+```bash
+# Create test scenario
+echo "test content " > test-format.txt  # Trailing space
+git add test-format.txt
+
+# Test commit (should auto-format and succeed with wrapper, or fail without)
+git commit -m "Test pre-commit setup"
+
+# Cleanup
+git reset HEAD test-format.txt
+rm test-format.txt
+```
+
+## Common Hook Repositories
+
+Research latest versions using GitHub CLI:
+
+```bash
+# Core hooks
+gh api repos/pre-commit/pre-commit-hooks/releases/latest   # Basic file checks
+
+# Python (2025 recommended: Ruff replaces Black, isort, Flake8, pyupgrade)
+gh api repos/astral-sh/ruff-pre-commit/releases/latest     # Python linting & formatting
+gh api repos/RobertCraigie/pyright-python/releases/latest # Python type checking
+
+# JavaScript/TypeScript
+gh api repos/pre-commit/mirrors-prettier/tags | jq -r '.[0].name'  # JS/TS formatting
+gh api repos/pre-commit/mirrors-eslint/tags | jq -r '.[0].name'    # JS/TS linting
+
+# Shell
+gh api repos/koalaman/shellcheck-precommit/tags | jq -r '.[0].name' # Shell linting
+gh api repos/scop/pre-commit-shfmt/tags | jq -r '.[0].name'         # Shell formatting
+
+# Go
+gh api repos/tekwizely/pre-commit-golang/releases/latest  # Go hooks (monorepo support)
+
+# Rust
+gh api repos/doublify/pre-commit-rust/releases/latest     # Rust hooks
+
+# Security & General
+gh api repos/zricethezav/gitleaks/releases/latest         # Secret detection
+gh api repos/codespell-project/codespell/releases/latest  # Typo detection
+```
+
+## Success Criteria
+
+- ✅ `pre-commit --version` works
+- ✅ `pre-commit install` completes without errors
+- ✅ `pre-commit validate-config` passes
+- ✅ `pre-commit run --all-files` executes (may modify files)
+- ✅ Repository-specific hooks included for detected languages
+- ✅ Auto-restaging wrapper installed if needed
+- ✅ Test commit workflow succeeds
+
+## Troubleshooting
+
+**Config validation fails**: Check YAML syntax and hook repository accessibility  
+**Hooks fail to run**: Verify repository URLs and versions with `pre-commit try-repo <url>`  
+**Performance issues**: Add file exclusions or remove problematic hooks  
+**Staging issues**: Verify auto-restaging wrapper is correctly installed and executable
+
+## Maintenance
+
+```bash
+# Update hook versions
+pre-commit autoupdate
+
+# Run hooks manually
+pre-commit run --all-files
+
+# Update specific hook
+pre-commit autoupdate --repo https://github.com/psf/black
+```
