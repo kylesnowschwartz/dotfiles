@@ -146,7 +146,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest",
+    "command": "./ctx_monitor.sh",
     "padding": 0
   },
   "feedbackSurveyState": {
