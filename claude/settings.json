@@ -13,8 +13,6 @@
     "allow": [
       "Agent",
       "Agent(*)",
-      "Bash",
-      "Bash(*)",
       "Bash(cat *)",
       "Bash(cat)",
       "Bash(date)",
@@ -119,7 +117,7 @@
     ],
     "deny": []
   },
-  "model": "sonnet",
+  "model": "opusplan",
   "hooks": {
     "PostToolUse": [
       {
@@ -146,7 +144,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "./ctx_monitor.sh",
+    "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_monitor.sh --show-branch",
     "padding": 0
   },
   "feedbackSurveyState": {
