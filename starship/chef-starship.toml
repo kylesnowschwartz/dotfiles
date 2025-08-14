@@ -31,7 +31,7 @@ Macos = '󰀵'
 [username]
 style_user = 'white bold'
 style_root = 'black bold'
-format = '[$user]($style) '
+format = '[$user]($style)  | '
 disabled = false
 show_always = false
 
@@ -42,62 +42,62 @@ show_always = false
 home_symbol = '󰋜 '
 read_only_style = '197'
 read_only = '  '
-format = '[$path]($style)[$read_only]($read_only_style) '
+format = '[$path]($style)[$read_only]($read_only_style) | '
 
 # Shows current git branch
 [git_branch]
 symbol = ""
-format = '\[[$symbol$branch]($style)'
+format = '[$symbol$branch]($style)'
 
 # Shows current git status
 [git_status]
-format = '([ $ahead_behind $all_status]($style)\])'
+format = '[ $ahead_behind $all_status]($style) | '
 conflicted = '[󰞇](bold red) '
 up_to_date = '[](purple)'
 
 [cmd_duration]
-format = '\[[⏱ $duration]($style)\]'
+format = '[⏱ $duration]($style) | '
 disabled = true
 
 [python]
 symbol = ""
-format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+format = '[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) | '
 
 [lua]
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 disabled = true
 
 [package]
-format = '\[[$symbol$version]($style)\]'
+format = '[$symbol$version]($style) | '
 
 [jobs]
-format = "[$symbol$number]($style)"
-symbol = "✦ "
+format = "[$symbol$number ]($style)"
+symbol = "✦"
 style = "bold purple"
 
 [rust]
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 
 [nodejs]
 symbol = " "
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 
 [ruby]
 symbol = ' '
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 
 [aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+format = '[$symbol($profile)(\($region\))(\[$duration\])]($style) | '
 
 [docker_context]
 symbol = ""
-format = '\[[$symbol( $context )]($style)\]'
+format = '[$symbol( $context )]($style) | '
 
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
 command = "~/.config/starship_cf_vault.sh"
 when = "test -n \"$CLOUDFLARE_SESSION_EXPIRY\" && test -n \"$CLOUDFLARE_VAULT_SESSION\""
-format = '\[[($output)]($style)\]'
+format = '[($output)]($style) | '
 shell = "bash"
 
 # Warp.dev setting?
@@ -107,5 +107,5 @@ shell = "bash"
 [time]
 disabled = false
 time_format = "%R"
-format = '\[[ $time]($style)\]'
+format = '[ $time]($style)'
 style = 'white'

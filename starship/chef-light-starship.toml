@@ -31,7 +31,7 @@ Macos = '󰀵'
 [username]
 style_user = 'black bold'
 style_root = 'red bold'
-format = '[$user]($style) '
+format = '[$user]($style)  | '
 disabled = false
 show_always = false
 
@@ -42,72 +42,72 @@ show_always = false
 home_symbol = '󰋜 '
 read_only_style = '197'
 read_only = '  '
-format = '[$path]($style)[$read_only]($read_only_style) '
+format = '[$path]($style)[$read_only]($read_only_style) | '
 style = 'blue bold'
 
 # Shows current git branch
 [git_branch]
 symbol = ""
-format = '\[[$symbol$branch]($style)'
+format = '[$symbol$branch]($style) '
 style = 'purple bold'
 
 # Shows current git status
 [git_status]
-format = '([ $ahead_behind $all_status]($style)\])'
+format = '[ $ahead_behind $all_status]($style) | '
 conflicted = '[󰞇](bold red) '
 up_to_date = '[](blue)'
 style = 'purple bold'
 
 [cmd_duration]
-format = '\[[⏱ $duration]($style)\]'
+format = '[⏱ $duration]($style) | '
 disabled = true
 
 [python]
 symbol = ""
-format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+format = '[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) | '
 style = 'green bold'
 
 [lua]
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 disabled = true
 
 [package]
-format = '\[[$symbol$version]($style)\]'
+format = '[$symbol$version]($style) | '
 style = 'cyan bold'
 
 [jobs]
-format = "[$symbol$number]($style)"
-symbol = "✦ "
+format = "[$symbol$number ]($style)"
+symbol = "✦"
 style = "bold magenta"
 
 [rust]
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 style = 'red bold'
 
 [nodejs]
 symbol = " "
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 style = 'green bold'
 
 [ruby]
 symbol = ' '
-format = '\[[$symbol($version)]($style)\]'
+format = '[$symbol($version)]($style) | '
 style = 'red bold'
 
 [aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+format = '[$symbol($profile)(\($region\))(\[$duration\])]($style) | '
 style = 'yellow bold'
 
 [docker_context]
 symbol = ""
-format = '\[[$symbol( $context )]($style)\]'
+format = '[$symbol( $context )]($style) | '
 style = 'blue bold'
 
 [custom.cf_vault]
 description = "Displays Cloudflare Vault session role and remaining duration"
 command = "~/.config/starship_cf_vault.sh"
 when = "test -n \"$CLOUDFLARE_SESSION_EXPIRY\" && test -n \"$CLOUDFLARE_VAULT_SESSION\""
-format = '\[[($output)]($style)\]'
+format = '[($output)]($style) | '
 shell = "bash"
 style = 'cyan bold'
 
@@ -118,5 +118,5 @@ style = 'cyan bold'
 [time]
 disabled = false
 time_format = "%R"
-format = '\[[ $time]($style)\]'
+format = '[ $time]($style)'
 style = 'black bold'
