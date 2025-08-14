@@ -146,4 +146,4 @@ color_code=$(color "$pct")
 usage_percent_label="\e[0m${color_code}${pct}%\e[0m"
 usage_count_label="\e[33m($(format_k_decimal "$total")/$(format_k_decimal "$context_window"))\e[0m"
 
-echo -e "$model_name | $branch_info\n $usage_percent_label $usage_count_label | $session_id"
+echo -e "$model_name | $branch_info | $usage_percent_label $usage_count_label | $session_id"
