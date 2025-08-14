@@ -35,6 +35,29 @@ rubymine() {
   open -a RubyMine "$@"
 }
 
+trae-cli() {
+  local task_or_file="$1"
+  local working_dir="${2:-$(pwd)}"
+
+  if [[ -z "$task_or_file" ]]; then
+    echo "Usage: trae-cli <task|file> [working-dir]"
+    echo "Examples:"
+    echo "  trae-cli 'analyze the code' /path/to/project"
+    echo "  trae-cli ./task.md /path/to/project"
+    return 1
+  fi
+
+  # If it's a file, read its contents; otherwise use as-is
+  local task
+  if [[ -f "$task_or_file" ]]; then
+    task=$(cat "$task_or_file")
+  else
+    task="$task_or_file"
+  fi
+
+  uv run --directory ~/Code/trae-agent/ trae-cli run "$task" --working-dir "$working_dir"
+}
+
 # Modern CLI Alternatives
 # ls - eza
 # ps - procs
@@ -332,7 +355,7 @@ starship-set() {
         echo "# Customize as needed - remove these comments to make it 'custom'"
         echo ""
         starship preset "$theme"
-      } > "$preset_file"
+      } >"$preset_file"
       ln -sf "$preset_file" "$config_path"
       echo "Downloaded and switched to preset '$theme': $preset_file"
     fi
