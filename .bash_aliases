@@ -87,7 +87,7 @@ fi
 
 alias grep='rg'
 alias cat='bat --paging=never'
-alias find='fd'
+# alias find='fd'
 
 # Make a new file
 #
