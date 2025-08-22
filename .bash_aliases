@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 # Reload bash configuration - works with symlinks
 # This sources .bashrc which in turn sources .bash_aliases
-alias reload="source ~/.bashrc && echo 'Bash configuration reloaded'"
+alias reload="source ~/.zshrc && echo 'Shell configuration reloaded'"
 
 # Cross-platform notification for long-running commands
 # Usage: sleep 10; alert

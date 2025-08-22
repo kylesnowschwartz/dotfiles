@@ -153,11 +153,16 @@ export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_P
 # FZF fuzzy finder (zsh version)
 if [ -f ~/.fzf.zsh ]; then
   . ~/.fzf.zsh
+elif [ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]; then
+  . /usr/local/opt/fzf/shell/key-bindings.zsh
 elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
   . /usr/share/doc/fzf/examples/key-bindings.zsh
 elif [ -f /usr/share/fzf/shell/key-bindings.zsh ]; then
   . /usr/share/fzf/shell/key-bindings.zsh
 fi
+
+# FZF key bindings - set after sourcing fzf
+bindkey '^R' fzf-history-widget
 
 # AWS CLI tools (zsh support) - will be initialized after compinit
 AWS_VAULT_AVAILABLE=""
