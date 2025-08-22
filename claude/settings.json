@@ -33,7 +33,10 @@
       "Bash(free:*)",
       "Bash(free)",
       "Bash(grep:*)",
+      "Bash(grep *)",
       "Bash(grep)",
+      "Bash(gh:*)",
+      "Bash(git log:*)",
       "Bash(head:*)",
       "Bash(head)",
       "Bash(htop)",
@@ -107,9 +110,11 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:gitlab.com)",
+      "WebSearch",
       "WebSearch(*)",
       "Write",
       "Write(*)",
+      "mcp__atlassian",
       "mcp__context7",
       "mcp__playwright",
       "mcp__rollbar-marketplace",
@@ -121,7 +126,7 @@
     ],
     "deny": []
   },
-  "model": "opusplan",
+  "model": "sonnet",
   "hooks": {
     "PostToolUse": [
       {
