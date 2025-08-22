@@ -20,6 +20,8 @@ This command analyzes the current Claude Code session, extracts key accomplishme
 2. **Generate Brag Entry**
 
    Create a Confluence table entry with:
+
+   - **Brag #**: Auto-increment ID number (check existing table for next number)
    - **Market Team Member**: Extract user name from context or ask for input from the user
    - **Headline**: Create a compelling 15-20 word summary of the AI-assisted achievement
    - **Details**: Write 80-100 words describing:
@@ -27,23 +29,31 @@ This command analyzes the current Claude Code session, extracts key accomplishme
      - How AI specifically helped
      - The productivity impact/time saved
      - Technical approach taken
+   - **Date**: **CRITICAL** - Use system date command to get accurate current date in YYYY-MM-DD format (AI agents are often wrong about dates!)
 
 3. **Update Confluence Table**
 
    - Retrieve current content from Confluence page: "Market AI Brags" (Page ID: 287277076)
-   - **Append** the new entry as a new row in the existing markdown table
-   - Preserve existing entries and formatting
-   - Update the page using the Atlassian MCP server
+   - **CRITICAL**: Use `convert_to_markdown: false` to get the raw Confluence storage format
+   - **Parse existing table** to determine next Brag # (auto-increment from highest existing ID)
+   - **MUST preserve exact Confluence storage format** including:
+     - `<table style="width: 100%;">` for full page width
+     - Standard HTML table structure without complex Confluence-specific attributes
+   - **Add new table row** within the existing `<tbody>` preserving all HTML structure
+   - **Update page** by passing the complete HTML storage format (NOT markdown) to the MCP server
+   - **Verify formatting preservation** by checking the updated page maintains column widths
 
 ## Content Guidelines
 
 ### Headline Examples:
+
 - "Automated CI/CD pipeline deployment reduced release time by 80%"
 - "AI-assisted debugging resolved complex performance issue in minutes"
 - "Generated comprehensive test suite covering 95% of edge cases"
 - "Refactored legacy codebase with zero regression bugs identified"
 
 ### Details guidelines:
+
 - Focus on specific AI contributions (code generation, pattern recognition, automated testing)
 - Quantify improvements where possible (time saved, errors prevented, coverage increased)
 - Mention technical specifics (frameworks, tools, methodologies)
@@ -68,12 +78,47 @@ After updating the table, provide a summary:
 📝 [Details]
 ```
 
+## Critical Technical Requirements
+
+**FORMATTING PRESERVATION IS CRITICAL:**
+
+1. **Always use `convert_to_markdown: false`** when retrieving the Confluence page to get raw HTML storage format
+2. **Never convert to markdown** - work directly with Confluence's HTML storage format
+3. **Use simple HTML table structure** with `<table style="width: 100%;">` for full page width
+4. **Preserve table headers and structure** while ensuring proper HTML formatting
+5. **Add new rows within existing `<tbody>`** without modifying table headers or structure
+6. **Pass complete HTML** to the MCP server update function, not markdown
+
+**Example of correct table structure:**
+
+```html
+<table style="width: 100%;">
+  <thead>
+    <tr>
+      <th><strong>Brag #</strong></th>
+      <th><strong>Market Team Member</strong></th>
+      ...
+    </tr>
+  </thead>
+  <tbody>
+    ...existing rows...
+    <tr>
+      <td>16</td>
+      <td>New Member</td>
+      <td>Headline text</td>
+      ...
+    </tr>
+  </tbody>
+</table>
+```
+
 ## Error Handling
 
 - Verify Confluence page access before attempting update
 - Handle authentication failures gracefully
 - Provide clear error messages if session analysis fails
 - Offer fallback manual entry option if automatic update fails
+- **Verify formatting preservation** after update by retrieving page again
 
 ## Example Session Scenarios
 
