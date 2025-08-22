@@ -208,6 +208,9 @@ setopt AUTO_MENU        # Show completion menu on successive tab press
 setopt COMPLETE_IN_WORD # Complete from both ends of a word
 setopt ALWAYS_TO_END    # Move cursor to the end of a completed word
 
+# Case-insensitive tab completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 # AWS completion (after compinit)
 if [ -n "$AWS_COMPLETER_PATH" ] && [ -x "$AWS_COMPLETER_PATH" ]; then
   autoload -U +X bashcompinit && bashcompinit
