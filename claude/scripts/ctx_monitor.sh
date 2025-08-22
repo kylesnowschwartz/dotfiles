@@ -16,7 +16,7 @@ session_id="\e[90m$(echo "$session_id" | cut -c1-8)\e[0m"
 
 # Set context window based on model
 if [[ "${raw_model_name,,}" == *sonnet* ]]; then
-  context_window=800000
+  context_window=160000
 elif [[ "${raw_model_name,,}" == *opus* ]]; then
   context_window=160000
 else
