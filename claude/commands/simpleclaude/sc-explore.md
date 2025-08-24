@@ -1,6 +1,6 @@
-# sc-review: Quality Verification and Assessment
+# sc-explore: Research and Understanding Command
 
-**Purpose**: I need to verify quality/security/performance - comprehensive analysis covering code quality, security scanning, performance profiling, and architecture assessment
+**Purpose**: I need to understand something - conducts research, analysis, codebase exploration, and knowledge synthesis to build understanding
 
 ## Agent Orchestration and Deployment Strategy
 
@@ -36,7 +36,7 @@
 
 ## Intent Recognition and Semantic Transformation
 
-This command interprets natural language requests that express the intent: "I need to verify quality/security/performance" - comprehensive assessment including code quality review, security scanning, performance profiling, and architecture analysis.
+This command interprets natural language requests that express the intent: "I need to understand something" - research, analysis, exploration, learning, or investigation of codebases, technologies, concepts, or domain knowledge.
 
 **Command Execution:**
 
@@ -56,34 +56,34 @@ This command interprets natural language requests that express the intent: "I ne
 
 Transforms: "${arguments}" into structured execution:
 
-- Intent: [verification-goal-and-scope]
-- Approach: [direct-review OR comprehensive-analysis]
+- Intent: [recognized-user-intent]
+- Approach: [direct/agent with reasoning]
 - Agents: [none OR minimal-viable-set]
 
 ### Intent Recognition Examples
 
 <example>
-<input>${arguments} = "Review this pull request for security vulnerabilities"</input>
-<intent>Security verification - comprehensive security audit of PR changes</intent>
-<approach>Multi-perspective analysis combining code review, security research, and vulnerability scanning</approach>
-<agents>context-analyzer (code change analysis), web-search-researcher (security vulnerability research)</agents>
-<output>Security audit report with vulnerability assessment, risk ratings, and remediation recommendations</output>
+<input>${arguments} = "How does the authentication flow work in this application?"</input>
+<intent>Codebase exploration - understanding authentication architecture</intent>
+<approach>Direct codebase analysis to map authentication flow and patterns</approach>
+<agents>context-analyzer (authentication components and flow mapping)</agents>
+<output>Detailed authentication flow documentation with code references, security patterns, and integration points</output>
 </example>
 
 <example>
-<input>${arguments} = "Check the performance of our data processing pipeline"</input>
-<intent>Performance verification - bottleneck identification and optimization analysis</intent>
-<approach>Performance profiling with testing and optimization research</approach>
-<agents>context-analyzer (pipeline architecture), test-runner (performance testing), web-search-researcher (optimization techniques)</agents>
-<output>Performance analysis with bottleneck identification, metrics, and optimization strategies</output>
+<input>${arguments} = "What are the best practices for implementing microservices with Docker?"</input>
+<intent>Technology research - microservices and containerization knowledge</intent>
+<approach>Comprehensive research combining documentation and current best practices</approach>
+<agents>context7-documentation-specialist (Docker official docs), web-search-researcher (microservices best practices), repo-documentation-finder (example implementations)</agents>
+<output>Comprehensive guide covering microservices patterns, Docker optimization, orchestration, monitoring, and real-world examples</output>
 </example>
 
 <example>
-<input>${arguments} = "Verify code quality standards across the authentication module"</input>
-<intent>Quality verification - comprehensive code quality assessment</intent>
-<approach>Direct code review with standards validation and best practices research</approach>
-<agents>context-analyzer (authentication patterns), web-search-researcher (security best practices)</agents>
-<output>Code quality report with standards compliance, security patterns assessment, and improvement recommendations</output>
+<input>${arguments} = "Analyze the performance bottlenecks in our data processing pipeline"</input>
+<intent>System analysis - performance investigation and bottleneck identification</intent>
+<approach>Multi-perspective analysis combining codebase review, testing, and research</approach>
+<agents>context-analyzer (pipeline architecture analysis), test-runner (performance testing), web-search-researcher (optimization techniques)</agents>
+<output>Performance analysis report with bottleneck identification, metrics, optimization recommendations, and implementation strategies</output>
 </example>
 
 ### Output Template

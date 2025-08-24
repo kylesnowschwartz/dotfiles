@@ -1,6 +1,6 @@
-# sc-review: Quality Verification and Assessment
+# sc-plan: Strategic Planning and Analysis
 
-**Purpose**: I need to verify quality/security/performance - comprehensive analysis covering code quality, security scanning, performance profiling, and architecture assessment
+**Purpose**: I need to think through something - analyzes requirements, creates actionable roadmaps, and establishes clear direction for development work
 
 ## Agent Orchestration and Deployment Strategy
 
@@ -36,7 +36,7 @@
 
 ## Intent Recognition and Semantic Transformation
 
-This command interprets natural language requests that express the intent: "I need to verify quality/security/performance" - comprehensive assessment including code quality review, security scanning, performance profiling, and architecture analysis.
+This command interprets natural language requests that express the intent: "I need to think through something" - planning, analysis, strategy, roadmap creation, or architectural decision-making.
 
 **Command Execution:**
 
@@ -56,34 +56,26 @@ This command interprets natural language requests that express the intent: "I ne
 
 Transforms: "${arguments}" into structured execution:
 
-- Intent: [verification-goal-and-scope]
-- Approach: [direct-review OR comprehensive-analysis]
+- Intent: [recognized-user-intent]
+- Approach: [direct/agent with reasoning]
 - Agents: [none OR minimal-viable-set]
 
 ### Intent Recognition Examples
 
 <example>
-<input>${arguments} = "Review this pull request for security vulnerabilities"</input>
-<intent>Security verification - comprehensive security audit of PR changes</intent>
-<approach>Multi-perspective analysis combining code review, security research, and vulnerability scanning</approach>
-<agents>context-analyzer (code change analysis), web-search-researcher (security vulnerability research)</agents>
-<output>Security audit report with vulnerability assessment, risk ratings, and remediation recommendations</output>
+<input>${arguments} = "How should I approach adding real-time notifications to this app?"</input>
+<intent>Architecture planning for real-time notifications feature</intent>
+<approach>Direct analysis + agent research for best practices</approach>
+<agents>web-search-researcher (per Direct Agent Rules)</agents>
+<output>Structured plan with technology recommendations and implementation phases</output>
 </example>
 
 <example>
-<input>${arguments} = "Check the performance of our data processing pipeline"</input>
-<intent>Performance verification - bottleneck identification and optimization analysis</intent>
-<approach>Performance profiling with testing and optimization research</approach>
-<agents>context-analyzer (pipeline architecture), test-runner (performance testing), web-search-researcher (optimization techniques)</agents>
-<output>Performance analysis with bottleneck identification, metrics, and optimization strategies</output>
-</example>
-
-<example>
-<input>${arguments} = "Verify code quality standards across the authentication module"</input>
-<intent>Quality verification - comprehensive code quality assessment</intent>
-<approach>Direct code review with standards validation and best practices research</approach>
-<agents>context-analyzer (authentication patterns), web-search-researcher (security best practices)</agents>
-<output>Code quality report with standards compliance, security patterns assessment, and improvement recommendations</output>
+<input>${arguments} = "I need to plan the migration from React 16 to React 18"</input>
+<intent>Technology migration strategy and roadmap</intent>
+<approach>Documentation research + codebase analysis + migration planning</approach>
+<agents>context7-documentation-specialist (per Direct Agent Rules), context-analyzer if 10+ files</agents>
+<output>Phased migration plan with breaking changes, testing strategy, and timeline</output>
 </example>
 
 ### Output Template

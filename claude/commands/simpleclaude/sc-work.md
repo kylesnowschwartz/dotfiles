@@ -1,6 +1,6 @@
-# sc-review: Quality Verification and Assessment
+# sc-work: Universal Implementation Command
 
-**Purpose**: I need to verify quality/security/performance - comprehensive analysis covering code quality, security scanning, performance profiling, and architecture assessment
+**Purpose**: I need to build/fix/modify something - handles all implementation tasks from creating new features to fixing bugs to refactoring code
 
 ## Agent Orchestration and Deployment Strategy
 
@@ -36,7 +36,7 @@
 
 ## Intent Recognition and Semantic Transformation
 
-This command interprets natural language requests that express the intent: "I need to verify quality/security/performance" - comprehensive assessment including code quality review, security scanning, performance profiling, and architecture analysis.
+This command interprets natural language requests that express the intent: "I need to build/fix/modify something" - implementation work including creating, modifying, fixing, refactoring, optimizing, or enhancing code.
 
 **Command Execution:**
 
@@ -56,45 +56,43 @@ This command interprets natural language requests that express the intent: "I ne
 
 Transforms: "${arguments}" into structured execution:
 
-- Intent: [verification-goal-and-scope]
-- Approach: [direct-review OR comprehensive-analysis]
+- Intent: [implementation-goal-and-scope]
+- Approach: [direct-implementation OR research-then-implement]
 - Agents: [none OR minimal-viable-set]
 
 ### Intent Recognition Examples
 
 <example>
-<input>${arguments} = "Review this pull request for security vulnerabilities"</input>
-<intent>Security verification - comprehensive security audit of PR changes</intent>
-<approach>Multi-perspective analysis combining code review, security research, and vulnerability scanning</approach>
-<agents>context-analyzer (code change analysis), web-search-researcher (security vulnerability research)</agents>
-<output>Security audit report with vulnerability assessment, risk ratings, and remediation recommendations</output>
+<input>${arguments} = "Add a dark mode toggle to the user settings page"</input>
+<intent>Feature implementation - dark mode functionality</intent>
+<approach>Direct implementation with context analysis for existing patterns</approach>
+<agents>context-analyzer (current theming/settings patterns), test-runner (validation after implementation)</agents>
+<output>Dark mode toggle component with state management, CSS updates, and integration into settings page</output>
 </example>
 
 <example>
-<input>${arguments} = "Check the performance of our data processing pipeline"</input>
-<intent>Performance verification - bottleneck identification and optimization analysis</intent>
-<approach>Performance profiling with testing and optimization research</approach>
-<agents>context-analyzer (pipeline architecture), test-runner (performance testing), web-search-researcher (optimization techniques)</agents>
-<output>Performance analysis with bottleneck identification, metrics, and optimization strategies</output>
+<input>${arguments} = "Fix the memory leak in the data processing pipeline"</input>
+<intent>Bug fixing - performance and memory optimization</intent>
+<approach>Analysis-first approach to identify root cause, then targeted fixes</approach>
+<agents>context-analyzer (pipeline architecture), web-search-researcher (memory leak debugging techniques), test-runner (validation of fixes)</agents>
+<output>Root cause analysis, targeted code fixes, memory usage improvements, and validation tests</output>
 </example>
 
 <example>
-<input>${arguments} = "Verify code quality standards across the authentication module"</input>
-<intent>Quality verification - comprehensive code quality assessment</intent>
-<approach>Direct code review with standards validation and best practices research</approach>
-<agents>context-analyzer (authentication patterns), web-search-researcher (security best practices)</agents>
-<output>Code quality report with standards compliance, security patterns assessment, and improvement recommendations</output>
+<input>${arguments} = "Refactor the API client to use TypeScript generics"</input>
+<intent>Code improvement - type safety enhancement</intent>
+<approach>Documentation research + gradual refactoring with type safety validation</approach>
+<agents>context7-documentation-specialist (TypeScript generics best practices), context-analyzer (current API client structure), test-runner (type checking and functionality validation)</agents>
+<output>Refactored API client with proper generic types, improved type safety, and maintained backward compatibility</output>
 </example>
 
 ### Output Template
 
 ```
 ## Response
-
 [Direct answer or action taken - 1-3 sentences addressing the core request]
 
 ## Details
-
 [Main content based on command type:
 - Plan: Strategy breakdown with phases
 - Work: Code changes and implementation steps
@@ -102,7 +100,6 @@ Transforms: "${arguments}" into structured execution:
 - Review: Issues found and quality assessment]
 
 ## Next Actions
-
 [What to do next:
 - Plan: Implementation steps to begin
 - Work: Testing and validation needed
@@ -110,7 +107,6 @@ Transforms: "${arguments}" into structured execution:
 - Review: Fixes and improvements to make]
 
 ## Notes
-
 [Optional - context, warnings, alternatives, or additional considerations]
 ```
 
