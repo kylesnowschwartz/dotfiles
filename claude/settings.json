@@ -152,7 +152,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_monitor.sh --show-branch",
+    "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_simple.sh",
     "padding": 0
   },
   "feedbackSurveyState": {

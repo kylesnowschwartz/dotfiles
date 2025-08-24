@@ -104,30 +104,36 @@ fi
 #   6. Calculate total tokens (input + output + cache read + cache creation)
 #   7. Keep only entries with positive token counts
 #   8. Return total tokens from most recent valid entry
-total=$(jq -s -r '
-  [
-    .[] |
-    select(.isSidechain == false) |
-    select(.usage // .message.usage) |
-    select((.message.model // "" | ascii_downcase) | (. != "<synthetic>" and (contains("synthetic") | not))) |
-    select(.isApiErrorMessage != true) |
-    select(
-      ([.message.content[]? | select(.type == "text")] | length == 0) or
-      ([.message.content[]? | select(.type == "text" and (.text | test("no\\\\s+response\\\\s+requested"; "i")))] | length == 0)
+total=$(
+  jq -s -r '
+[
+.[] |
+  select(.isSidechain == false) |
+  select(.usage // .message.usage) |
+  select((.message.model // "" | ascii_downcase) | (. != "<synthetic>" and (contains("synthetic") | not))) |
+  select(.isApiErrorMessage != true) |
+  select(
+    ([.message.content[]? | select(.type == "text")] | length == 0) or
+    ([.message.content[]? | select(.type == "text" and (.text | test("no\\\\s+response\\\\s+requested"; "i")))] | length == 0)
     ) |
-    {
-      timestamp,
-      total: ((.usage // .message.usage) // {} |
-        (.input_tokens // 0) +
+      {
+        timestamp,
+        total: ((.usage // .message.usage) // {} |
+          (.input_tokens // 0) +
         (.output_tokens // 0) +
         (.cache_read_input_tokens // 0) +
         (.cache_creation_input_tokens // 0)
       )
     } |
-    select(.total > 0)
-  ] |
-  if length > 0 then max_by(.timestamp).total else 0 end
-' "$transcript" 2>/dev/null)
+      select(.total > 0)
+    ] |
+      if length > 0 then
+        max_by(.timestamp).total
+      else
+        0
+      end
+      ' "$transcript" 2>/dev/null
+)
 
 # Handle no usage found
 if [[ $total -eq 0 ]]; then
