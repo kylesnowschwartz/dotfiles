@@ -13,6 +13,14 @@ get_current_dir() { echo "$input" | jq -r '.workspace.current_dir'; }
 get_cost() { echo "$input" | jq -r '.cost.total_cost_usd'; }
 get_transcript_path() { echo "$input" | jq -r '.transcript_path // ""'; }
 
+# Color helper functions
+color_model() { printf "\e[95m%s\e[0m" "$1"; }   # magenta
+color_branch() { printf "\e[94m%s\e[0m" "$1"; }  # blue
+color_changes() { printf "\e[32m%s\e[0m" "$1"; } # green
+color_tokens() { printf "\e[33m%s\e[0m" "$1"; }  # yellow
+color_waiting() { printf "\e[36m%s\e[0m" "$1"; } # cyan
+color_cost() { printf "\e[35m%s\e[0m" "$1"; }    # magenta
+
 # Git helper functions
 get_git_branch() {
   local branch=$(git branch --show-current 2>/dev/null)
@@ -31,8 +39,8 @@ get_git_changes() {
   [[ "$changes" =~ ([0-9]+)\ deletions? ]] && deletions=${BASH_REMATCH[1]}
 
   # Only output if there are actual changes
-  # e.g. +5 -1
-  ((insertions > 0 || deletions > 0)) && echo "+$insertions -$deletions"
+  # e.g. +5 -1 with green + and red -
+  ((insertions > 0 || deletions > 0)) && printf "\e[32m+%d\e[0m \e[31m-%d\e[0m" "$insertions" "$deletions"
 }
 
 # Usage extraction from transcript (simplified version of ctx_monitor.sh logic)
@@ -78,22 +86,22 @@ BRANCH=$(get_git_branch)
 CHANGES=$(get_git_changes)
 COST=$(get_cost)
 
-# Build clean output string
-output="[$MODEL] 📁 ${DIR##*/}"
-[[ -n "$BRANCH" ]] && output+=" | $BRANCH"
+# Build output string with color helpers
+output="[$(color_model "$MODEL")] 📁 ${DIR##*/}"
+[[ -n "$BRANCH" ]] && output+=" | $(color_branch "$BRANCH")"
 [[ -n "$CHANGES" ]] && output+=" $CHANGES"
 if [[ "$TOKENS" != "0" && -n "$TOKENS" ]]; then
-  output+=" | $TOKENS"
+  output+=" | $(color_tokens "$TOKENS")"
 else
-  output+=" | ...waiting"
+  output+=" | $(color_waiting "...waiting")"
 fi
 
 if [[ "$COST" != "null" && -n "$COST" ]]; then
   rounded_cost=$(printf "%.2f" "$COST" 2>/dev/null || echo "0.00")
-  output+=" | \$$rounded_cost"
+  output+=" | $(color_cost "\$$rounded_cost")"
 else
-  output+=" | \$0.00"
+  output+=" | $(color_cost "\$0.00")"
 fi
 
-# Output with explicit color reset to terminal default
+# Output with proper color interpretation using printf
 printf "\e[0m%s\e[0m\n" "$output"
