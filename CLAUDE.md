@@ -36,11 +36,6 @@ This is a personal dotfiles repository for cross-platform development environmen
 - **Developer productivity**: Automated commit generation via AI (`aic` alias), LFS support, and histogram diff algorithm
 - **Global gitignore**: Excludes Claude Code local settings across all repositories
 
-#### Tmux Configuration (`tmux/tmux.conf`)
-
-- **Legacy configuration** preserved for potential future use
-- Comprehensive setup with vi-style navigation, mouse support, and plugin ecosystem
-
 #### Kitty Terminal Configuration (`kitty/kitty.conf`)
 
 - **Experimental terminal emulator** - iTerm2 remains the primary terminal

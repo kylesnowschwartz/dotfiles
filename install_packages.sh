@@ -328,7 +328,7 @@ fi
 
 # Install development packages if requested
 if [ "$INSTALL_DEV" -eq 1 ]; then
-  DEV_PACKAGES=("build-essential" "ruby" "tmux")
+  DEV_PACKAGES=("build-essential" "ruby")
   install_packages "Development" "${DEV_PACKAGES[@]}"
 fi
 

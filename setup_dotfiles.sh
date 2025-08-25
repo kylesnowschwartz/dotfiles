@@ -258,7 +258,6 @@ CONFIG_FILES=(
   starship.toml
   yazi
   git
-  tmux
   kitty
 )
 
