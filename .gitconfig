@@ -67,7 +67,7 @@
 [diff]
     algorithm = histogram
     colorMoved = plain
-    mnemonicPrefix = true
+    ; mnemonicPrefix = true
     renames = true
 [filter "lfs"]
 	required = true
