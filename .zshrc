@@ -45,7 +45,7 @@ setopt INC_APPEND_HISTORY   # Incrementally append to history file
 
 # Terminal behavior (zsh equivalents of bash shopt)
 setopt AUTO_CD # cd to directory by typing its name
-setopt CORRECT # Spell correction for commands
+# setopt CORRECT # Spell correction for commands (disabled - annoying)
 # setopt CORRECT_ALL # Spell correction for arguments (can be annoying, remove if needed)
 
 # Input mode - vi mode for zsh
@@ -150,19 +150,50 @@ fi
 # ImageMagick
 export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_PATH"
 
-# FZF fuzzy finder (zsh version)
-if [ -f ~/.fzf.zsh ]; then
-  . ~/.fzf.zsh
-elif [ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]; then
-  . /usr/local/opt/fzf/shell/key-bindings.zsh
-elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
-  . /usr/share/doc/fzf/examples/key-bindings.zsh
-elif [ -f /usr/share/fzf/shell/key-bindings.zsh ]; then
-  . /usr/share/fzf/shell/key-bindings.zsh
-fi
+# FZF fuzzy finder with enhanced completion
+if command -v fzf &>/dev/null; then
+  # Initialize fzf for zsh
+  eval "$(fzf --zsh)"
 
-# FZF key bindings - set after sourcing fzf
-bindkey '^R' fzf-history-widget
+  # Base appearance settings
+  export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+
+  # Command configuration (uses fd if available, fallback to default find)
+  if command -v fd &>/dev/null; then
+    # Default command respects .gitignore (for tab completion)
+    export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git --gitignore"
+
+    # Ctrl+T searches everything, including gitignored files
+    export FZF_CTRL_T_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git --no-ignore"
+
+    # Alt+C for directories respects .gitignore
+    export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git --gitignore"
+  fi
+
+  # Preview configuration
+  preview_file="bat --color=always -n --line-range :500 {} 2>/dev/null"
+  preview_dir="eza --tree --color=always {} 2>/dev/null"
+
+  if command -v bat &>/dev/null; then
+    # Tab completion previews (files and directories)
+    export FZF_COMPLETION_OPTS="--preview '$preview_file || $preview_dir'"
+    # Ctrl+T file browser previews
+    export FZF_CTRL_T_OPTS="--preview '$preview_file'"
+  fi
+
+  if command -v eza &>/dev/null; then
+    # Alt+C directory browser previews
+    export FZF_ALT_C_OPTS="--preview '$preview_dir | head -200'"
+  fi
+
+  # Clean up variables
+  unset preview_file preview_dir
+
+  # Key binding configuration
+  bindkey '^R' fzf-history-widget
+else
+  echo "fzf (fuzzy finder) not installed"
+fi
 
 # AWS CLI tools (zsh support) - will be initialized after compinit
 AWS_VAULT_AVAILABLE=""

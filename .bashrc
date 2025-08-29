@@ -137,13 +137,37 @@ fi
 # export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$$DYLD_LIBRARY_PATH"
 export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_PATH"
 
-# FZF fuzzy finder
-if [ -f ~/.fzf.bash ]; then
-  . ~/.fzf.bash
-elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
-  . /usr/share/doc/fzf/examples/key-bindings.bash
-elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
-  . /usr/share/fzf/shell/key-bindings.bash
+# FZF fuzzy finder with enhanced completion
+if command -v fzf &>/dev/null; then
+  # Set up fzf key bindings and fuzzy completion
+  eval "$(fzf --bash)"
+
+  # Enhanced fuzzy completion with modern tools
+  if command -v fd &>/dev/null; then
+    export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+  fi
+
+  # FZF appearance and behavior
+  export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+
+  # Enable previews in tab completion
+  if command -v bat &>/dev/null; then
+    export FZF_COMPLETION_OPTS="--preview 'bat --color=always -n --line-range :500 {} 2>/dev/null || eza --tree --color=always {} 2>/dev/null'"
+  fi
+
+  # Preview enhancements for file selection (Ctrl+T)
+  if command -v bat &>/dev/null; then
+    export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+  fi
+
+  # Preview enhancements for directory selection (Alt+C)
+  if command -v eza &>/dev/null; then
+    export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+  fi
+else
+  echo "fzf (fuzzy finder) not installed"
 fi
 
 # Git completion
