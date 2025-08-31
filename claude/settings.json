@@ -26,6 +26,7 @@
       "Bash(grep:*)",
       "Bash(gh:*)",
       "Bash(git add:*)",
+      "Bash(git cd:*)",
       "Bash(git checkout:*)",
       "Bash(git diff:*)",
       "Bash(git fetch:*)",
@@ -55,6 +56,7 @@
       "Bash(ss:*)",
       "Bash(stat:*)",
       "Bash(ruby:*)",
+      "Bash(bundle exec ruby:*)",
       "Bash(rubocop:*)",
       "Bash(tail:*)",
       "Bash(tee:*)",
@@ -100,10 +102,33 @@
       "Bash(git commit:*)",
       "Bash(rm:*)",
       "Bash(curl:*)"
-    ]
+    ],
+    "additionalDirectories": ["/Users/kyle/Code/Cloned-Sources/"]
   },
   "model": "sonnet",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/entrypoints/session_start.rb"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/entrypoints/post_tool_use.rb"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write",
