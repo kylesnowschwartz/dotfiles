@@ -113,7 +113,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/entrypoints/session_start.rb"
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/session_start.rb"
           }
         ]
       }
@@ -124,15 +124,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/entrypoints/post_tool_use.rb"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write",
-        "hooks": [
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/post_tool_use.rb"
+          },
           {
             "type": "command",
             "command": "/Users/kyle/Code/dotfiles/claude/scripts/auto-stage-new-files.sh"
