@@ -1,0 +1,289 @@
+{
+  "// Age of Claude - Ruby claude-hooks Edition": "Replace the original Python commands with Ruby entrypoints",
+  "// Installation": "Copy this configuration to your .claude/settings.json file",
+  "// Paths": "Adjust entrypoint paths based on your installation (project-level: .claude/hooks/, home-level: ~/.claude/hooks/)",
+
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "// Description": "Random villager selection sounds when user submits prompts",
+        "// Sounds": "dialogue_yes.wav, villager_select4.WAV, villager_train4.wav",
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "// Description": "Tool-specific sounds before tool execution",
+        "// Read Tools": "Random villager selection sounds",
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Write/Edit Tools": "Hey, I'm in your town",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Edit/MultiEdit Tools": "Hey, I'm in your town",
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Bash Commands": "Attack them now",
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Search Operations": "I need food",
+        "matcher": "Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Web Operations": "Working sound",
+        "matcher": "WebFetch|WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Agent Tasks": "Priest conversion sounds (Wololo!)",
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Todo Operations": "Villager training sounds",
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Directory Listing": "Specific villager sound",
+        "matcher": "LS",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Notebook Editing": "Hey, I'm in your town",
+        "matcher": "NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Plan Mode Exit": "Who's the man",
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "// Description": "Success sounds after tool completion",
+        "// Write/Edit Success": "Random success sounds (Aww yeah, Got satisfaction)",
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Bash Success": "Aww yeah",
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Search Completion": "Villager select 18",
+        "matcher": "Grep|Glob|LS",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Web Completion": "Villager select 19",
+        "matcher": "WebFetch|WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Agent/Todo Completion": "Working sound",
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      },
+      {
+        "// Todo Completion": "Working sound",
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "// Description": "Completion sound when Claude finishes responding",
+        "// Sound": "villager_train1.wav",
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_stop.rb"
+          }
+        ]
+      }
+    ],
+
+    "SubagentStop": [
+      {
+        "// Description": "Subagent completion sound",
+        "// Sound": "soldier_select_rudkin1.wav",
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_stop.rb"
+          }
+        ]
+      }
+    ],
+
+    "SessionEnd": [
+      {
+        "// Description": "Farewell sounds when session exits",
+        "// Exit Sounds": "Random farewell sounds (pleading/dismissive)",
+        "matcher": "exit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_session_end.rb"
+          }
+        ]
+      },
+      {
+        "// Clear Sounds": "Soldier selection sound",
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_session_end.rb"
+          }
+        ]
+      }
+    ],
+
+    "PreCompact": [
+      {
+        "// Description": "Context management sounds before compaction",
+        "// Auto Compaction": "I need food (context getting full)",
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_compact.rb"
+          }
+        ]
+      },
+      {
+        "// Manual Compaction": "Your attempts are futile (user forcing compaction)",
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/entrypoints/age_of_claude_pre_compact.rb"
+          }
+        ]
+      }
+    ]
+  },
+
+  "// Installation Notes": {
+    "1. Sound Files": "Ensure .claude/sounds/ directory contains all Age of Empires sound files",
+    "2. Ruby Hooks": "Install claude_hooks gem: gem install claude_hooks",
+    "3. Permissions": "Ensure all entrypoint scripts are executable: chmod +x .claude/hooks/entrypoints/age_of_claude_*.rb",
+    "4. Paths": "Adjust entrypoint paths based on your installation location",
+    "5. Testing": "Test individual handlers: echo '{\"session_id\":\"test\"}' | .claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+  },
+
+  "// Alternative Path Examples": {
+    "Home Installation": "~/.claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb",
+    "Project Installation": ".claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb",
+    "Absolute Path": "/Users/username/.claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+  }
+}
