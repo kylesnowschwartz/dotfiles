@@ -28,7 +28,7 @@ class AgeOfClaudeStopHandler < ClaudeHooks::Stop
     end
 
     # Allow Claude to stop normally - don't block stoppage
-    allow_stop!
+    allow_continue!
     suppress_output! # Don't add any output to the transcript
 
     output_data

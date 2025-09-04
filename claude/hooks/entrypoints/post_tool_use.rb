@@ -13,6 +13,7 @@ require 'json'
 # Require all PostToolUse handler classes
 # require_relative '../handlers/post_tool_use_handler'
 require_relative '../handlers/auto_format_handler'
+require_relative '../handlers/age_of_claude/post_tool_use_handler'
 
 # Add additional handler requires here as needed:
 # require_relative '../handlers/post_tool_use/result_analyzer'
@@ -23,9 +24,22 @@ begin
   # Read input data from Claude Code
   input_data = JSON.parse($stdin.read)
 
-  hook = AutoFormatHandler.new(input_data)
-  hook.call
-  hook.output_and_exit
+  # Initialize and execute all handlers
+  auto_format_handler = AutoFormatHandler.new(input_data)
+  age_of_claude_handler = AgeOfClaudePostToolUseHandler.new(input_data)
+
+  # Execute handlers
+  auto_format_handler.call
+  age_of_claude_handler.call
+
+  # Merge outputs using the PostToolUse output merger
+  merged_output = ClaudeHooks::Output::PostToolUse.merge(
+    auto_format_handler.output,
+    age_of_claude_handler.output
+  )
+
+  # Output result and exit with appropriate code
+  merged_output.output_and_exit
 rescue JSON::ParserError => e
   warn "[PostToolUse] JSON parsing error: #{e.message}"
   puts JSON.generate({

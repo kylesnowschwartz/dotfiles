@@ -25,9 +25,9 @@
       "Bash(free:*)",
       "Bash(grep:*)",
       "Bash(gh:*)",
-      "Bash(git add:*)",
       "Bash(git cd:*)",
       "Bash(git checkout:*)",
+      "Bash(git commit:*)",
       "Bash(git diff:*)",
       "Bash(git fetch:*)",
       "Bash(git log:*)",
@@ -44,6 +44,7 @@
       "Bash(node:*)",
       "Bash(more:*)",
       "Bash(mount:*)",
+      "Bash(mkdir:*)",
       "Bash(netstat:*)",
       "Bash(pip3:*)",
       "Bash(printenv:*)",
@@ -98,14 +99,13 @@
     ],
     "deny": [],
     "ask": [
+      "Bash(git add:*)",
       "Bash(git push:*)",
-      "Bash(git commit:*)",
       "Bash(rm:*)",
       "Bash(curl:*)"
     ],
     "additionalDirectories": ["/Users/kyle/Code/Cloned-Sources/"]
   },
-  "model": "sonnet",
   "hooks": {
     "SessionStart": [
       {
@@ -118,6 +118,17 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/pre_tool_use.rb"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
@@ -125,10 +136,6 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/post_tool_use.rb"
-          },
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/scripts/auto-stage-new-files.sh"
           }
         ]
       }
@@ -139,7 +146,51 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kyle/.local/bin/copy-claude-response"
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/user_prompt_submit.rb"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/stop.rb"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/session_end.rb"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/pre_compact.rb"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/subagent_stop.rb"
           }
         ]
       }

@@ -12,7 +12,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+            "command": ".claude/hooks/entrypoints/user_prompt_submit.rb"
           }
         ]
       }
@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -46,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -56,7 +56,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -66,7 +66,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -76,7 +76,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -86,7 +86,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -96,7 +96,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -106,7 +106,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -116,7 +116,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       },
@@ -126,7 +126,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/pre_tool_use.rb"
           }
         ]
       }
@@ -140,7 +140,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       },
@@ -150,7 +150,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       },
@@ -160,7 +160,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       },
@@ -170,7 +170,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       },
@@ -180,7 +180,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       },
@@ -190,7 +190,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_post_tool_use.rb"
+            "command": ".claude/hooks/entrypoints/post_tool_use.rb"
           }
         ]
       }
@@ -204,7 +204,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_stop.rb"
+            "command": ".claude/hooks/entrypoints/stop.rb"
           }
         ]
       }
@@ -218,7 +218,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_stop.rb"
+            "command": ".claude/hooks/entrypoints/subagent_stop.rb"
           }
         ]
       }
@@ -232,7 +232,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_session_end.rb"
+            "command": ".claude/hooks/entrypoints/session_end.rb"
           }
         ]
       },
@@ -242,7 +242,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_session_end.rb"
+            "command": ".claude/hooks/entrypoints/session_end.rb"
           }
         ]
       }
@@ -256,7 +256,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_compact.rb"
+            "command": ".claude/hooks/entrypoints/pre_compact.rb"
           }
         ]
       },
@@ -266,7 +266,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/entrypoints/age_of_claude_pre_compact.rb"
+            "command": ".claude/hooks/entrypoints/pre_compact.rb"
           }
         ]
       }
@@ -276,14 +276,14 @@
   "// Installation Notes": {
     "1. Sound Files": "Ensure .claude/sounds/ directory contains all Age of Empires sound files",
     "2. Ruby Hooks": "Install claude_hooks gem: gem install claude_hooks",
-    "3. Permissions": "Ensure all entrypoint scripts are executable: chmod +x .claude/hooks/entrypoints/age_of_claude_*.rb",
+    "3. Permissions": "Ensure all entrypoint scripts are executable: chmod +x .claude/hooks/entrypoints/*.rb",
     "4. Paths": "Adjust entrypoint paths based on your installation location",
-    "5. Testing": "Test individual handlers: echo '{\"session_id\":\"test\"}' | .claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+    "5. Testing": "Test individual handlers: echo '{\"session_id\":\"test\"}' | .claude/hooks/entrypoints/user_prompt_submit.rb"
   },
 
   "// Alternative Path Examples": {
-    "Home Installation": "~/.claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb",
-    "Project Installation": ".claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb",
-    "Absolute Path": "/Users/username/.claude/hooks/entrypoints/age_of_claude_user_prompt_submit.rb"
+    "Home Installation": "~/.claude/hooks/entrypoints/user_prompt_submit.rb",
+    "Project Installation": ".claude/hooks/entrypoints/user_prompt_submit.rb",
+    "Absolute Path": "/Users/username/.claude/hooks/entrypoints/user_prompt_submit.rb"
   }
 }
