@@ -21,7 +21,6 @@ begin
   # Read input data from Claude Code
   input_data = JSON.parse($stdin.read)
 
-
   hook = SessionStartHandler.new(input_data)
   hook.call
   hook.output_and_exit

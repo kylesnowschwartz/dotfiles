@@ -15,6 +15,9 @@ module SoundPlayer
     # @param sound_file [String] the sound file name (relative to .claude/sounds/)
     # @param logger [Logger] optional logger for debugging
     def play(sound_file, logger = nil)
+      # Check if sounds are disabled via environment variable
+      return true if ENV['CLAUDE_DISABLE_SOUNDS']
+
       sound_path = resolve_sound_path(sound_file)
 
       unless File.exist?(sound_path)

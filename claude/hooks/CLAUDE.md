@@ -21,6 +21,7 @@ The hooks system follows the `claude_hooks` Ruby DSL architecture pattern:
 #### Ruby DSL Integration (`claude_hooks` gem)
 
 This implementation uses the `claude_hooks` Ruby gem (v1.0.0) for structured hook development:
+
 - Provides base classes for each hook type (`ClaudeHooks::UserPromptSubmit`, etc.)
 - Output merging system via `ClaudeHooks::Output::*` classes
 - Built-in logging, testing, and error handling
@@ -31,11 +32,13 @@ This implementation uses the `claude_hooks` Ruby gem (v1.0.0) for structured hoo
 A complete audio feedback system that plays Age of Empires sounds for various Claude Code events:
 
 **Sound Configuration** (`handlers/age_of_claude/sound_config.rb`):
+
 - Centralized sound mappings organized by hook type
 - Support for single sounds, random collections, and context-specific sounds
 - Utility methods for sound resolution and selection
 
 **Sound Player** (`handlers/age_of_claude/sound_player.rb`):
+
 - Cross-platform audio playback using `afplay` (macOS) and `aplay` (Linux)
 - Random sound selection from configured collections
 - Error handling and logging integration
@@ -105,6 +108,7 @@ The complete hook configuration is provided in `age_of_claude_settings.json`, wh
 ### Entrypoint Pattern
 
 Each entrypoint script follows this structure:
+
 1. Read JSON input from STDIN
 2. Initialize multiple handler instances
 3. Execute all handlers via `.call` methods
@@ -114,6 +118,7 @@ Each entrypoint script follows this structure:
 ### Handler Pattern
 
 Individual handlers inherit from appropriate base classes:
+
 ```ruby
 class MyHandler < ClaudeHooks::UserPromptSubmit
   def call
@@ -128,13 +133,15 @@ end
 ### Sound System Pattern
 
 The Age of Claude system demonstrates advanced configuration management:
+
 - Centralized sound mappings in `sound_config.rb`
 - Utility methods for sound resolution and random selection
 - Cross-platform audio playback abstraction
 
 ## Template System
 
-The repository includes `.template` files demonstrating basic hook patterns without the Ruby DSL, useful for:
+The $HOME/Code/meta-claude/SimpleClaude/.claude/hooks repository includes `.template` files demonstrating basic hook patterns without the Ruby DSL, useful for:
+
 - Learning hook fundamentals
 - Simple bash-based implementations
 - Migration from basic to advanced patterns

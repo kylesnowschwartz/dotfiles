@@ -17,18 +17,18 @@ require_relative 'sound_config'
 
 class AgeOfClaudeNotificationHandler < ClaudeHooks::Notification
   def call
-    log 'Age of Claude: Notification received - determining sound to play'
+    log 'Age of Claude Notification Handler: Notification received - determining sound to play'
 
     # Determine sound based on notification type
     sounds = case message
              when /needs your permission/i
-               log 'Age of Claude: Permission request - playing alert sound'
+               log 'Age of Claude Notification Handler: Permission request - playing alert sound'
                ['dialogue_hey_im_in_your_town.wav'] # Attention-getting sound
              when /waiting for your input/i
-               log 'Age of Claude: Idle timeout - playing waiting sound'
+               log 'Age of Claude Notification Handler: Idle timeout - playing waiting sound'
                ['dialogue_i_need_food.wav'] # "I need food" - indicates need
              else
-               log 'Age of Claude: Generic notification - playing notification sound'
+               log 'Age of Claude Notification Handler: Generic notification - playing notification sound'
                ['villager_select4.WAV'] # Generic villager sound
              end
 
@@ -36,9 +36,9 @@ class AgeOfClaudeNotificationHandler < ClaudeHooks::Notification
     success = SoundPlayer.play_random(sounds, logger)
 
     if success
-      log "Age of Claude: Successfully played notification sound for: #{message}"
+      log "Age of Claude Notification Handler: Successfully played notification sound for: #{message}"
     else
-      log 'Age of Claude: Failed to play notification sound (continuing anyway)', level: :warn
+      log 'Age of Claude Notification Handler: Failed to play notification sound (continuing anyway)', level: :warn
     end
 
     # Notification hooks don't modify behavior, just provide feedback
