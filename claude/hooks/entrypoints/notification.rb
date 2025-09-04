@@ -27,13 +27,15 @@ begin
   input_data = JSON.parse($stdin.read)
 
   # Initialize and execute all handlers
+  main_handler = NotificationHandler.new(input_data)
   age_of_claude_handler = AgeOfClaudeNotificationHandler.new(input_data)
 
   # Execute handlers
+  main_handler.call
   age_of_claude_handler.call
 
   # Merge outputs using the Notification output merger
-  merged_output = ClaudeHooks::Output::Notification.merge(age_of_claude_handler.output)
+  merged_output = ClaudeHooks::Output::Notification.merge(main_handler.output, age_of_claude_handler.output)
 
   # Output result and exit with appropriate code
   merged_output.output_and_exit
