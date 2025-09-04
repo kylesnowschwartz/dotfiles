@@ -239,6 +239,10 @@ claude() {
   /Users/kyle/.claude-wrapper "$@"
 }
 
+# Claude sound controls
+alias claude-quiet='export CLAUDE_DISABLE_SOUNDS=1 && echo "Claude sounds disabled"'
+alias claude-sounds='unset CLAUDE_DISABLE_SOUNDS && echo "Claude sounds enabled"'
+
 # Turn .mov into gif
 #
 gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
