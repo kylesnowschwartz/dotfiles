@@ -12,7 +12,6 @@ require 'json'
 
 # Require all UserPromptSubmit handler classes
 require_relative '../handlers/user_prompt_submit_handler'
-require_relative '../handlers/age_of_claude/user_prompt_submit_handler'
 
 # Add additional handler requires here as needed:
 # require_relative '../handlers/user_prompt_submit/append_rules'
@@ -25,17 +24,12 @@ begin
 
   # Initialize and execute all handlers
   main_handler = UserPromptSubmitHandler.new(input_data)
-  age_of_claude_handler = AgeOfClaudeUserPromptSubmitHandler.new(input_data)
 
   # Execute handlers
   main_handler.call
-  age_of_claude_handler.call
 
   # Merge outputs using the UserPromptSubmit output merger
-  merged_output = ClaudeHooks::Output::UserPromptSubmit.merge(
-    main_handler.output,
-    age_of_claude_handler.output
-  )
+  merged_output = ClaudeHooks::Output::UserPromptSubmit.merge(main_handler.output)
 
   # Output result and exit with appropriate code
   merged_output.output_and_exit

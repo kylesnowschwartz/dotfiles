@@ -42,25 +42,19 @@ module SoundPlayer
 
     private
 
-    # Resolve sound file path relative to .claude/sounds/
+    # Resolve sound file path using absolute paths only
     # @param sound_file [String] the sound file name
     # @return [String] absolute path to sound file
     def resolve_sound_path(sound_file)
-      # Look for sounds directory in current directory first, then home directory
-      current_sounds_dir = File.join(Dir.pwd, '.claude', 'sounds')
-      home_sounds_dir = File.join(Dir.home, '.claude', 'sounds')
+      # Use absolute paths in priority order
+      absolute_paths = [
+        File.join(File.expand_path('~'), '.claude', 'sounds', sound_file),
+        File.join(File.expand_path('~'), 'Code/meta-claude/age-of-claude-ruby/.claude.example/hooks/sounds/',
+                  sound_file)
+      ]
 
-      current_path = File.join(current_sounds_dir, sound_file)
-      home_path = File.join(home_sounds_dir, sound_file)
-
-      if File.exist?(current_path)
-        current_path
-      elsif File.exist?(home_path)
-        home_path
-      else
-        # Return current path as default even if it doesn't exist (for error handling)
-        current_path
-      end
+      # Return first existing path, or first path as fallback for error handling
+      absolute_paths.find { |path| File.exist?(path) } || absolute_paths.first
     end
 
     # Build platform-specific sound play command
@@ -71,7 +65,7 @@ module SoundPlayer
 
       case detect_platform
       when :macos
-        "afplay #{escaped_path} 2>/dev/null &"
+        "afplay -v 0.5 #{escaped_path} 2>/dev/null &"
       when :windows
         # Use PowerShell for Windows sound playback
         "(New-Object Media.SoundPlayer '#{sound_path}').PlaySync() 2>$null &"
