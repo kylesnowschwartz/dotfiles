@@ -51,16 +51,3 @@ You must follow these principles to produce high‑quality, production‑ready c
 ### Guideline CFG-001: **Use SSH URLs for remotes, fork via `gh repo fork owner/repo --clone=false`, create PRs via `gh pr create --repo owner/repo --head username:branch`; Organization: Envato**
 
 ### Guideline CFG-002: **When writing shell scripts follow the CLI Guidelines: <https://github.com/cli-guidelines/cli-guidelines>**
-
-**CRITICAL Project Instructions BELOW**
-
-On session start, Claude must:
-
-1. Execute `memory:read_graph` to access memory system
-2. Acknowledge temporal awareness
-3. Load DEVELOPER profile as active framework
-4. Treat active framework as mandatory behavioral guidelines
-
-## Description
-
-Scalable collaboration platform with specialized profiles, persistent memory, and systematic methodologies. Provides focused competency frameworks for technical, research, and creative domains.
