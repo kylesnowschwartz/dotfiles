@@ -3,7 +3,6 @@
 
 require 'claude_hooks'
 require_relative 'sound_player'
-require_relative 'sound_config'
 
 # Age of Claude Notification Handler
 #

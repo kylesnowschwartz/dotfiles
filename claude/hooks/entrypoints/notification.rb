@@ -16,6 +16,7 @@ require 'json'
 
 # Require all Notification handler classes
 require_relative '../handlers/age_of_claude/notification_handler'
+require_relative '../handlers/notification_handler'
 
 # Add additional handler requires here as needed:
 # require_relative '../handlers/notification/desktop_notify'

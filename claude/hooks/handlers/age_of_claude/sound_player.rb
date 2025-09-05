@@ -15,8 +15,9 @@ module SoundPlayer
     # @param sound_file [String] the sound file name (relative to .claude/sounds/)
     # @param logger [Logger] optional logger for debugging
     def play(sound_file, logger = nil)
-      # Check if sounds are disabled via environment variable
+      # Check if sounds are disabled via environment variable or global flag file
       return true if ENV['CLAUDE_DISABLE_SOUNDS']
+      return true if File.exist?(File.expand_path('~/.claude/.sounds_disabled'))
 
       sound_path = resolve_sound_path(sound_file)
 
@@ -68,7 +69,7 @@ module SoundPlayer
 
       case detect_platform
       when :macos
-        "afplay -v 0.5 #{escaped_path} 2>/dev/null &"
+        "afplay -v 0.2 #{escaped_path} 2>/dev/null &"
       when :windows
         # Use PowerShell for Windows sound playback
         "(New-Object Media.SoundPlayer '#{sound_path}').PlaySync() 2>$null &"

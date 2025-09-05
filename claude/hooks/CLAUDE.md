@@ -31,12 +31,6 @@ This implementation uses the `claude_hooks` Ruby gem (v1.0.0) for structured hoo
 
 A complete audio feedback system that plays Age of Empires sounds for various Claude Code events:
 
-**Sound Configuration** (`handlers/age_of_claude/sound_config.rb`):
-
-- Centralized sound mappings organized by hook type
-- Support for single sounds, random collections, and context-specific sounds
-- Utility methods for sound resolution and selection
-
 **Sound Player** (`handlers/age_of_claude/sound_player.rb`):
 
 - Cross-platform audio playback using `afplay` (macOS) and `aplay` (Linux)
@@ -76,9 +70,6 @@ ruby handlers/age_of_claude/user_prompt_submit_handler.rb
 
 # Debug mode with full stack traces
 RUBY_CLAUDE_HOOKS_DEBUG=1 echo '{"session_id":"test"}' | ./entrypoints/user_prompt_submit.rb
-
-# Validate hook configuration
-ruby -c handlers/age_of_claude/sound_config.rb
 ```
 
 ### Configuration
@@ -134,7 +125,7 @@ end
 
 The Age of Claude system demonstrates advanced configuration management:
 
-- Centralized sound mappings in `sound_config.rb`
+- Centralized sound player in `sound_player.rb`
 - Utility methods for sound resolution and random selection
 - Cross-platform audio playback abstraction
 

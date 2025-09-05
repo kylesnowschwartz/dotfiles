@@ -240,8 +240,8 @@ claude() {
 }
 
 # Claude sound controls
-alias claude-quiet='export CLAUDE_DISABLE_SOUNDS=1 && echo "Claude sounds disabled"'
-alias claude-sounds='unset CLAUDE_DISABLE_SOUNDS && echo "Claude sounds enabled"'
+alias claude-quiet='touch ~/.claude/.sounds_disabled && echo "Claude sounds disabled globally"'
+alias claude-sounds='rm -f ~/.claude/.sounds_disabled && echo "Claude sounds enabled globally"'
 
 # Turn .mov into gif
 #
