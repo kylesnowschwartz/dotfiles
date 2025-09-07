@@ -104,9 +104,7 @@
       "Bash(rm:*)",
       "Bash(curl:*)"
     ],
-    "additionalDirectories": [
-      "/Users/kyle/Code/Cloned-Sources/"
-    ]
+    "additionalDirectories": ["/Users/kyle/Code/Cloned-Sources/"]
   },
   "hooks": {
     "Notification": [
@@ -160,17 +158,6 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/stop.rb"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/session_end.rb"
           }
         ]
       }

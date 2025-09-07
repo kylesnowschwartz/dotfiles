@@ -15,6 +15,7 @@ require 'shellwords'
 # - Ruby: RuboCop with auto-correct (-A flag)
 # - Markdown: markdownlint with --fix (matching pre-commit rules)
 # - Shell: shfmt with 2-space indentation (matching pre-commit args)
+# - Lua: stylua with custom configuration (160 column width, Unix line endings, etc.)
 
 class AutoFormatHandler < ClaudeHooks::PostToolUse
   def call
@@ -196,6 +197,21 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
           name: 'shfmt',
           command: 'shfmt',
           args: ['-w', '-i', '2'] # Match pre-commit args: 2-space indentation
+        }
+      end
+    when '.lua'
+      if command_available?('stylua')
+        {
+          name: 'stylua',
+          command: 'stylua',
+          args: [
+            '--column-width', '160',
+            '--line-endings', 'Unix',
+            '--indent-type', 'Spaces',
+            '--indent-width', '2',
+            '--quote-style', 'AutoPreferSingle',
+            '--call-parentheses', 'None'
+          ]
         }
       end
     end
