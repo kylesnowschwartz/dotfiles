@@ -39,7 +39,7 @@ class NotificationHandler < ClaudeHooks::Notification
                end
 
     # Use osascript to send native macOS notification
-    sound_arg = File.exist?(File.expand_path('~/.claude/.sounds_disabled')) ? '' : ' sound name glass'
+    sound_arg = File.exist?(File.expand_path('~/.claude/.sounds_disabled')) ? '' : ' sound name "glass"'
     command = [
       'osascript', '-e',
       %(display notification "#{escape_quotes(message)}" with title "#{title}" subtitle "#{subtitle}"#{sound_arg})
