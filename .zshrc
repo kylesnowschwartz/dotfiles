@@ -67,6 +67,7 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
 [ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "/usr/local/opt/rustup/bin" ] && export PATH="/usr/local/opt/rustup/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 
 # Platform-specific paths

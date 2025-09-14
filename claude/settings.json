@@ -104,8 +104,11 @@
       "Bash(rm:*)",
       "Bash(curl:*)"
     ],
-    "additionalDirectories": ["/Users/kyle/Code/Cloned-Sources/"]
+    "additionalDirectories": [
+      "/Users/kyle/Code/Cloned-Sources/"
+    ]
   },
+  "model": "opusplan",
   "hooks": {
     "Notification": [
       {

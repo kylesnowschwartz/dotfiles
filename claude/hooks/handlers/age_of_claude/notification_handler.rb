@@ -28,7 +28,7 @@ class AgeOfClaudeNotificationHandler < ClaudeHooks::Notification
                ['dialogue_i_need_food.wav'] # "I need food" - indicates need
              else
                log 'Age of Claude Notification Handler: Generic notification - playing notification sound'
-               ['villager_select4.WAV'] # Generic villager sound
+               ['villager_select4.WAV', 'priest_convert_wololo5.WAV'] # Generic villager sound
              end
 
     # Play the appropriate notification sound

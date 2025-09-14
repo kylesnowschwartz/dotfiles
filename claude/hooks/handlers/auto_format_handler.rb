@@ -16,6 +16,10 @@ require 'shellwords'
 # - Markdown: markdownlint with --fix (matching pre-commit rules)
 # - Shell: shfmt with 2-space indentation (matching pre-commit args)
 # - Lua: stylua with custom configuration (160 column width, Unix line endings, etc.)
+# - Rust: rustfmt with default configuration
+# - Python: black with default configuration, isort for import sorting
+# - YAML: yamlfmt with default configuration, prettier as fallback
+# - JavaScript/TypeScript: prettier with default configuration
 
 class AutoFormatHandler < ClaudeHooks::PostToolUse
   def call
@@ -214,7 +218,66 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
           ]
         }
       end
+    when '.rs'
+      command_available?('rustfmt') ? { name: 'rustfmt', command: 'rustfmt', args: [] } : nil
+    when '.py'
+      detect_python_formatter
+    when '.yml', '.yaml'
+      detect_yaml_formatter
+    when '.js', '.jsx', '.ts', '.tsx', '.json'
+      detect_js_formatter
     end
+  end
+
+  def detect_js_formatter
+    # Try eslint first (yarn-based, then global)
+    if yarn_project? && command_available?('yarn') && command_available?('eslint')
+      { name: 'yarn eslint', command: 'yarn', args: ['eslint', '--fix'] }
+    elsif command_available?('eslint')
+      { name: 'eslint', command: 'eslint', args: ['--fix'] }
+    # Fallback to prettier (yarn-based, then global)
+    elsif yarn_project? && command_available?('yarn') && command_available?('prettier')
+      { name: 'yarn prettier', command: 'yarn', args: ['prettier', '--write'] }
+    elsif command_available?('prettier')
+      { name: 'prettier', command: 'prettier', args: ['--write'] }
+    end
+  end
+
+  def detect_yaml_formatter
+    if command_available?('yamlfmt')
+      { name: 'yamlfmt', command: 'yamlfmt', args: ['-w'] }
+    elsif command_available?('prettier')
+      { name: 'prettier', command: 'prettier', args: ['--write', '--parser', 'yaml'] }
+    end
+  end
+
+  def detect_python_formatter
+    # Prefer black + isort combination if both available
+    if command_available?('black') && command_available?('isort')
+      {
+        name: 'black+isort',
+        command: 'black',
+        args: [],
+        post_command: 'isort'
+      }
+    elsif command_available?('black')
+      { name: 'black', command: 'black', args: [] }
+    elsif command_available?('autopep8')
+      { name: 'autopep8', command: 'autopep8', args: ['--in-place', '--aggressive'] }
+    elsif command_available?('yapf')
+      { name: 'yapf', command: 'yapf', args: ['--in-place'] }
+    end
+  end
+
+  def yarn_project?
+    # Check for yarn.lock in current directory or walk up to find it
+    current_dir = File.dirname(current_file_path)
+    while current_dir != '/'
+      return true if File.exist?(File.join(current_dir, 'yarn.lock'))
+
+      current_dir = File.dirname(current_dir)
+    end
+    false
   end
 
   def command_available?(command)
@@ -230,13 +293,22 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     # Store original content to detect changes
     original_content = File.read(current_file_path)
 
-    run_standard_formatter(formatter).tap do |result|
-      # Check if changes were made and report
-      if result[:success]
-        new_content = File.read(current_file_path)
-        result[:changes_made] = original_content != new_content
-      end
+    result = run_standard_formatter(formatter)
+
+    # Handle post_command for formatters like black+isort
+    if result[:success] && formatter[:post_command]
+      post_result = run_post_command(formatter[:post_command])
+      result[:success] = post_result[:success]
+      result[:error] = post_result[:error] unless post_result[:success]
     end
+
+    # Check if changes were made and report
+    if result[:success]
+      new_content = File.read(current_file_path)
+      result[:changes_made] = original_content != new_content
+    end
+
+    result
   rescue StandardError => e
     { success: false, error: e.message }
   end
@@ -248,6 +320,21 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     log "Running: #{command}"
 
     stdout_err, status = Open3.capture2e(command)
+
+    if status.success?
+      { success: true, output: stdout_err }
+    else
+      { success: false, error: stdout_err.strip }
+    end
+  end
+
+  def run_post_command(command)
+    command_parts = [command, current_file_path]
+    command_string = command_parts.map { |part| Shellwords.escape(part) }.join(' ')
+
+    log "Running post-command: #{command_string}"
+
+    stdout_err, status = Open3.capture2e(command_string)
 
     if status.success?
       { success: true, output: stdout_err }
