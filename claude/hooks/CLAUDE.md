@@ -72,6 +72,53 @@ ruby handlers/age_of_claude/user_prompt_submit_handler.rb
 RUBY_CLAUDE_HOOKS_DEBUG=1 echo '{"session_id":"test"}' | ./entrypoints/user_prompt_submit.rb
 ```
 
+### Hook Validation and Debugging
+
+#### Log File Analysis
+
+All hook activity is logged to session-specific files in `~/.claude/logs/hooks/`. Use log analysis to validate hook functionality:
+
+```bash
+# Find the current session's log file (most recent)
+ls -lt ~/.claude/logs/hooks/ | head -5
+
+# Monitor real-time hook activity during conversation
+tail -f ~/.claude/logs/hooks/session-[session-id].log
+
+# Search for specific hook activity
+grep "YouAreNotRight" ~/.claude/logs/hooks/session-*.log
+grep "Pattern match result: true" ~/.claude/logs/hooks/session-*.log
+```
+
+#### Validation Methodology
+
+When implementing new hooks or debugging existing ones:
+
+1. **Test with Sample Data**: Use isolated JSON input to verify basic functionality
+   ```bash
+   echo '{"session_id":"test","transcript_path":"/path/to/test","prompt":"test"}' | ./your_hook.rb
+   ```
+
+2. **Monitor Session Logs**: Check `~/.claude/logs/hooks/session-[id].log` during live conversations to verify:
+   - Hook execution trigger points
+   - Pattern matching results
+   - System reminder injection
+   - Error conditions and recovery
+
+3. **Verify Integration**: Confirm hooks work within the entrypoint merger system by checking combined outputs
+
+4. **Live Testing**: Engage in conversation scenarios that should trigger your hooks and verify the expected behavior occurs
+
+**Example Log Validation**:
+```
+[2025-09-15 10:33:19] [INFO] [YouAreNotRight] Found 3 assistant messages to check
+[2025-09-15 10:33:19] [INFO] [YouAreNotRight] Checking text: 'You're right, let me check...'
+[2025-09-15 10:33:19] [INFO] [YouAreNotRight] Pattern match result: true
+[2025-09-15 10:33:19] [WARN] [YouAreNotRight] Found reflexive agreement pattern - adding system reminder
+```
+
+This log sequence confirms the hook detected agreement patterns and injected corrective guidance into the conversation.
+
 ### Configuration
 
 The complete hook configuration is provided in `age_of_claude_settings.json`, which should be copied to `~/.claude/settings.json`:
@@ -136,10 +183,6 @@ The $HOME/Code/meta-claude/SimpleClaude/.claude/hooks repository includes `.temp
 - Learning hook fundamentals
 - Simple bash-based implementations
 - Migration from basic to advanced patterns
-
-## Investigation Documentation
-
-`hooks-investigation.md` contains detailed research on Claude Code's hook system limitations and recommendations for reliable implementations, including comparisons between slash commands and hooks approaches.
 
 ## Configuration Notes
 

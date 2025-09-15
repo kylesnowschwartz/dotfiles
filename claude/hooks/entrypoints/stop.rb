@@ -12,6 +12,7 @@ require 'json'
 
 # Require all Stop handler classes
 require_relative '../handlers/age_of_claude/stop_handler'
+require_relative '../handlers/stop_you_are_not_right'
 
 # Add additional handler requires here as needed:
 # require_relative '../handlers/stop/cleanup_handler'
@@ -23,13 +24,20 @@ begin
 
   # Initialize and execute all handlers
   age_of_claude_handler = AgeOfClaudeStopHandler.new(input_data)
+  reflexive_agreement_handler = StopYouAreNotRight.new(input_data)
 
   # Execute handlers
   age_of_claude_handler.call
+  reflexive_agreement_handler.call
 
-  # For now, just use the single handler output
-  # When more handlers are added, use: ClaudeHooks::Output::Stop.merge(handler1.output, handler2.output)
-  age_of_claude_handler.output_and_exit
+  # Merge outputs using the Stop output merger
+  # The reflexive agreement handler takes precedence (if it wants to continue, that wins)
+  merged_output = ClaudeHooks::Output::Stop.merge(
+    age_of_claude_handler.output,
+    reflexive_agreement_handler.output
+  )
+
+  merged_output.output_and_exit
 rescue JSON::ParserError => e
   warn "[Stop] JSON parsing error: #{e.message}"
   warn JSON.generate({
