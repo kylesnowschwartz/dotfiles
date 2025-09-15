@@ -38,6 +38,7 @@ class SessionStartHandler < ClaudeHooks::SessionStart
     # setup_project_environment
     # load_user_preferences
     # check_dependencies
+    backup_projects_directory
     acknowledge_current_date
 
     # Allow session to continue
@@ -66,6 +67,30 @@ class SessionStartHandler < ClaudeHooks::SessionStart
   def check_dependencies
     # Example: Verify required tools are installed
     log 'Checking project dependencies'
+  end
+
+  def backup_projects_directory
+    source_dir = File.expand_path('~/.claude/projects')
+    backup_dir = File.expand_path('~/backups/claude/projects')
+
+    if Dir.exist?(source_dir)
+      log 'Backing up projects directory to ~/backups/claude/projects'
+
+      # Create backup directory if it doesn't exist
+      system('mkdir', '-p', backup_dir)
+
+      # Remove existing backup and copy fresh
+      system('rm', '-rf', backup_dir) if Dir.exist?(backup_dir)
+
+      # Copy the projects directory
+      if system('cp', '-r', source_dir, backup_dir)
+        log 'Projects directory backup completed successfully'
+      else
+        log 'Warning: Projects directory backup failed'
+      end
+    else
+      log 'No projects directory found to backup'
+    end
   end
 
   def acknowledge_current_date
