@@ -1,53 +1,62 @@
-You must follow these principles to produce high‑quality, production‑ready code and collaborate effectively.
+ # Working Agreement
+
+This playbook keeps our collaboration smooth and predictable. Start each session by checking the “Quick Start” so the essentials are top of mind, then dive into the sections below when you need detail.
+
+**Quick Start**
+- Plan your approach and get buy-in before touching code (CDP-001).
+- Confirm APIs and run linters/tests after meaningful changes (CDP-002, CDP-003).
+- Keep solutions simple, commits conventional, and branches tidy (CQS-004, CQS-006).
 
 ## Core Development Principles
 
-### Guideline CDP-001: **Identify affected components, edge cases, and present your step-by-step plan for approval before coding**
+### CDP-001 - Plan First: Present your step-by-step plan for approval before coding
 
-### Guideline CDP-002: **Confirm current APIs, use user-specified libraries, debug issues rather than switching, leverage Context7**
+### CDP-002 - Respect APIs: Confirm current APIs, use user-specified libraries, and collaborate in debugging issues rather than giving up
 
-### Guideline CDP-003: **Run linters and tests after significant changes to catch errors early**
+### CDP-003 - Lint And Test: Run linters and tests after significant changes to catch errors early
 
-### Guideline CDP-004: **Use clear names, small functions, modular files, and meaningful comments**
+### CDP-004 - Explain Why: Use clear names, small functions, modular files, and comments that explain 'why' (not the 'what')
 
-### Guideline CDP-005: **Avoid large-scale rewrites unless explicitly asked**
+### CDP-005 - No Big Rewrites: Avoid large-scale rewrites unless explicitly asked
 
-### Guideline CDP-006: **When blocked, isolate the root cause systematically instead of random trial-and-error**
+### CDP-006 - Diagnose Systematically: When blocked, isolate the root cause systematically and collaboratively with the User, instead of random trial-and-error
 
-### Guideline CDP-008: **Omit emojis in code, comments, documentation, or communication unless explicitly requested**
+### CDP-008 - Skip Emojis: Omit emojis in code, comments, documentation, or communication unless explicitly requested
 
-### Guideline CDP-009: **Verify user claims that contradict yours before declaring them correct**
+### CDP-009 - Trust But Verify: Verify user claims that contradict yours before declaring them correct
 
 ## Code Quality & Standards
 
-### Guideline CQS-001: **If requirements are vague ask clarifying questions or propose a smaller first step**
+### CQS-001 - Clarify Requirements: If requirements are vague ask clarifying questions or propose a smaller first step
 
-### Guideline CQS-002: **Adhere to project-defined formatting and lint rules, fix checks before committing, never commit trailing whitespace**
+### CQS-002 - Honor Linters: Adhere to project-defined formatting and lint rules, fix checks before committing
 
-### Guideline CQS-003: **Branch from `main`, name branches descriptively, link PRs to issues, and prefer rebasing over merge commits unless instructed otherwise**
+### CQS-003 - Branch Cleanly: Branch from `main`, name branches descriptively, link PRs to issues, and prefer rebasing over merge commits unless instructed otherwise
 
-### Guideline CQS-004: **Use conventional commit prefixes (e.g., `feat:`, `fix:`, `style:`, `test:`) in present-tense active voice; keep commits small and focused**
+### CQS-004 - Conventional Commits: Use conventional commit prefixes (e.g., `feat:`, `fix:`, `style:`, `test:`) in present-tense active voice; keep commits small and focused
 
-### Guideline CQS-005: **Fail fast with explicit errors, craft minimal reproducible examples, employ temporary verbose logging, and clean logs before merging**
+### CQS-005 - Fail Fast: Fail fast with explicit errors, craft minimal reproducible examples, employ temporary verbose logging, and clean logs before merging
 
-### Guideline CQS-006: **Follow KISS and YAGNI principles; prefer obvious, well-documented solutions over cleverness; minimize external dependencies; document public interfaces**
+### CQS-006 - Keep Solutions Simple: Follow KISS and YAGNI principles; prefer obvious, well-documented solutions over cleverness; minimize external dependencies; document public interfaces
 
 ## Project Management
 
-### Guideline PM-001: **Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints**
+### PM-001 - Quality First: Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints
 
-### Guideline PM-002: **Immediately ask the human to install packages rather than giving up or switching to inferior alternatives**
+### PM-002 - Ask For Installs: Immediately ask the User to help install packages rather than giving up or switching to inferior alternatives
 
-### Guideline PM-003: **Use `git push` primarily; use `git push --force-with-lease` only after merges, rebases, or commit amendments; never `git push --force`**
+### PM-003 - Push Safely: Use `git push` primarily; use `git push --force-with-lease` only after merges, rebases, or commit amendments
 
-### Guideline PM-004: **Use git commit instead of git commit --amend for new changes; always review previous commit before using `--amend`**
+### PM-004 - Commit Clearly: Use `git commit -m` to commit changes
 
-### Guideline PM-005: **never `--no-verify` to bypass pre-commit hooks**
+### PM-005 - Stage Selectively: use `git add <file1> <file2>` or `git add -u` never `git add -A`
 
-### Guideline PM-005: **use `git add <file1> <file2>` or `git add -u` never `git add -A`**
+### PM-006 - Respect Hooks: NEVER use the flag `--no-verify` to bypass commit hooks
+
+### PM-007 - No Force Push: NEVER `git push --force`
 
 ## Configuration
 
-### Guideline CFG-001: **Use SSH URLs for remotes, fork via `gh repo fork owner/repo --clone=false`, create PRs via `gh pr create --repo owner/repo --head username:branch`; Organization: Envato**
+### CFG-001 - SSH Workflow: Use SSH URLs for remotes, fork via `gh repo fork owner/repo --clone=false`, create PRs via `gh pr create --repo owner/repo --head username:branch`; Work Organization: Envato
 
-### Guideline CFG-002: **When writing shell scripts follow the CLI Guidelines: <https://github.com/cli-guidelines/cli-guidelines>**
+### CFG-002 - Follow CLI Guidelines: When writing shell scripts follow the CLI Guidelines: <https://github.com/cli-guidelines/cli-guidelines>
