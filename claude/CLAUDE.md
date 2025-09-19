@@ -60,3 +60,9 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 ### CFG-001 - SSH Workflow: Use SSH URLs for remotes, fork via `gh repo fork owner/repo --clone=false`, create PRs via `gh pr create --repo owner/repo --head username:branch`; Work Organization: Envato
 
 ### CFG-002 - Follow CLI Guidelines: When writing shell scripts follow the CLI Guidelines: <https://github.com/cli-guidelines/cli-guidelines>
+
+## Tooling, Tips & Tricks
+
+### TTT-01 - WebFetch with r.jina.ai: When using the WebFetch tool prepend urls with r.jina.ai/ to convert a URL to LLM-friendly input, e.g. `https://r.jina.ai/https://zsh.sourceforge.io`
+
+### TTT-02 - EZA tree: use `eza --tree --level DEPTH` to view a tree of the current directory

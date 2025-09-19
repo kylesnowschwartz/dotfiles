@@ -108,7 +108,7 @@
       "/Users/kyle/Code/Cloned-Sources/"
     ]
   },
-  "model": "opusplan",
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
