@@ -6,6 +6,15 @@
 # - Preserves all bash functionality while adding zsh improvements
 # - Sources existing .bash_aliases for compatibility
 # - Can be reverted by changing default shell back to bash
+#
+# CLAUDE CODE INSTRUCTIONS:
+# When modifying this zsh configuration, always check the official zsh documentation
+# for built-in, idiomatic features before implementing custom solutions. ZSH has many
+# built-in parameters and options that replace common bash workarounds:
+# - Use web search to find official zsh documentation and manual pages
+# - Look for built-in zsh parameters rather than custom functions
+# - Check the zsh manual: https://r.jina.ai/https://zsh.sourceforge.io/Doc/Release/zsh_toc.html
+# - Prefer native zsh features over bash-style solutions when available
 
 # Exit if not running interactively (zsh equivalent)
 [[ $- != *i* ]] && return
@@ -51,6 +60,18 @@ setopt AUTO_CD # cd to directory by typing its name
 # Input mode - vi mode for zsh
 set -o vi
 bindkey -v
+
+# Cursor shape configuration for vi mode (built-in ZSH parameter)
+zle-keymap-select() {
+  case $KEYMAP in
+    vicmd)      echo -ne '\e[1 q';;  # Block cursor for normal mode
+    viins|main) echo -ne '\e[5 q';;  # Line cursor for insert mode
+  esac
+}
+zle -N zle-keymap-select
+
+# Set initial cursor to line (insert mode)
+echo -ne '\e[5 q'
 
 # Additional vi-mode improvements
 bindkey '^R' history-incremental-search-backward # Keep Ctrl+R for history search
