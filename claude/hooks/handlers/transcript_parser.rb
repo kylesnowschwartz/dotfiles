@@ -102,6 +102,9 @@ module TranscriptParser
     content_array.filter_map do |block|
       case block
       when Hash
+        # Skip tool_use entries as they don't contain displayable text
+        next if block['type'] == 'tool_use' || block[:type] == 'tool_use'
+
         # Handle structured content blocks (e.g., {type: 'text', text: 'content'})
         block['text'] || block[:text] || block.dig('content', 'text') ||
           block.values.find { |v| v.is_a?(String) && v.length.positive? }
@@ -228,21 +231,5 @@ module TranscriptParser
 
     lines = File.readlines(file_path, chomp: true)
     parse_transcript_lines(lines, strict: strict)
-  end
-
-  # Filter parsed entries by role
-  # @param entries [Array<Hash>] Parsed transcript entries
-  # @param role [String] Role to filter by ('user', 'assistant', 'system')
-  # @return [Array<Hash>] Filtered entries
-  def self.filter_by_role(entries, role)
-    entries.select { |entry| entry.dig(:message, :role) == role }
-  end
-
-  # Extract just the content text from filtered entries
-  # @param entries [Array<Hash>] Parsed transcript entries
-  # @return [Array<String>] Array of content strings
-  def self.extract_content_texts(entries)
-    entries.filter_map { |entry| entry.dig(:message, :content) }
-           .reject(&:empty?)
   end
 end

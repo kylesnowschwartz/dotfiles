@@ -1,0 +1,7 @@
+{"type":"summary","summary":"Simple Test Session","leafUuid":"test-summary"}
+{"parentUuid":null,"sessionId":"test-session-01","type":"user","message":{"role":"user","content":"First user prompt"},"uuid":"user-1","timestamp":"2024-01-01T10:00:00.000Z"}
+{"parentUuid":"user-1","sessionId":"test-session-01","type":"assistant","message":{"role":"assistant","content":"First assistant response"},"uuid":"assistant-1","timestamp":"2024-01-01T10:00:01.000Z"}
+{"parentUuid":"assistant-1","sessionId":"test-session-01","type":"user","message":{"role":"user","content":"Second user prompt"},"uuid":"user-2","timestamp":"2024-01-01T10:01:00.000Z"}
+{"parentUuid":"user-2","sessionId":"test-session-01","type":"assistant","message":{"role":"assistant","content":"Second assistant response"},"uuid":"assistant-2","timestamp":"2024-01-01T10:01:01.000Z"}
+{"parentUuid":"assistant-2","sessionId":"test-session-01","type":"user","message":{"role":"user","content":"Third user prompt"},"uuid":"user-3","timestamp":"2024-01-01T10:02:00.000Z"}
+{"parentUuid":"user-3","sessionId":"test-session-01","type":"assistant","message":{"role":"assistant","content":"Third assistant response"},"uuid":"assistant-3","timestamp":"2024-01-01T10:02:01.000Z"}

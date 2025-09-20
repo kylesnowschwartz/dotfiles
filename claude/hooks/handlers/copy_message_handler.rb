@@ -12,10 +12,10 @@ require_relative 'transcript_parser'
 # TRIGGERS: When user submits a prompt starting with '--copy-prompt' or '--copy-response'
 #
 # COMMAND FORMATS:
-# - --copy-prompt [number]      - Copy specific prompt (default: 1, most recent)
-# - --copy-prompt 5            - Copy the 5th most recent prompt
-# - --copy-response [number]    - Copy specific response (default: 1, most recent)
-# - --copy-response 5          - Copy the 5th most recent response
+# - --copy-prompt [number]      - Copy last N prompts (default: 1, most recent)
+# - --copy-prompt 5            - Copy the last 5 prompts
+# - --copy-response [number]    - Copy last N responses (default: 1, most recent)
+# - --copy-response 5          - Copy the last 5 responses
 
 class CopyMessageHandler < ClaudeHooks::UserPromptSubmit
   def call
@@ -50,7 +50,6 @@ class CopyMessageHandler < ClaudeHooks::UserPromptSubmit
 
   def parse_copy_command(command, type)
     args = {
-      command: type,
       number: 1
     }
 
@@ -66,11 +65,26 @@ class CopyMessageHandler < ClaudeHooks::UserPromptSubmit
   def handle_copy_command(items, args, type)
     return { success: false, error: "No #{type}s found" } if items.empty?
 
-    item = get_item_by_number(items, args[:number])
-    return { success: false, error: "#{type.capitalize} ##{args[:number]} not found" } unless item
+    count = args[:number]
+    return { success: false, error: "#{type.capitalize} count must be at least 1" } if count < 1
 
-    preview = generate_preview(item)
-    { success: true, content: item, message: "#{type.capitalize} ##{args[:number]} copied to clipboard: #{preview}" }
+    if count > items.length
+      return { success: false, error: "Only #{items.length} #{type}#{'s' if items.length != 1} available" }
+    end
+
+    # Take the last N messages (first N from newest-first array)
+    selected_items = items.first(count)
+    # Reverse to show in chronological order (oldest to newest)
+    combined_content = selected_items.reverse.join("\n\n")
+
+    message_label = count == 1 ? type.capitalize : "Last #{count} #{type}s"
+    preview = generate_preview(combined_content)
+
+    {
+      success: true,
+      content: combined_content,
+      message: "#{message_label} copied to clipboard: #{preview}"
+    }
   end
 
   def extract_messages_from_transcript(message_type)
@@ -149,12 +163,6 @@ class CopyMessageHandler < ClaudeHooks::UserPromptSubmit
 
     # Convert to array (newest first)
     request_groups.values.reverse
-  end
-
-  def get_item_by_number(items, number)
-    return nil if number < 1 || number > items.length
-
-    items[number - 1]
   end
 
   def generate_preview(text)

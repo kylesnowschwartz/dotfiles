@@ -184,6 +184,24 @@ ClaudeHooks::Output::UserPromptSubmit.merge(output1, output2, output3)
 6. **Test hooks in isolation** using the CLI framework before integrating with Claude Code
 7. **Use `output_and_exit`** method for proper JSON output and exit code handling
 
+### Testing Strategy
+
+**QA with Real Data**: Always validate hook behavior against real Claude Code transcript data from `/Users/kyle/backups/claude/projects/` for comprehensive testing:
+
+```bash
+# Test with RSpec using both unit tests and integration tests
+bundle exec rspec spec/
+
+# Test specific handler with real transcript data
+echo '{"prompt":"--your-args","transcript_path":"/path/to/real/transcript.jsonl"}' | ./hooks/handlers/your_handler.rb
+```
+
+**Key Testing Principles**:
+- **Analyze real transcript structure** before making assumptions about message formats
+- **Use backup JSONL files** for integration testing to catch real-world edge cases
+- **Test against various transcript patterns**: tool_use vs text content, multi-part messages, edge cases
+- **Verify with realistic fixtures** that match actual Claude Code message structures
+
 ## File Structure
 
 - `lib/claude_hooks.rb` - Main entry point, requires all hook classes and output classes
