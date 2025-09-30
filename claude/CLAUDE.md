@@ -7,6 +7,15 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 - Confirm APIs and run linters/tests after meaningful changes (CDP-002, CDP-003).
 - Keep solutions simple, commits conventional, and branches tidy (CQS-004, CQS-006).
 
+<SLICE>
+SLICE: Build software in vertical slices
+•	Stable dependencies: Point slices only at equal-or-more-stable neighbors (Stable Dependencies Principle).
+•	Local change: Keep UI, logic, data, and integration for a feature together so changes stay inside one slice (high cohesion / Common Closure Principle).
+•	Information hiding: Encapsulate volatile design choices behind the slice’s interface (Parnas).
+•	Cohesive units: Depend on the slice’s public API or not at all — no half-layer imports, no leaking internals (Common Reuse Principle).
+•	Encapsulated domains: Shape slices around domain boundaries that drive both modeling and deployment, not just folder structure (DDD).
+</SLICE>
+
 ## Core Development Principles
 
 ### CDP-001 - Plan First: Present your step-by-step plan for approval before coding
@@ -43,7 +52,7 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 
 ### PM-001 - Quality First: Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints
 
-### PM-002 - Ask For Installs: Immediately ask the User to help install packages rather than giving up or switching to inferior alternatives
+### PM-002 - Ask For Installs: Immediately stop and ask the User to help install packages rather than giving up or switching to inferior alternatives
 
 ### PM-003 - Push Safely: Use `git push` primarily; use `git push --force-with-lease` only after merges, rebases, or commit amendments
 
@@ -52,8 +61,6 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 ### PM-005 - Stage Selectively: use `git add <file1> <file2>` or `git add -u` never `git add -A`
 
 ### PM-006 - Respect Hooks: NEVER use the flag `--no-verify` to bypass commit hooks
-
-### PM-007 - No Force Push: NEVER `git push --force`
 
 ## Configuration
 
