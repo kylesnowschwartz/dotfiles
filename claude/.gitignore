@@ -3,6 +3,8 @@ projects/
 todos/
 statsig/
 plugins/
+file-history/
+logs/
 
 # Environment files with sensitive tokens
 .envrc
@@ -29,3 +31,4 @@ Thumbs.db
 *.log
 *.cache
 .sounds_disabled
+history.jsonl
