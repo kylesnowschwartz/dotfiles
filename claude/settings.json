@@ -19,6 +19,7 @@
       "Bash(du:*)",
       "Bash(echo:*)",
       "Bash(env:*)",
+      "Bash(eza:*)",
       "Bash(fd:*)",
       "Bash(file:*)",
       "Bash(find:*)",
@@ -27,7 +28,6 @@
       "Bash(gh:*)",
       "Bash(git cd:*)",
       "Bash(git checkout:*)",
-      "Bash(git commit:*)",
       "Bash(git diff:*)",
       "Bash(git fetch:*)",
       "Bash(git log:*)",
@@ -37,6 +37,7 @@
       "Bash(head:*)",
       "Bash(htop:*)",
       "Bash(id:*)",
+      "Bash(jq:*)",
       "Bash(less:*)",
       "Bash(ln:*)",
       "Bash(ls:*)",
@@ -97,10 +98,13 @@
       "mcp__ide",
       "mcp__mcphub"
     ],
-    "deny": [],
+    "deny": [
+      "Bash(git push --force)"
+    ],
     "ask": [
       "Bash(git add:*)",
       "Bash(git push:*)",
+      "Bash(git commit:*)",
       "Bash(rm:*)",
       "Bash(curl:*)"
     ],
@@ -108,7 +112,6 @@
       "/Users/kyle/Code/Cloned-Sources/"
     ]
   },
-  "model": "opusplan",
   "hooks": {
     "Notification": [
       {
@@ -170,6 +173,7 @@
     "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_simple.sh",
     "padding": 0
   },
+  "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
   }
