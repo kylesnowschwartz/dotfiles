@@ -252,20 +252,28 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
   end
 
   def detect_python_formatter
-    # Prefer black + isort combination if both available
-    if command_available?('black') && command_available?('isort')
+    # Ruff-only approach: automatically uses existing Black/isort/flake8 configs
+    project_dir = find_project_root
+
+    # Check for local Ruff first (virtual environment)
+    if local_command_available?('ruff', project_dir)
       {
-        name: 'black+isort',
-        command: 'black',
-        args: [],
-        post_command: 'isort'
+        name: 'ruff (local)',
+        command: find_local_command('ruff', project_dir),
+        args: ['format']
       }
-    elsif command_available?('black')
-      { name: 'black', command: 'black', args: [] }
-    elsif command_available?('autopep8')
-      { name: 'autopep8', command: 'autopep8', args: ['--in-place', '--aggressive'] }
-    elsif command_available?('yapf')
-      { name: 'yapf', command: 'yapf', args: ['--in-place'] }
+    # Fallback to global Ruff
+    elsif command_available?('ruff')
+      {
+        name: 'ruff (global)',
+        command: 'ruff',
+        args: ['format']
+      }
+    else
+      # No Ruff available - log helpful message
+      log 'No Ruff formatter found. Install with: pip install ruff'
+      log 'Ruff automatically uses existing Black, isort, and flake8 configurations'
+      nil
     end
   end
 
@@ -287,6 +295,54 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     return @command_cache[command] if @command_cache.key?(command)
 
     @command_cache[command] = system("which #{command} > /dev/null 2>&1")
+  end
+
+  def local_command_available?(command, project_dir)
+    # Check for command in local virtual environment first
+    @local_command_cache ||= {}
+    cache_key = "#{project_dir}:#{command}"
+
+    return @local_command_cache[cache_key] if @local_command_cache.key?(cache_key)
+
+    # Check common venv locations
+    venv_paths = [
+      File.join(project_dir, 'venv', 'bin', command),
+      File.join(project_dir, '.venv', 'bin', command),
+      File.join(project_dir, 'env', 'bin', command),
+      File.join(project_dir, '.env', 'bin', command)
+    ]
+
+    local_available = venv_paths.any? { |path| File.executable?(path) }
+    @local_command_cache[cache_key] = local_available || command_available?(command)
+  end
+
+  def find_project_root
+    # Walk up from current file to find project root indicators
+    current_dir = File.dirname(current_file_path)
+
+    while current_dir != '/'
+      # Look for common project root indicators
+      return current_dir if [
+        'pyproject.toml', 'setup.py', 'setup.cfg', '.git',
+        'requirements.txt', 'Pipfile', 'poetry.lock'
+      ].any? { |indicator| File.exist?(File.join(current_dir, indicator)) }
+
+      current_dir = File.dirname(current_dir)
+    end
+
+    # Fallback to file's directory
+    File.dirname(current_file_path)
+  end
+
+  def find_local_command(command, project_dir)
+    venv_paths = [
+      File.join(project_dir, 'venv', 'bin', command),
+      File.join(project_dir, '.venv', 'bin', command),
+      File.join(project_dir, 'env', 'bin', command),
+      File.join(project_dir, '.env', 'bin', command)
+    ]
+
+    venv_paths.find { |path| File.executable?(path) }
   end
 
   def run_formatter(formatter)
