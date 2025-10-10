@@ -5,6 +5,7 @@ statsig/
 plugins/
 file-history/
 logs/
+debug/
 
 # Environment files with sensitive tokens
 .envrc
