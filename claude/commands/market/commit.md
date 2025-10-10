@@ -1,16 +1,38 @@
-# Run a Git commit for staged files, then push to the remote branch.
+---
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*), Bash(git branch:*), Bash(git log:*)
+description: Creates a functional git commit
+---
 
-You are a Senior Engineer tasked with creating a git commit message that accurately reflects the changes made to a codebase. Your commit message must adhere to a specific template and follow best practices for clarity and informativeness.
+## Context
 
-Use the commit message template in @.github/commit-message-template. Otherwise fallback to the following default template:
+- Current git status: !`git status`
+- Current git diff (staged and unstaged changes): !`git diff HEAD`
+- Current branch: !`git branch --show-current`
+- Recent commits: !`git log --oneline -10`
 
-```md
+## Your task
+
+Analyze the staged changes in the codebase create a commit message that uses the template. If the code changes are not best grouped in to one commit, create multiple commits that logically group appropriate changes.
+
+A single git commit should follow the commit message template in @.github/.commit-message-template. If there is no template file, fallback to the following default template:
+
+<default-template>
+
+```
 <type>[optional scope]: <description>
 
 [optional body]
 
 [optional footer]
+```
 
+</default-template>
+
+Use the following set of instructions to construct your commit if using the default-template
+
+<instructions>
+
+```
 Description:
 - Use the imperative mood (e.g., "Add", "Fix", "Refactor")
 - Limit to 50 characters
@@ -52,7 +74,6 @@ ci(pipeline): Cache dependencies to speed up CI builds
 Footer examples:
 - BREAKING CHANGE: Describe breaking API modifications
 - Closes #123: Reference issue numbers
-
 ```
 
-Analyze the staged changes in the codebase and create a commit message that uses the template. If the code changes are not best grouped in to one commit, create multiple commits that logically group appropriate changes.
+</instructions>

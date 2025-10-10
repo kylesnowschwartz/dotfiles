@@ -15,13 +15,7 @@ require 'claude_hooks'
 require 'json'
 
 # Require all Notification handler classes
-require_relative '../handlers/age_of_claude/notification_handler'
 require_relative '../handlers/notification_handler'
-
-# Add additional handler requires here as needed:
-# require_relative '../handlers/notification/desktop_notify'
-# require_relative '../handlers/notification/slack_notify'
-# require_relative '../handlers/notification/email_alert'
 
 begin
   # Read input data from Claude Code
@@ -29,29 +23,28 @@ begin
 
   # Initialize and execute all handlers
   main_handler = NotificationHandler.new(input_data)
-  age_of_claude_handler = AgeOfClaudeNotificationHandler.new(input_data)
 
   # Execute handlers
   main_handler.call
-  age_of_claude_handler.call
-
-  # Merge outputs using the Notification output merger
-  merged_output = ClaudeHooks::Output::Notification.merge(main_handler.output, age_of_claude_handler.output)
 
   # Output result and exit with appropriate code
-  merged_output.output_and_exit
+  main_handler.output_and_exit
 rescue JSON::ParserError => e
   warn "[Notification] JSON parsing error: #{e.message}"
-  puts JSON.generate({
-                       error: "Notification hook JSON parsing error: #{e.message}"
+  warn JSON.generate({
+                       continue: true,
+                       stopReason: "Notification hook JSON parsing error: #{e.message}",
+                       suppressOutput: false
                      })
-  exit 1  # JSON error
+  exit 1
 rescue StandardError => e
   warn "[Notification] Hook execution error: #{e.message}"
   warn e.backtrace.join("\n") if ENV['RUBY_CLAUDE_HOOKS_DEBUG']
 
-  puts JSON.generate({
-                       error: "Notification hook execution error: #{e.message}"
+  warn JSON.generate({
+                       continue: true,
+                       stopReason: "Notification hook execution error: #{e.message}",
+                       suppressOutput: false
                      })
-  exit 1  # General error
+  exit 1
 end

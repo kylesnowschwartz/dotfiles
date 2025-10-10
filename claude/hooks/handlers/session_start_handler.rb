@@ -9,14 +9,6 @@ require 'claude_hooks'
 # PURPOSE: Initialize session state, setup logging, prepare environment
 # TRIGGERS: When a new Claude Code session begins
 #
-# COMMON USE CASES:
-# - Initialize project-specific configuration
-# - Setup session logging
-# - Load user preferences
-# - Prepare development environment
-# - Send welcome notifications
-# - Check system requirements
-#
 # SETTINGS.JSON CONFIGURATION:
 # {
 #   "hooks": {
@@ -34,14 +26,9 @@ class SessionStartHandler < ClaudeHooks::SessionStart
   def call
     log "Session starting for project: #{project_name}"
 
-    # Example: Initialize session state
-    # setup_project_environment
-    # load_user_preferences
-    # check_dependencies
     backup_projects_directory
     acknowledge_current_date
 
-    # Allow session to continue
     allow_continue!
     suppress_output!
 
@@ -52,21 +39,6 @@ class SessionStartHandler < ClaudeHooks::SessionStart
 
   def project_name
     File.basename(cwd || Dir.pwd)
-  end
-
-  def setup_project_environment
-    # Example: Setup environment variables, check git status, etc.
-    log 'Setting up project environment'
-  end
-
-  def load_user_preferences
-    # Example: Load user-specific settings for this project
-    log 'Loading user preferences'
-  end
-
-  def check_dependencies
-    # Example: Verify required tools are installed
-    log 'Checking project dependencies'
   end
 
   def backup_projects_directory

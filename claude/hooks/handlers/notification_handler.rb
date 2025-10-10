@@ -7,9 +7,6 @@ require 'claude_hooks'
 #
 # PURPOSE: Handle Claude Code notifications (permission requests, idle warnings)
 # TRIGGERS: When Claude needs permission to use tools or when idle for 60+ seconds
-#
-# This is a basic implementation that logs notifications.
-# Extend this class for custom notification handling (e.g., desktop notifications, sounds, etc.)
 
 class NotificationHandler < ClaudeHooks::Notification
   def call

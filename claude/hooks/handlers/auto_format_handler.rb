@@ -17,21 +17,30 @@ require 'shellwords'
 # - Shell: shfmt with 2-space indentation (matching pre-commit args)
 # - Lua: stylua with custom configuration (160 column width, Unix line endings, etc.)
 # - Rust: rustfmt with default configuration
-# - Python: black with default configuration, isort for import sorting
+# - Python: ruff format (automatically uses existing Black/isort/flake8 configs)
 # - YAML: yamlfmt with default configuration, prettier as fallback
-# - JavaScript/TypeScript: prettier with default configuration
+# - JavaScript/TypeScript: eslint with --fix, prettier as fallback
 
 class AutoFormatHandler < ClaudeHooks::PostToolUse
+  DEFAULT_SKIP_PATTERNS = %w[
+    node_modules/
+    dist/
+    build/
+    .git/
+    *.min.js
+    *.min.css
+    vendor/
+    tmp/
+    .bundle/
+  ].freeze
+
   def call
     log "Auto-format handler triggered for #{tool_name}"
 
-    # Early returns for invalid conditions - keep it obvious
     return output_data unless should_process_tool?
     return output_data unless file_path_available?
-    return output_data unless formatting_enabled?
     return output_data if should_skip_file?
 
-    # Core formatting logic
     perform_formatting
 
     output_data
@@ -48,10 +57,10 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
   end
 
   def tool_successful?
-    # Simple, clear success detection using DSL accessors
     return false if tool_response&.dig('error')
+    return false if tool_response&.dig('isError')
     return false if tool_response&.dig('success') == false
-    return false if tool_response&.dig('exit_code')&.nonzero?
+    return false if tool_response&.dig('exitCode')&.nonzero?
 
     true
   end
@@ -65,15 +74,6 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
 
   def current_file_path
     @current_file_path ||= tool_input&.dig('file_path')
-  end
-
-  def formatting_enabled?
-    # Use claude_hooks config helpers instead of custom JSON loading
-    enabled = config.get_config_value('AUTO_FORMAT_ENABLED', 'enabled', true)
-
-    log 'Auto-formatting disabled by configuration' unless enabled
-
-    enabled
   end
 
   def should_skip_file?
@@ -96,54 +96,10 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
   end
 
   def skip_patterns
-    @skip_patterns ||= load_skip_patterns
-  end
-
-  def load_skip_patterns
-    patterns = default_skip_patterns
-
-    # Try to load .claudeignore from project
-    claudeignore_path = project_path_for('.claudeignore')
-    if claudeignore_path && File.exist?(claudeignore_path)
-      patterns += load_ignore_file(claudeignore_path)
-      log "Loaded ignore patterns from #{claudeignore_path}"
-    end
-
-    # Try to load from home directory
-    home_claudeignore = home_path_for('.claudeignore')
-    if File.exist?(home_claudeignore)
-      patterns += load_ignore_file(home_claudeignore)
-      log "Loaded ignore patterns from #{home_claudeignore}"
-    end
-
-    patterns
-  end
-
-  def default_skip_patterns
-    %w[
-      node_modules/
-      dist/
-      build/
-      .git/
-      *.min.js
-      *.min.css
-      vendor/
-      tmp/
-      .bundle/
-    ]
-  end
-
-  def load_ignore_file(file_path)
-    File.readlines(file_path, chomp: true)
-        .reject { |line| line.strip.empty? || line.start_with?('#') }
-        .map(&:strip)
-  rescue StandardError => e
-    log "Error loading ignore file #{file_path}: #{e.message}", level: :error
-    []
+    DEFAULT_SKIP_PATTERNS
   end
 
   def matches_skip_pattern?(file_path, pattern)
-    # Simplified pattern matching - obvious and maintainable
     if pattern.end_with?('/')
       # Directory pattern
       file_path.start_with?(pattern[0..-2])
@@ -179,7 +135,6 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
   def detect_formatter
     extension = File.extname(current_file_path).downcase
 
-    # Simplified formatter detection - mirrors pre-commit configuration
     case extension
     when '.rb'
       command_available?('rubocop') ? { name: 'RuboCop', command: 'rubocop', args: ['-A'] } : nil
@@ -191,7 +146,7 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
           args: [
             '--fix',
             '--disable',
-            'MD013,MD041,MD026,MD012,MD024' # Match pre-commit disabled rules
+            'MD013,MD041,MD026,MD012,MD024'
           ]
         }
       end
@@ -200,7 +155,7 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
         {
           name: 'shfmt',
           command: 'shfmt',
-          args: ['-w', '-i', '2'] # Match pre-commit args: 2-space indentation
+          args: ['-w', '-i', '2'] # 2-space indentation
         }
       end
     when '.lua'
@@ -221,71 +176,20 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     when '.rs'
       command_available?('rustfmt') ? { name: 'rustfmt', command: 'rustfmt', args: [] } : nil
     when '.py'
-      detect_python_formatter
+      command_available?('ruff') ? { name: 'ruff', command: 'ruff', args: ['format'] } : nil
     when '.yml', '.yaml'
-      detect_yaml_formatter
+      if command_available?('yamlfmt')
+        { name: 'yamlfmt', command: 'yamlfmt', args: ['-w'] }
+      elsif command_available?('prettier')
+        { name: 'prettier', command: 'prettier', args: ['--write', '--parser', 'yaml'] }
+      end
     when '.js', '.jsx', '.ts', '.tsx', '.json'
-      detect_js_formatter
+      if command_available?('eslint')
+        { name: 'eslint', command: 'eslint', args: ['--fix'] }
+      elsif command_available?('prettier')
+        { name: 'prettier', command: 'prettier', args: ['--write'] }
+      end
     end
-  end
-
-  def detect_js_formatter
-    # Try eslint first (yarn-based, then global)
-    if yarn_project? && command_available?('yarn') && command_available?('eslint')
-      { name: 'yarn eslint', command: 'yarn', args: ['eslint', '--fix'] }
-    elsif command_available?('eslint')
-      { name: 'eslint', command: 'eslint', args: ['--fix'] }
-    # Fallback to prettier (yarn-based, then global)
-    elsif yarn_project? && command_available?('yarn') && command_available?('prettier')
-      { name: 'yarn prettier', command: 'yarn', args: ['prettier', '--write'] }
-    elsif command_available?('prettier')
-      { name: 'prettier', command: 'prettier', args: ['--write'] }
-    end
-  end
-
-  def detect_yaml_formatter
-    if command_available?('yamlfmt')
-      { name: 'yamlfmt', command: 'yamlfmt', args: ['-w'] }
-    elsif command_available?('prettier')
-      { name: 'prettier', command: 'prettier', args: ['--write', '--parser', 'yaml'] }
-    end
-  end
-
-  def detect_python_formatter
-    # Ruff-only approach: automatically uses existing Black/isort/flake8 configs
-    project_dir = find_project_root
-
-    # Check for local Ruff first (virtual environment)
-    if local_command_available?('ruff', project_dir)
-      {
-        name: 'ruff (local)',
-        command: find_local_command('ruff', project_dir),
-        args: ['format']
-      }
-    # Fallback to global Ruff
-    elsif command_available?('ruff')
-      {
-        name: 'ruff (global)',
-        command: 'ruff',
-        args: ['format']
-      }
-    else
-      # No Ruff available - log helpful message
-      log 'No Ruff formatter found. Install with: pip install ruff'
-      log 'Ruff automatically uses existing Black, isort, and flake8 configurations'
-      nil
-    end
-  end
-
-  def yarn_project?
-    # Check for yarn.lock in current directory or walk up to find it
-    current_dir = File.dirname(current_file_path)
-    while current_dir != '/'
-      return true if File.exist?(File.join(current_dir, 'yarn.lock'))
-
-      current_dir = File.dirname(current_dir)
-    end
-    false
   end
 
   def command_available?(command)
@@ -297,79 +201,7 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     @command_cache[command] = system("which #{command} > /dev/null 2>&1")
   end
 
-  def local_command_available?(command, project_dir)
-    # Check for command in local virtual environment first
-    @local_command_cache ||= {}
-    cache_key = "#{project_dir}:#{command}"
-
-    return @local_command_cache[cache_key] if @local_command_cache.key?(cache_key)
-
-    # Check common venv locations
-    venv_paths = [
-      File.join(project_dir, 'venv', 'bin', command),
-      File.join(project_dir, '.venv', 'bin', command),
-      File.join(project_dir, 'env', 'bin', command),
-      File.join(project_dir, '.env', 'bin', command)
-    ]
-
-    local_available = venv_paths.any? { |path| File.executable?(path) }
-    @local_command_cache[cache_key] = local_available || command_available?(command)
-  end
-
-  def find_project_root
-    # Walk up from current file to find project root indicators
-    current_dir = File.dirname(current_file_path)
-
-    while current_dir != '/'
-      # Look for common project root indicators
-      return current_dir if [
-        'pyproject.toml', 'setup.py', 'setup.cfg', '.git',
-        'requirements.txt', 'Pipfile', 'poetry.lock'
-      ].any? { |indicator| File.exist?(File.join(current_dir, indicator)) }
-
-      current_dir = File.dirname(current_dir)
-    end
-
-    # Fallback to file's directory
-    File.dirname(current_file_path)
-  end
-
-  def find_local_command(command, project_dir)
-    venv_paths = [
-      File.join(project_dir, 'venv', 'bin', command),
-      File.join(project_dir, '.venv', 'bin', command),
-      File.join(project_dir, 'env', 'bin', command),
-      File.join(project_dir, '.env', 'bin', command)
-    ]
-
-    venv_paths.find { |path| File.executable?(path) }
-  end
-
   def run_formatter(formatter)
-    # Store original content to detect changes
-    original_content = File.read(current_file_path)
-
-    result = run_standard_formatter(formatter)
-
-    # Handle post_command for formatters like black+isort
-    if result[:success] && formatter[:post_command]
-      post_result = run_post_command(formatter[:post_command])
-      result[:success] = post_result[:success]
-      result[:error] = post_result[:error] unless post_result[:success]
-    end
-
-    # Check if changes were made and report
-    if result[:success]
-      new_content = File.read(current_file_path)
-      result[:changes_made] = original_content != new_content
-    end
-
-    result
-  rescue StandardError => e
-    { success: false, error: e.message }
-  end
-
-  def run_standard_formatter(formatter)
     command_parts = [formatter[:command]] + formatter[:args] + [current_file_path]
     command = command_parts.map { |part| Shellwords.escape(part) }.join(' ')
 
@@ -382,21 +214,8 @@ class AutoFormatHandler < ClaudeHooks::PostToolUse
     else
       { success: false, error: stdout_err.strip }
     end
-  end
-
-  def run_post_command(command)
-    command_parts = [command, current_file_path]
-    command_string = command_parts.map { |part| Shellwords.escape(part) }.join(' ')
-
-    log "Running post-command: #{command_string}"
-
-    stdout_err, status = Open3.capture2e(command_string)
-
-    if status.success?
-      { success: true, output: stdout_err }
-    else
-      { success: false, error: stdout_err.strip }
-    end
+  rescue StandardError => e
+    { success: false, error: e.message }
   end
 
   def add_success_feedback(formatter_name)

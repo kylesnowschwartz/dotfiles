@@ -11,11 +11,8 @@ require 'claude_hooks'
 require 'json'
 
 # Require all SessionStart handler classes
-require_relative '../handlers/session_start_handler'
-
 # Add additional handler requires here as needed:
-# require_relative '../handlers/session_start/custom_handler'
-# require_relative '../handlers/session_start/another_handler'
+require_relative '../handlers/session_start_handler'
 
 begin
   # Read input data from Claude Code
