@@ -17,11 +17,15 @@
 - **Documentation lookups** → Use `repository-documentation-expert`
 - **Test execution** → Use `test-runner`
 - **Web searches** → Use `web-search-researcher`
-- **Multi-file analysis (10+ files)** → Use `context-analyzer`
+- **Deep codebase analysis** → Use `code-explorer`
+- **Architecture design** → Use `code-architect`
+- **Code quality review** → Use `code-reviewer`
 
 **Available Agents:**
 
-- `context-analyzer` - Maps project structure, patterns, and architecture
+- `code-explorer` - Deeply analyzes existing codebase features by tracing execution paths and mapping architecture
+- `code-architect` - Designs feature architectures by analyzing existing patterns and providing implementation blueprints
+- `code-reviewer` - Reviews code for bugs, security vulnerabilities, and adherence to project conventions
 - `repository-documentation-expert` - Finds documentation from Context7, local repos, and GitHub repositories
 - `test-runner` - Executes tests and analyzes failures
 - `web-search-researcher` - Searches web for current information
@@ -39,7 +43,7 @@ This command interprets natural language requests that express the intent: "I ne
 
 **Command Execution:**
 
-**Empty "${arguments}"**: Display usage suggestions → stop
+**Empty $ARGUMENTS**: Display usage suggestions → stop
 **Has content**: Parse intent → apply strategy → route execution
 
 **Intent Processing:** Extract intent → Apply strategy matrix → Validate → Execute
@@ -53,37 +57,11 @@ This command interprets natural language requests that express the intent: "I ne
 | Context   | Available locally   | External research needed       |
 | Output    | Concise, focused    | Verbose, needs filtering       |
 
-Transforms: "${arguments}" into structured execution:
+Transforms: $ARGUMENTS into structured execution:
 
 - Intent: [verification-goal-and-scope]
 - Approach: [direct-review OR comprehensive-analysis]
 - Agents: [none OR minimal-viable-set]
-
-### Intent Recognition Examples
-
-<example>
-<input>${arguments} = "Review this pull request for security vulnerabilities"</input>
-<intent>Security verification - comprehensive security audit of PR changes</intent>
-<approach>Multi-perspective analysis combining code review, security research, and vulnerability scanning</approach>
-<agents>context-analyzer (code change analysis), web-search-researcher (security vulnerability research)</agents>
-<output>Security audit report with vulnerability assessment, risk ratings, and remediation recommendations</output>
-</example>
-
-<example>
-<input>${arguments} = "Check the performance of our data processing pipeline"</input>
-<intent>Performance verification - bottleneck identification and optimization analysis</intent>
-<approach>Performance profiling with testing and optimization research</approach>
-<agents>context-analyzer (pipeline architecture), test-runner (performance testing), web-search-researcher (optimization techniques)</agents>
-<output>Performance analysis with bottleneck identification, metrics, and optimization strategies</output>
-</example>
-
-<example>
-<input>${arguments} = "Verify code quality standards across the authentication module"</input>
-<intent>Quality verification - comprehensive code quality assessment</intent>
-<approach>Direct code review with standards validation and best practices research</approach>
-<agents>context-analyzer (authentication patterns), web-search-researcher (security best practices)</agents>
-<output>Code quality report with standards compliance, security patterns assessment, and improvement recommendations</output>
-</example>
 
 ### Output Template
 
@@ -115,4 +93,4 @@ Transforms: "${arguments}" into structured execution:
 
 ---
 
-**User Request**: ${arguments}
+**User Request**: $ARGUMENTS

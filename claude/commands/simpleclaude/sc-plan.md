@@ -17,14 +17,9 @@
 - **Documentation lookups** → Use `repository-documentation-expert`
 - **Test execution** → Use `test-runner`
 - **Web searches** → Use `web-search-researcher`
-- **Multi-file analysis (10+ files)** → Use `context-analyzer`
-
-**Available Agents:**
-
-- `context-analyzer` - Maps project structure, patterns, and architecture
-- `repository-documentation-expert` - Finds documentation from Context7, local repos, and GitHub repositories
-- `test-runner` - Executes tests and analyzes failures
-- `web-search-researcher` - Searches web for current information
+- **Deep codebase analysis** → Use `code-explorer`
+- **Architecture design** → Use `code-architect`
+- **Code quality review** → Use `code-reviewer`
 
 **Context Preservation:**
 
@@ -39,7 +34,7 @@ This command interprets natural language requests that express the intent: "I ne
 
 **Command Execution:**
 
-**Empty "${arguments}"**: Display usage suggestions → stop
+**Empty $ARGUMENTS**: Display usage suggestions → stop
 **Has content**: Parse intent → apply strategy → route execution
 
 **Intent Processing:** Extract intent → Apply strategy matrix → Validate → Execute
@@ -53,29 +48,11 @@ This command interprets natural language requests that express the intent: "I ne
 | Context   | Available locally   | External research needed       |
 | Output    | Concise, focused    | Verbose, needs filtering       |
 
-Transforms: "${arguments}" into structured execution:
+Transforms: $AGENTS into structured execution:
 
 - Intent: [recognized-user-intent]
 - Approach: [direct/agent with reasoning]
 - Agents: [none OR minimal-viable-set]
-
-### Intent Recognition Examples
-
-<example>
-<input>${arguments} = "How should I approach adding real-time notifications to this app?"</input>
-<intent>Architecture planning for real-time notifications feature</intent>
-<approach>Direct analysis + agent research for best practices</approach>
-<agents>web-search-researcher (per Direct Agent Rules)</agents>
-<output>Structured plan with technology recommendations and implementation phases</output>
-</example>
-
-<example>
-<input>${arguments} = "I need to plan the migration from React 16 to React 18"</input>
-<intent>Technology migration strategy and roadmap</intent>
-<approach>Documentation research + codebase analysis + migration planning</approach>
-<agents>repository-documentation-expert (per Direct Agent Rules), context-analyzer if 10+ files</agents>
-<output>Phased migration plan with breaking changes, testing strategy, and timeline</output>
-</example>
 
 ### Output Template
 
@@ -107,4 +84,4 @@ Transforms: "${arguments}" into structured execution:
 
 ---
 
-**User Request**: ${arguments}
+**User Request**: $ARGUMENTS
