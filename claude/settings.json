@@ -8,7 +8,6 @@
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
   },
   "includeCoAuthoredBy": false,
-  "outputStyle": "linus-torvalds",
   "permissions": {
     "allow": [
       "Agent",
@@ -98,7 +97,9 @@
       "mcp__ide",
       "mcp__mcphub"
     ],
-    "deny": ["Bash(git push --force)"],
+    "deny": [
+      "Bash(git push --force)"
+    ],
     "ask": [
       "Bash(git add:*)",
       "Bash(git push:*)",
@@ -106,7 +107,9 @@
       "Bash(rm:*)",
       "Bash(curl:*)"
     ],
-    "additionalDirectories": ["/Users/kyle/Code/Cloned-Sources/"]
+    "additionalDirectories": [
+      "/Users/kyle/Code/Cloned-Sources/"
+    ]
   },
   "hooks": {
     "Notification": [
@@ -169,11 +172,14 @@
     "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_simple.sh",
     "padding": 0
   },
+  "enabledPlugins": {
+    "pr-review-toolkit@claude-code-plugins": true,
+    "example-skills@anthropic-agent-skills": true,
+    "triage-skills@market-AI-tooling": true
+  },
+  "outputStyle": "linus-torvalds",
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
-  },
-  "enabledPlugins": {
-    "pr-review-toolkit@claude-code-plugins": true
   }
 }
