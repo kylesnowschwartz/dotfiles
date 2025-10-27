@@ -7,6 +7,10 @@ file-history/
 logs/
 debug/
 
+# Track plugin-configuration files
+!plugins/installed_plugins.json
+!plugins/known_marketplaces.json
+
 # Environment files with sensitive tokens
 .envrc
 .env
