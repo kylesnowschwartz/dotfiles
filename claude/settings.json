@@ -111,74 +111,21 @@
       "/Users/kyle/Code/Cloned-Sources/"
     ]
   },
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/notification.rb"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/session_start.rb"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/post_tool_use.rb"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/user_prompt_submit.rb"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/dotfiles/claude/hooks/entrypoints/stop.rb"
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/Code/dotfiles/claude/scripts/ctx_simple.sh",
+    "command": "/Users/kyle/Code/dotfiles/claude/status-lines/simple-status-line.sh",
     "padding": 0
   },
   "enabledPlugins": {
     "pr-review-toolkit@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": true,
-    "triage-skills@market-AI-tooling": true
+    "triage-skills@market-AI-tooling": true,
+    "simpleclaude@simpleclaude": true,
+    "sc-hooks@simpleclaude": true,
+    "sc-extras@simpleclaude": true
   },
   "outputStyle": "linus-torvalds",
-  "alwaysThinkingEnabled": true,
+  "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
   }
