@@ -64,8 +64,8 @@ bindkey -v
 # Cursor shape configuration for vi mode (built-in ZSH parameter)
 zle-keymap-select() {
   case $KEYMAP in
-    vicmd)      echo -ne '\e[1 q';;  # Block cursor for normal mode
-    viins|main) echo -ne '\e[5 q';;  # Line cursor for insert mode
+  vicmd) echo -ne '\e[1 q' ;;        # Block cursor for normal mode
+  viins | main) echo -ne '\e[5 q' ;; # Line cursor for insert mode
   esac
 }
 zle -N zle-keymap-select
@@ -90,6 +90,7 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 [ -d "/usr/local/opt/rustup/bin" ] && export PATH="/usr/local/opt/rustup/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
+[ -d "/usr/local/opt/postgresql@16/bin" ] && export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
 
 # Platform-specific paths
 if [ "$OS" = "macos" ]; then

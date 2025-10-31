@@ -243,6 +243,13 @@ claude() {
 alias claude-quiet='touch ~/.claude/.sounds_disabled && echo "Claude sounds disabled globally"'
 alias claude-sounds='rm -f ~/.claude/.sounds_disabled && echo "Claude sounds enabled globally"'
 
+# Quick Claude CLI with Haiku model - auto-wraps arguments
+@@() {
+  set -f  # Disable glob expansion
+  trap 'set +f' EXIT  # Re-enable glob expansion on any exit
+  claude -p --model haiku "$*"
+}
+
 # Turn .mov into gif
 #
 gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
