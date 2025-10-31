@@ -18,32 +18,62 @@ fi
 BACKUP_BASE_DIR="$HOME/backups"
 BACKUP_DIR="$BACKUP_BASE_DIR/dotfiles_$(date +%Y%m%d-%H%M%S)"
 VERBOSE=1
+DRY_RUN=1 # Default to dry-run mode for safety
+
+# Function to detect operating system
+detect_os() {
+  local os_name
+  os_name="$(uname)"
+
+  case "$os_name" in
+  Darwin)
+    echo "macos"
+    ;;
+  Linux)
+    echo "linux"
+    ;;
+  FreeBSD)
+    echo "freebsd"
+    ;;
+  *)
+    echo "unknown"
+    ;;
+  esac
+}
+
+# Function to check if running on macOS
+is_macos() {
+  [ "$OS" = "macos" ]
+}
+
+# Function to check if running on Linux
+is_linux() {
+  [ "$OS" = "linux" ]
+}
 
 # Detect OS
-OS="unknown"
-if [ "$(uname)" = "Darwin" ]; then
-  OS="macos"
-elif [ "$(uname)" = "Linux" ]; then
-  OS="linux"
-elif [ "$(uname)" = "FreeBSD" ]; then
-  OS="freebsd"
-fi
+OS=$(detect_os)
 
 # Parse command line arguments
 NO_BACKUP=0
-while getopts "qvhnf:" opt; do
+while getopts "qvhnf:r" opt; do
   case $opt in
   q) VERBOSE=0 ;;              # Quiet mode
   v) VERBOSE=2 ;;              # Extra verbose
   n) NO_BACKUP=1 ;;            # Skip backups
   f) DOTFILES_DIR="$OPTARG" ;; # Custom dotfiles directory path
+  r) DRY_RUN=0 ;;              # Actually run (disable dry-run)
   h)
-    echo "Usage: $0 [-q] [-v] [-n] [-f path] [-h]"
+    echo "Usage: $0 [-q] [-v] [-n] [-f path] [-r] [-h]"
     echo "  -q  Quiet mode (minimal output)"
     echo "  -v  Verbose mode (extra output)"
     echo "  -n  No backup (don't create backups of existing files)"
     echo "  -f  Specify custom dotfiles directory path"
+    echo "  -r  Run for real (disable dry-run mode - default is dry-run)"
     echo "  -h  Show this help message"
+    echo ""
+    echo "NOTE: By default, this script runs in DRY-RUN mode (safe to test)."
+    echo "      Use -r flag to actually create symlinks and make changes."
     exit 0
     ;;
   *)
@@ -52,6 +82,15 @@ while getopts "qvhnf:" opt; do
     ;;
   esac
 done
+
+# Show dry-run status
+if [ "$DRY_RUN" -eq 1 ]; then
+  echo "=============================================="
+  echo "  DRY-RUN MODE (no changes will be made)"
+  echo "  Use -r flag to run for real"
+  echo "=============================================="
+  echo ""
+fi
 
 # Define the cleanup function for temporary files
 cleanup() {
@@ -64,10 +103,16 @@ cleanup() {
 trap cleanup EXIT
 
 # Handle backup directory setup
-if [ "$NO_BACKUP" -eq 1 ]; then
+if [ "$DRY_RUN" -eq 1 ]; then
+  # In dry-run mode, always use temp log file
+  echo "Using temporary log file (dry-run mode)"
+  TEMP_LOG_FILE="${TMPDIR:-/tmp}/dotfiles_setup_$$.log"
+  touch "$TEMP_LOG_FILE"
+  LOG_FILE="$TEMP_LOG_FILE"
+  echo "[$(date "+%Y-%m-%d %H:%M:%S")] [INFO] [$OS] Starting dotfiles setup (DRY-RUN)" >"$LOG_FILE"
+elif [ "$NO_BACKUP" -eq 1 ]; then
   echo "Skipping backup creation (running with -n flag)"
   # Use temporary log file since we won't have a backup directory
-  # Create portable temporary file (mktemp might have different options on different systems)
   TEMP_LOG_FILE="${TMPDIR:-/tmp}/dotfiles_setup_$$.log"
   touch "$TEMP_LOG_FILE"
   LOG_FILE="$TEMP_LOG_FILE"
@@ -122,7 +167,13 @@ log() {
   local level="$1"
   local message="$2"
   local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-  echo "[$timestamp] [$level] $log_prefix $message" >>"$LOG_FILE"
+  local dry_run_prefix=""
+
+  if [ "$DRY_RUN" -eq 1 ]; then
+    dry_run_prefix="[DRY-RUN] "
+  fi
+
+  echo "[$timestamp] [$level] $log_prefix $dry_run_prefix$message" >>"$LOG_FILE"
 
   # Error messages are always displayed
   # INFO messages are displayed in normal and verbose mode
@@ -131,7 +182,7 @@ log() {
     [ "$level" = "WARNING" ] ||
     ([ "$level" = "INFO" ] && [ "$VERBOSE" -ge 1 ]) ||
     ([ "$level" = "DEBUG" ] && [ "$VERBOSE" -ge 2 ]); then
-    echo "[$level] $log_prefix $message"
+    echo "[$level] $log_prefix $dry_run_prefix$message"
   fi
 }
 
@@ -154,10 +205,15 @@ safe_remove() {
   local path="$1"
   log "DEBUG" "Removing path $path"
 
+  if [ "$DRY_RUN" -eq 1 ]; then
+    log "DEBUG" "Would remove: $path"
+    return 0
+  fi
+
   # Try standard rm first, which works on all platforms
   if ! rm -rf "$path" 2>/dev/null; then
     # If that fails on Linux, try with --preserve-root
-    if [ "$OS" != "macos" ]; then
+    if ! is_macos; then
       if ! rm -rf --preserve-root "$path" 2>/dev/null; then
         log "ERROR" "Failed to remove path $path"
         return 1
@@ -197,9 +253,11 @@ setup_symlink() {
   # Make sure the target directory exists
   if [ ! -d "$target_dir" ]; then
     log "INFO" "Creating target directory $target_dir"
-    if ! mkdir -p "$target_dir"; then
-      log "ERROR" "Failed to create directory $target_dir"
-      return
+    if [ "$DRY_RUN" -eq 0 ]; then
+      if ! mkdir -p "$target_dir"; then
+        log "ERROR" "Failed to create directory $target_dir"
+        return
+      fi
     fi
   fi
 
@@ -217,7 +275,7 @@ setup_symlink() {
     fi
   # Backup existing file/directory if it exists and is not a symlink
   elif [ -e "$target_path" ]; then
-    if [ "$NO_BACKUP" -eq 1 ]; then
+    if [ "$NO_BACKUP" -eq 1 ] || [ "$DRY_RUN" -eq 1 ]; then
       log "INFO" "Removing existing path $target_path (no backup)"
     else
       log "INFO" "Backing up existing path $target_path to $BACKUP_DIR"
@@ -236,30 +294,46 @@ setup_symlink() {
 
   # Create symlink
   log "INFO" "Creating symlink from $source_path to $target_path"
-  if ! ln -sf "$source_path" "$target_path"; then
-    log "ERROR" "Failed to create symlink for $target_path"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    log "DEBUG" "Would create symlink: $target_path -> $source_path"
   else
-    log "DEBUG" "Successfully linked $source_path -> $target_path"
+    if ! ln -sf "$source_path" "$target_path"; then
+      log "ERROR" "Failed to create symlink for $target_path"
+    else
+      log "DEBUG" "Successfully linked $source_path -> $target_path"
+    fi
   fi
 }
 
 # Define arrays for different types of dotfiles
+# These are cross-platform configs that work on both macOS and Linux
+# Home directory files are symlinked directly to ~/
+# Config directory files are symlinked to ~/.config/
+
+# Files to symlink to home directory (~/)
 HOME_FILES=(
-  .bashrc
-  .bash_aliases
-  .bash_profile
-  .gitconfig
-  .inputrc
-  .markdownlint.json
+  .bashrc            # Bash shell config (fallback/compatibility)
+  .bash_aliases      # Cross-compatible aliases for bash and zsh
+  .bash_profile      # Bash login shell config
+  .zshrc             # Zsh shell config (primary shell)
+  .gitconfig         # Git configuration
+  .gitignore_global  # Global gitignore patterns
+  .inputrc           # Readline configuration (vi mode)
+  .markdownlint.json # Markdown linting rules
 )
 
+# Files/directories to symlink to ~/.config/
 CONFIG_FILES=(
-  .ripgreprc
-  starship.toml
-  yazi
-  git
-  kitty
+  .editorconfig # Cross-editor formatting rules
+  .ripgreprc    # Ripgrep configuration
+  yazi          # Terminal file manager config
+  git           # Git templates and hooks
+  ghostty       # Ghostty terminal config (experimental)
 )
+
+# NOTE: starship.toml is NOT in this list because it's managed by the
+# starship-set function in .bash_aliases, which creates a symlink to
+# one of the theme files in starship/ directory
 
 # Set up symlinks for home files
 for file in "${HOME_FILES[@]}"; do
@@ -271,10 +345,58 @@ for file in "${CONFIG_FILES[@]}"; do
   setup_symlink "$file" "config"
 done
 
+# Set up starship theme symlink if it doesn't exist
+# The starship-set function in .bash_aliases manages theme switching
+STARSHIP_CONFIG="$HOME/.config/starship.toml"
+DEFAULT_STARSHIP_THEME="$DOTFILES_DIR/starship/chef-starship.toml"
+
+if [ ! -e "$STARSHIP_CONFIG" ]; then
+  log "INFO" "Creating default starship theme symlink to chef-starship.toml"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    log "DEBUG" "Would create symlink: $STARSHIP_CONFIG -> $DEFAULT_STARSHIP_THEME"
+  else
+    if ! ln -sf "$DEFAULT_STARSHIP_THEME" "$STARSHIP_CONFIG"; then
+      log "ERROR" "Failed to create starship theme symlink"
+    else
+      log "DEBUG" "Successfully linked starship theme"
+    fi
+  fi
+  log "INFO" "Use 'starship-set <theme>' to switch themes"
+else
+  log "DEBUG" "Starship config already exists at $STARSHIP_CONFIG"
+fi
+
 # Set up symlinks for any other configuration files
 # Add more files here as needed
 
 log "INFO" "Dotfiles setup complete!"
+
+# ZSH Setup (if zsh is available)
+# Check if zsh is installed and provide guidance
+if command -v zsh >/dev/null 2>&1; then
+  log "INFO" "Zsh detected, checking configuration..."
+
+  # Check if zsh is already the default shell
+  current_shell="$SHELL"
+  zsh_path="$(command -v zsh)"
+
+  if [ "$current_shell" != "$zsh_path" ]; then
+    log "WARNING" "Current shell: $current_shell (not zsh)"
+    log "INFO" "Zsh is recommended as the primary shell for this configuration"
+    log "INFO" "To set zsh as default shell, run: chsh -s $zsh_path"
+    log "INFO" "Then log out and log back in for the change to take effect"
+  else
+    log "INFO" "Zsh is already your default shell"
+  fi
+else
+  log "WARNING" "Zsh not found. This configuration is optimized for zsh."
+  log "INFO" "Consider installing zsh for the best experience."
+  if is_macos; then
+    log "INFO" "On macOS, zsh is included by default in recent versions"
+  elif is_linux; then
+    log "INFO" "Install with: sudo apt install zsh (Debian/Ubuntu) or sudo yum install zsh (RHEL/CentOS)"
+  fi
+fi
 
 # Only show backup info if we're not in no-backup mode
 if [ "$NO_BACKUP" -eq 0 ]; then
@@ -293,30 +415,36 @@ if [ "$NO_BACKUP" -eq 0 ]; then
   fi
 fi
 
-# Determine appropriate primary bash file by OS
-case "$OS" in
-macos)
-  primary_file=".bash_profile"
-  ;;
-linux | freebsd | *)
-  primary_file=".bashrc"
-  ;;
-esac
+# Source the appropriate shell configuration to apply changes immediately
+log "INFO" "Sourcing shell configuration files..."
 
-# Source the bash configuration to apply changes immediately
-log "INFO" "Sourcing bash configuration files..."
-
-# Only source files if running in interactive shell
-if [ -n "$BASH_VERSION" ] && [ -n "$PS1" ]; then
+# Detect which shell we're running in and source appropriately
+if [ -n "$ZSH_VERSION" ]; then
+  # Running in zsh
+  if [ -f "$HOME/.zshrc" ]; then
+    log "INFO" "Sourcing .zshrc for zsh..."
+    # shellcheck disable=SC1091
+    . "$HOME/.zshrc" 2>/dev/null || log "WARNING" "Failed to source .zshrc"
+    log "INFO" "Zsh configuration applied"
+  else
+    log "WARNING" ".zshrc not found"
+  fi
+elif [ -n "$BASH_VERSION" ] && [ -n "$PS1" ]; then
+  # Running in interactive bash
   log "INFO" "Sourcing bash files for $OS"
 
   for file in .bashrc .bash_profile .bash_aliases; do
     if [ -f "$HOME/$file" ]; then
       log "INFO" "Sourcing $file"
+      # shellcheck disable=SC1091
       . "$HOME/$file" 2>/dev/null || log "WARNING" "Failed to source $file"
     fi
   done
   log "INFO" "Bash configurations applied"
 else
-  log "INFO" "To apply changes immediately, run: . ~/$primary_file"
+  # Not in an interactive shell, provide instructions
+  if command -v zsh >/dev/null 2>&1; then
+    log "INFO" "To apply changes in zsh, run: source ~/.zshrc"
+  fi
+  log "INFO" "To apply changes in bash, run: source ~/.bashrc (or ~/.bash_profile on macOS)"
 fi
