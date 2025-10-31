@@ -5,7 +5,8 @@
     "MAX_MCP_OUTPUT_TOKENS": "70000",
     "MCP_TOOL_TIMEOUT": "120000",
     "MCP_TIMEOUT": "120000",
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -23,6 +24,7 @@
       "Bash(file:*)",
       "Bash(find:*)",
       "Bash(free:*)",
+      "Bash(gem list:*)",
       "Bash(grep:*)",
       "Bash(gh:*)",
       "Bash(git cd:*)",
@@ -111,6 +113,7 @@
       "/Users/kyle/Code/Cloned-Sources/"
     ]
   },
+  "hooks": {},
   "statusLine": {
     "type": "command",
     "command": "/Users/kyle/Code/dotfiles/claude/status-lines/simple-status-line.sh",
@@ -119,13 +122,15 @@
   "enabledPlugins": {
     "pr-review-toolkit@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": true,
-    "triage-skills@market-AI-tooling": true,
     "simpleclaude@simpleclaude": true,
-    "sc-hooks@simpleclaude": true,
-    "sc-extras@simpleclaude": true
+    "sc-hooks@simpleclaude": false,
+    "sc-extras@simpleclaude": true,
+    "document-skills@anthropic-agent-skills": true,
+    "envato-claude-core@envato-claude": true,
+    "envato-handy-hooks@envato-claude": true
   },
   "outputStyle": "linus-torvalds",
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
   }
