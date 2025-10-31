@@ -42,7 +42,11 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
-font-family = "MesloLGS Nerd Font Mono"
+# font-family = "MesloLGS Nerd Font Mono"
+font-family = "ZenbonesBrainy Nerd Font"
+font-size = 16
+
+# Default theme (cobalt2 dark theme)
 
 # Tab navigation with super + left/right arrow keys
 keybind = super+right=next_tab
@@ -59,3 +63,20 @@ keybind = super+e=equalize_splits
 
 # https://ghostty.org/docs/config/keybind/reference#toggle_quick_terminal
 keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+# Theme switching (matches iTerm2 keybindings)
+# Cmd+Shift+, = Light theme (dayfox)
+keybind = super+shift+comma=text:~/.config/ghostty/switch-theme.sh dayfox\n
+# Cmd+Shift+. = Dark theme (cobalt2)
+keybind = super+shift+period=text:~/.config/ghostty/switch-theme.sh cobalt2\n
+
+# Reload config to apply theme changes
+keybind = super+shift+r=reload_config
+
+# Always save and restore window state on quit/relaunch
+window-save-state = always
+shell-integration = detect
+window-inherit-working-directory = true
+
+# CURRENT_THEME: dayfox
+theme = dayfox.ghostty
