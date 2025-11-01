@@ -130,7 +130,7 @@
     "envato-handy-hooks@envato-claude": true
   },
   "outputStyle": "linus-torvalds",
-  "alwaysThinkingEnabled": true,
+  "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
   }
