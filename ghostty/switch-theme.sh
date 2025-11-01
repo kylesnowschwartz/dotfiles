@@ -4,9 +4,43 @@
 
 set -euo pipefail
 
+set_claude_theme() {
+  local theme="$1"
+  local config="$CLAUDE_CONFIG"
+
+  # Skip if jq not installed or config doesn't exist
+  if ! command -v jq &>/dev/null || [[ ! -f "$config" ]]; then
+    return 2
+  fi
+
+  # Get original permissions (macOS vs Linux compatible)
+  local perms
+  perms=$(stat -f "%OLp" "$config" 2>/dev/null || stat -c "%a" "$config" 2>/dev/null)
+
+  # Generate unique temp file
+  local tmpfile="${config}.tmp.$$.$RANDOM"
+
+  # Update theme: dark = remove key, light = set value
+  if [[ "$theme" == "dark" ]]; then
+    jq 'del(.theme)' "$config" >"$tmpfile"
+  else
+    jq --arg t "$theme" '.theme = $t' "$config" >"$tmpfile"
+  fi
+
+  # Atomic rename with permission preservation
+  if [[ $? -eq 0 && -s "$tmpfile" ]]; then
+    chmod "$perms" "$tmpfile" && mv "$tmpfile" "$config"
+    return 0
+  else
+    rm -f "$tmpfile"
+    return 1
+  fi
+}
+
 CONFIG_FILE="$HOME/.config/ghostty/config"
 STARSHIP_CONFIG="$HOME/.config/starship.toml"
 STARSHIP_DIR="$HOME/Code/dotfiles/starship"
+CLAUDE_CONFIG="$HOME/.claude.json"
 THEME_MARKER="# CURRENT_THEME:"
 
 if [ $# -eq 0 ]; then
@@ -37,11 +71,13 @@ cobalt2)
   echo "theme = cobalt2" >>"$CONFIG_FILE"
   STARSHIP_THEME="chef"
   DELTA_THEME="dark"
+  CLAUDE_THEME="dark"
   ;;
 dayfox)
   echo "theme = dayfox.ghostty" >>"$CONFIG_FILE"
   STARSHIP_THEME="chef-light"
   DELTA_THEME="light"
+  CLAUDE_THEME="light"
   ;;
 esac
 
@@ -61,8 +97,20 @@ git config --unset delta.dark 2>/dev/null || true
 git config --unset delta.light 2>/dev/null || true
 git config delta.features "$DELTA_THEME"
 
+# Switch Claude theme
+set_claude_theme "$CLAUDE_THEME"
+CLAUDE_STATUS=$?
+if [[ $CLAUDE_STATUS -eq 0 ]]; then
+  CLAUDE_DISPLAY="✓"
+elif [[ $CLAUDE_STATUS -eq 2 ]]; then
+  CLAUDE_DISPLAY="○" # Skipped (jq missing or config missing)
+else
+  CLAUDE_DISPLAY="⚠"
+fi
+
 echo "✓ Switched to $THEME theme"
 echo "  - Ghostty: $THEME"
 echo "  - Starship: $STARSHIP_THEME ${STARSHIP_STATUS}"
 echo "  - Delta: $DELTA_THEME"
+echo "  - Claude: $CLAUDE_THEME ${CLAUDE_DISPLAY}"
 echo "  Reload Ghostty with Cmd+Shift+R to see changes"
