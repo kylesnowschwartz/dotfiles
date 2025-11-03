@@ -3,31 +3,34 @@
 
 # Stop Entrypoint
 #
-# This entrypoint handles Stop hooks for Age of Claude sound effects.
-# Triggered when Claude Code finishes generating a response.
-#
-# Plays the completion sound (villager_train1.wav) from Age of Empires.
+# This entrypoint orchestrates all Stop handlers when Claude Code finishes responding.
+# It reads JSON input from STDIN, executes all configured handlers, merges their outputs,
+# and returns the final result to Claude Code via STDOUT.
 
+require 'claude_hooks'
 require 'json'
-# require_relative '../handlers/age_of_claude/stop_handler'
+
+# Require all Stop handler classes
+# Add additional handler requires here as needed:
 require_relative '../handlers/stop_you_are_not_right'
+require_relative '../handlers/age_of_claude/stop_handler'
 
 begin
   # Read input data from Claude Code
   input_data = JSON.parse($stdin.read)
 
-  # # Initialize and execute handler
-  # age_of_claude_handler = AgeOfClaudeStopHandler.new(input_data)
-  # handler.call
-
-  # Initialize and execute handler
+  # Initialize and execute all handlers
   reflexive_agreement_handler = StopYouAreNotRight.new(input_data)
-  reflexive_agreement_handler.call
+  age_of_claude_handler = AgeOfClaudeStopHandler.new(input_data)
 
-  # MERGE THE OUTPUTS
+  # Execute handlers
+  reflexive_agreement_handler.call
+  age_of_claude_handler.call
+
+  # Merge outputs from both handlers
   merged_output = ClaudeHooks::Output::Stop.merge(
-    reflexive_agreement_handler.output
-    # age_of_claude_handler.output
+    reflexive_agreement_handler.output,
+    age_of_claude_handler.output
   )
 
   merged_output.output_and_exit

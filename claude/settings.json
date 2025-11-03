@@ -113,7 +113,49 @@
       "/Users/kyle/Code/Cloned-Sources/"
     ]
   },
-  "hooks": {},
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/entrypoints/user_prompt_submit.rb"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/entrypoints/stop.rb"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/entrypoints/notification.rb"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/entrypoints/session_end.rb"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "/Users/kyle/Code/dotfiles/claude/status-lines/simple-status-line.sh",
@@ -121,13 +163,14 @@
   },
   "enabledPlugins": {
     "pr-review-toolkit@claude-code-plugins": true,
-    "example-skills@anthropic-agent-skills": true,
+    "example-skills@anthropic-agent-skills": false,
     "simpleclaude@simpleclaude": true,
-    "sc-hooks@simpleclaude": false,
+    "sc-hooks@simpleclaude": true,
     "sc-extras@simpleclaude": true,
     "document-skills@anthropic-agent-skills": true,
-    "envato-claude-core@envato-claude": true,
-    "envato-handy-hooks@envato-claude": true
+    "envato-claude-core@envato-claude": false,
+    "envato-handy-hooks@envato-claude": false,
+    "test-plugin@test-marketplace": false
   },
   "outputStyle": "linus-torvalds",
   "alwaysThinkingEnabled": false,

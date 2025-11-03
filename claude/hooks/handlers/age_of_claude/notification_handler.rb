@@ -15,24 +15,16 @@ require_relative 'sound_player'
 # - Other notifications: Generic notification sound
 
 class AgeOfClaudeNotificationHandler < ClaudeHooks::Notification
+  POSSIBLE_SOUNDS = [
+    'dialogue_hey_im_in_your_town.wav',
+    'dialogue_i_need_food.wav',
+    'villager_select4.WAV',
+    'priest_convert_wololo5.WAV'
+  ].freeze
+
   def call
-    log 'Age of Claude Notification Handler: Notification received - determining sound to play'
-
-    # Determine sound based on notification type
-    sounds = case message
-             when /needs your permission/i
-               log 'Age of Claude Notification Handler: Permission request - playing alert sound'
-               ['dialogue_hey_im_in_your_town.wav'] # Attention-getting sound
-             when /waiting for your input/i
-               log 'Age of Claude Notification Handler: Idle timeout - playing waiting sound'
-               ['dialogue_i_need_food.wav'] # "I need food" - indicates need
-             else
-               log 'Age of Claude Notification Handler: Generic notification - playing notification sound'
-               ['villager_select4.WAV', 'priest_convert_wololo5.WAV'] # Generic villager sound
-             end
-
-    # Play the appropriate notification sound
-    success = SoundPlayer.play_random(sounds, logger)
+    log "Age of Claude Notification Handler: #{message}"
+    success = SoundPlayer.play_random(POSSIBLE_SOUNDS, logger)
 
     if success
       log "Age of Claude Notification Handler: Successfully played notification sound for: #{message}"
