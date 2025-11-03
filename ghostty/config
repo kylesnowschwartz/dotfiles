@@ -46,6 +46,9 @@
 font-family = "ZenbonesBrainy Nerd Font"
 font-size = 16
 
+# Use custom tab bar for better active tab visibility
+macos-titlebar-style = tabs
+
 # Default theme (cobalt2 dark theme)
 
 # Tab navigation with super + left/right arrow keys
