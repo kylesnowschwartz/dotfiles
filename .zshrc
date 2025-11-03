@@ -89,6 +89,7 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 [ -d "/usr/local/opt/rustup/bin" ] && export PATH="/usr/local/opt/rustup/bin:$PATH"
+[ -d "$HOME/.bun/bin" ] && export PATH="$HOME/.bun/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 [ -d "/usr/local/opt/postgresql@16/bin" ] && export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
 
@@ -105,6 +106,9 @@ fi
 # Editor and pager settings
 export EDITOR=nvim
 [ -x "$(command -v bat 2>/dev/null)" ] && export PAGER=bat
+
+# Bun runtime
+export BUN_INSTALL="$HOME/.bun"
 
 # Java configuration
 if [ "$OS" = "macos" ]; then

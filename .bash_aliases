@@ -235,9 +235,9 @@ git_next() {
 
 # CLAUDE
 #
-claude() {
-  /Users/kyle/.claude-wrapper "$@"
-}
+# claude() {
+#   /Users/kyle/.claude-wrapper "$@"
+# }
 
 # Claude sound controls
 alias claude-quiet='touch ~/.claude/.sounds_disabled && echo "Claude sounds disabled globally"'
@@ -245,8 +245,8 @@ alias claude-sounds='rm -f ~/.claude/.sounds_disabled && echo "Claude sounds ena
 
 # Quick Claude CLI with Haiku model - auto-wraps arguments
 @@() {
-  set -f  # Disable glob expansion
-  trap 'set +f' EXIT  # Re-enable glob expansion on any exit
+  set -f             # Disable glob expansion
+  trap 'set +f' EXIT # Re-enable glob expansion on any exit
   claude -p --model haiku "$*"
 }
 
