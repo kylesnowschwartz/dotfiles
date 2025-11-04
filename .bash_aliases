@@ -162,6 +162,27 @@ irebase() {
 
 ## Envato Aliases
 
+jira-log() {
+  local project="${1:-}"
+  local jql="assignee = currentUser() ORDER BY created DESC"
+  [[ -n "$project" ]] && jql="assignee = currentUser() AND project = ${project} ORDER BY created DESC"
+
+  local encoded_jql=$(printf '%s' "$jql" | jq -sRr '@uri')
+
+  curl -s -u "${JIRA_EMAIL}:${JIRA_API_TOKEN}" \
+    -H "Content-Type: application/json" \
+    "https://envato.atlassian.net/rest/api/3/search/jql?jql=${encoded_jql}&fields=summary&fields=created&fields=status&maxResults=50" |
+    jq -r '
+      # Group issues by status
+      .issues |
+        group_by(.fields.status.name) |
+        map({
+          status: .[0].fields.status.name,
+          issues: map("\(.key) \(.fields.created[:10]) \(.fields.summary)")
+        }) | .[] | "\n\u001b[1;36m\(.status)\u001b[0m", (.issues[] | "  \(.)")
+    '
+}
+
 alias dn="DEPENDENCIES_NEXT=1" #rails_upgrade
 alias marketplace_server="MARKET_SOCKET_DIR=/tmp bundle exec unicorn_rails -c config/unicorn.rb"
 
