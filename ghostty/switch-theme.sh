@@ -97,6 +97,18 @@ git config --unset delta.dark 2>/dev/null || true
 git config --unset delta.light 2>/dev/null || true
 git config delta.features "$DELTA_THEME"
 
+# Switch gh-dash theme
+GH_DASH_CONFIG="$HOME/.config/gh-dash/config.yml"
+GH_DASH_THEME_DIR="$HOME/Code/dotfiles/gh-dash/themes"
+GH_DASH_THEME_FILE="$GH_DASH_THEME_DIR/${THEME}.yml"
+
+if [[ -f "$GH_DASH_THEME_FILE" ]]; then
+  cp "$GH_DASH_THEME_FILE" "$GH_DASH_CONFIG"
+  GH_DASH_STATUS="✓"
+else
+  GH_DASH_STATUS="⚠"
+fi
+
 # Switch Claude theme
 set_claude_theme "$CLAUDE_THEME"
 CLAUDE_STATUS=$?
@@ -112,5 +124,6 @@ echo "✓ Switched to $THEME theme"
 echo "  - Ghostty: $THEME"
 echo "  - Starship: $STARSHIP_THEME ${STARSHIP_STATUS}"
 echo "  - Delta: $DELTA_THEME"
+echo "  - gh-dash: $THEME ${GH_DASH_STATUS}"
 echo "  - Claude: $CLAUDE_THEME ${CLAUDE_DISPLAY}"
 echo "  Reload Ghostty with Cmd+Shift+R to see changes"
