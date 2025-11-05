@@ -12,7 +12,6 @@ require 'json'
 
 # Require all Stop handler classes
 # Add additional handler requires here as needed:
-require_relative '../handlers/stop_you_are_not_right'
 require_relative '../handlers/age_of_claude/stop_handler'
 
 begin
@@ -20,16 +19,13 @@ begin
   input_data = JSON.parse($stdin.read)
 
   # Initialize and execute all handlers
-  reflexive_agreement_handler = StopYouAreNotRight.new(input_data)
   age_of_claude_handler = AgeOfClaudeStopHandler.new(input_data)
 
   # Execute handlers
-  reflexive_agreement_handler.call
   age_of_claude_handler.call
 
   # Merge outputs from both handlers
   merged_output = ClaudeHooks::Output::Stop.merge(
-    reflexive_agreement_handler.output,
     age_of_claude_handler.output
   )
 

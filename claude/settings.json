@@ -129,12 +129,7 @@
     ],
     "Stop": [
       {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/entrypoints/stop.rb"
-          }
-        ]
+        "hooks": []
       }
     ],
     "Notification": [
