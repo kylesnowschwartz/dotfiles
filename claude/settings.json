@@ -35,6 +35,7 @@
       "Bash(git pull:*)",
       "Bash(git show:*)",
       "Bash(git status:*)",
+      "Bash(git worktree list:*)",
       "Bash(head:*)",
       "Bash(htop:*)",
       "Bash(id:*)",
@@ -97,7 +98,8 @@
       "mcp__buildkite",
       "mcp__ref",
       "mcp__ide",
-      "mcp__mcphub"
+      "mcp__mcphub",
+      "Plugin:envato-claude-core:*"
     ],
     "deny": [
       "Bash(git push --force)"
@@ -165,12 +167,12 @@
     "pr-review-toolkit@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": false,
     "simpleclaude@simpleclaude": true,
-    "sc-hooks@simpleclaude": true,
+    "sc-hooks@simpleclaude": false,
     "sc-extras@simpleclaude": true,
     "document-skills@anthropic-agent-skills": true,
-    "envato-claude-core@envato-claude": false,
-    "envato-handy-hooks@envato-claude": false,
-    "test-plugin@test-marketplace": false
+    "envato-claude-core@envato-claude": true,
+    "envato-handy-hooks@envato-claude": true,
+    "claude-bumper-lanes@claude-bumper-lanes": true
   },
   "outputStyle": "linus-torvalds",
   "alwaysThinkingEnabled": false,
