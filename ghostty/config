@@ -58,6 +58,9 @@ keybind = super+left=previous_tab
 # Enable iTerm2-style copy on selection
 copy-on-select = clipboard
 
+# Disable paste confirmation popup for multiline content
+clipboard-paste-protection = false
+
 # Map shift+enter to send a newline character
 keybind = shift+enter=text:\n
 
@@ -78,8 +81,9 @@ keybind = super+shift+r=reload_config
 
 # Always save and restore window state on quit/relaunch
 window-save-state = always
-shell-integration = detect
 window-inherit-working-directory = true
+shell-integration = detect
+shell-integration-features = sudo,ssh-terminfo,ssh-env
 
 # CURRENT_THEME: dayfox
 theme = dayfox.ghostty

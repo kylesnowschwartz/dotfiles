@@ -95,7 +95,7 @@ git config --global --unset delta.dark 2>/dev/null || true
 git config --global --unset delta.light 2>/dev/null || true
 git config --unset delta.dark 2>/dev/null || true
 git config --unset delta.light 2>/dev/null || true
-git config delta.features "$DELTA_THEME"
+git config --global delta.features "$DELTA_THEME"
 
 # Switch gh-dash theme
 GH_DASH_CONFIG="$HOME/.config/gh-dash/config.yml"
