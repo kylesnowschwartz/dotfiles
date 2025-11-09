@@ -14,6 +14,7 @@
 	amend = commit --amend --no-edit
 	cherrypick = cherry-pick
 	aic = !npx genaiscript run ~/Code/genai-scripts/genaisrc/generate-commit.genai.mjs
+	tree = !exec /Users/kyle/.rbenv/versions/3.3.9/lib/ruby/gems/3.3.0/gems/git-status-tree-3.4.0/bin/git-status-tree
 [init]
 	defaultBranch = main
 [push]
@@ -38,7 +39,7 @@
 	; hyperlinks-file-link-format = "file://{path}:{line}"
   keep-plus-minus-markers = true
   file-decoration-style = "none"
-	features = dark
+	features = light
 
 [delta "light"]
 	light = true
@@ -85,3 +86,6 @@
     sort = version:refname
 [help]
     autocorrect = prompt
+[status-tree]
+	indent = 4
+	collapse = false
