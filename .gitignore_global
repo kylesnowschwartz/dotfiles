@@ -13,3 +13,4 @@ Brewfile.lock.json
 TAGS
 wget-log
 yarn.lock
+.worktrees/
