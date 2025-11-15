@@ -14,3 +14,6 @@ TAGS
 wget-log
 yarn.lock
 .worktrees/
+.beads/
+beads/
+.gitattributes

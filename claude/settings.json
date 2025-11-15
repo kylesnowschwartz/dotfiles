@@ -61,6 +61,8 @@
       "Bash(stat:*)",
       "Bash(ruby:*)",
       "Bash(bundle exec ruby:*)",
+      "Bash(bundle exec rspec:*)",
+      "Bash(bundle exec rubocop:*)",
       "Bash(rubocop:*)",
       "Bash(tail:*)",
       "Bash(tee:*)",
@@ -167,9 +169,10 @@
     "document-skills@anthropic-agent-skills": false,
     "envato-claude-core@envato-claude": true,
     "envato-handy-hooks@envato-claude": false,
-    "claude-bumper-lanes@claude-bumper-lanes": true
+    "claude-bumper-lanes@claude-bumper-lanes": true,
+    "sc-output-styles@simpleclaude": true
   },
-  "outputStyle": "linus-torvalds",
+  "outputStyle": "sc-output-styles:linus-torvalds",
   "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047

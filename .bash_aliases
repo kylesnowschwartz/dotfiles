@@ -264,11 +264,24 @@ git_next() {
 alias claude-quiet='touch ~/.claude/.sounds_disabled && echo "Claude sounds disabled globally"'
 alias claude-sounds='rm -f ~/.claude/.sounds_disabled && echo "Claude sounds enabled globally"'
 
-# Quick Claude CLI with Haiku model - auto-wraps arguments
+# Quick Claude CLI with Haiku model - blazing fast text-only responses
+# Disables all tools and MCP servers for maximum speed
+# Usage:
+#   @@ "quoted query"  - Direct query with arguments
+#   @@                 - Interactive prompt (handles special chars automatically)
 @@() {
-  set -f             # Disable glob expansion
-  trap 'set +f' EXIT # Re-enable glob expansion on any exit
-  claude -p --model haiku "$*"
+  if [[ $# -eq 0 ]]; then
+    # Interactive mode - bypasses shell parsing
+    echo -n "Query: "
+    read -r query
+    [[ -z "$query" ]] && return 1
+    claude -p --model haiku --tools "" --strict-mcp-config "$query"
+  else
+    # Argument mode - still useful for simple queries
+    set -f
+    trap 'set +f' EXIT
+    claude -p --model haiku --tools "" --strict-mcp-config "$*"
+  fi
 }
 
 # Turn .mov into gif
