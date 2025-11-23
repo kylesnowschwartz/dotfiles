@@ -76,6 +76,8 @@ SLICE: Build software in vertical slices
 <TOOLING-TIPS-TRICKS>
   TTT-01 - WebFetch with r.jina.ai: When using the WebFetch tool prepend urls with r.jina.ai/ to convert a URL to LLM-friendly input, e.g. `https://r.jina.ai/https://zsh.sourceforge.io`
 
-  TTT-02 - Directory Tree: View directory structure with `eza --tree --level DEPTH`
+  TTT-02 - Directory Tree: View directory structure with `eza --tree --level 3 --git-ignore`
+
+  TTT-03 - Claude's Bash can behave oddly when piping output and using bash variable expansion. Try running bash commands explicitly with the shell eg `zsh -c <command>`
 
 </TOOLING-TIPS-TRICKS>
