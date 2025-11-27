@@ -1,0 +1,62 @@
+READLINE KEYBINDING CHEATSHEET
+===============================
+
+Emacs-style readline commands (bash/zsh default mode)
+
+
+MOVEMENT
+--------
+Ctrl-A          Jump to start of line
+Ctrl-E          Jump to end of line
+Ctrl-F          Forward one character
+Ctrl-B          Backward one character
+Alt-F           Forward one word
+Alt-B           Backward one word
+
+
+KILLING (CUTTING)
+-----------------
+Ctrl-K          Kill from cursor to end of line
+Ctrl-U          Kill from cursor to start of line
+Ctrl-W          Kill previous word
+Alt-D           Kill next word
+
+
+YANKING (PASTING)
+-----------------
+Ctrl-Y          Paste last killed text
+
+
+EDITING
+-------
+Ctrl-D          Delete character under cursor
+Ctrl-H          Delete character before cursor (backspace)
+Ctrl-T          Transpose (swap) two characters
+
+
+HISTORY
+-------
+Ctrl-R          Reverse history search
+Ctrl-P          Previous command
+Ctrl-N          Next command
+
+
+OTHER
+-----
+Ctrl-L          Clear screen
+Ctrl-C          Cancel/interrupt
+Ctrl-Z          Suspend process (resume with 'fg')
+
+
+WORKFLOW
+--------
+Kill text with Ctrl-K/U/W, move cursor, paste with Ctrl-Y
+This is basically a second clipboard that works everywhere
+
+
+MOST USEFUL
+-----------
+Ctrl-R          History search - type fragment, finds it instantly
+Ctrl-K/Y        Kill/yank workflow for cut/paste
+Ctrl-U          Panic button - nuke entire line and start over
+Ctrl-A/E        Jump to start/end of line
