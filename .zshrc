@@ -91,8 +91,6 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "/usr/local/opt/rustup/bin" ] && export PATH="/usr/local/opt/rustup/bin:$PATH"
 [ -d "$HOME/.bun/bin" ] && export PATH="$HOME/.bun/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
-[ -d "/usr/local/opt/postgresql@16/bin" ] && export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
-
 # Platform-specific paths
 if [ "$OS" = "macos" ]; then
   # macOS-specific paths
@@ -284,6 +282,9 @@ fi
 if [[ -x "/usr/local/bin/brew" ]]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
+
+# PostgreSQL 16 - must come AFTER brew shellenv to take precedence over /usr/local/bin
+[ -d "/usr/local/opt/postgresql@16/bin" ] && export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
 
 # Zoxide better cd (zsh support)
 eval "$(zoxide init zsh --cmd cd)"
