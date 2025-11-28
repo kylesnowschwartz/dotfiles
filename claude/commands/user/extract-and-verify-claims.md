@@ -10,13 +10,13 @@ Analyze the current conversation and identify all factual claims that can be ver
 
 ### What to Extract
 - **Factual statements**: Extract claims that make assertions about reality, events, statistics, dates, or relationships
-- **Verifiable assertions**: Focus on statements that can be confirmed or refuted using external sources
-- **Major claims**: If the conversation is lengthy, prioritize the most significant or impactful claims
+- **Verifiable assertions**: Focus on statements that can be confirmed or refuted using internal or external sources
+- **Major claims**: If the conversation is lengthy, prioritize the most significant or impactful claims, or ask the user which claims require extra validation
 - **Distinct claims**: Do not repeat the same claim; consolidate duplicates
 
 ### What to Exclude
 - Personal opinions or subjective statements
-- Questions or hypotheticals
+- Open questions or hypotheticals
 - Conversational filler or greetings
 - Statements about future intentions (unless claiming they are plans/announcements)
 
@@ -44,28 +44,13 @@ Return your analysis as a JSON array of objects following this structure:
 
 ## Examples
 
-### Example 1: Technical Claim
 ```json
 {
   "claim": "Claude 3.5 Sonnet is used as the LLM for the Exa hallucination detector",
   "original_text": "The tool uses Claude 3.5 Sonnet (Anthropic's LLM) for the actual analysis",
   "speaker": "assistant",
   "context": "Discussing the architecture of the Exa hallucination detection system"
-}
-```
-
-### Example 2: Statistical Claim
-```json
-{
-  "claim": "The Market Monolith maintains 99.5% uptime",
-  "original_text": "This mission-critical system serves millions of users, processes millions in transactions, and maintains 99.5% uptime requirements",
-  "speaker": "documentation",
-  "context": "Overview section describing system reliability"
-}
-```
-
-### Example 3: Feature Claim
-```json
+},
 {
   "claim": "The Exa hallucination detector uses a 3-step pipeline architecture",
   "original_text": "The system uses a 3-step pipeline: extract claims via Claude → search for sources via Exa → verify claims against sources via Claude again",
