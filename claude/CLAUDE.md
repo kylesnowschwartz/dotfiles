@@ -80,4 +80,8 @@ SLICE: Build software in vertical slices
 
   TTT-03 - Claude's Bash can behave oddly when piping output and using bash variable expansion. Try running bash commands explicitly with the shell eg `zsh -c <command>`
 
+  TTT-04 - Semtools for Document Search: Use `search` for semantic keyword search across text files, and `parse` to convert PDFs/DOCX to searchable markdown first. Example: `parse *.pdf | xargs search "API endpoints" --n-lines 30 --ignore-case`. Use workspaces (`workspace use NAME && export SEMTOOLS_WORKSPACE=NAME`) for repeated searches to cache embeddings.
+
+  TTT-05 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`.
+
 </TOOLING-TIPS-TRICKS>
