@@ -6,6 +6,7 @@ plugins/
 file-history/
 logs/
 debug/
+plans/
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json

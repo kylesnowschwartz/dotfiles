@@ -87,5 +87,5 @@ window-inherit-working-directory = true
 shell-integration = detect
 shell-integration-features = sudo,ssh-terminfo,ssh-env
 
-# CURRENT_THEME: dayfox
-theme = dayfox.ghostty
+# CURRENT_THEME: cobalt2
+theme = cobalt2

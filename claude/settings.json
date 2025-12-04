@@ -58,6 +58,7 @@
       "Bash(rg:*)",
       "Bash(R:*)",
       "Bash(Rscript:*)",
+      "Bash(sort:*)",
       "Bash(ss:*)",
       "Bash(stat:*)",
       "Bash(ruby:*)",
@@ -108,6 +109,7 @@
       "Bash(git push --force)"
     ],
     "ask": [
+      "Bash(gh api:*)",
       "Bash(git add:*)",
       "Bash(git push:*)",
       "Bash(git commit:*)",
@@ -115,22 +117,12 @@
       "Bash(curl:*)"
     ],
     "additionalDirectories": [
-      "/Users/kyle/Code/Cloned-Sources/"
+      "/Users/kyle/Code/Cloned-Sources/",
+      "/tmp/"
     ]
   },
-  "model": "sonnet",
+  "model": "opus",
   "hooks": {
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/entrypoints/user_prompt_submit.rb"
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": []
@@ -165,16 +157,22 @@
   "enabledPlugins": {
     "pr-review-toolkit@claude-code-plugins": true,
     "example-skills@anthropic-agent-skills": false,
-    "simpleclaude@simpleclaude": true,
     "sc-hooks@simpleclaude": true,
     "sc-extras@simpleclaude": true,
     "document-skills@anthropic-agent-skills": true,
-    "envato-claude-core@envato-claude": false,
+    "envato-claude-core@envato-claude": true,
     "envato-handy-hooks@envato-claude": false,
     "claude-bumper-lanes@claude-bumper-lanes": true,
     "sc-output-styles@simpleclaude": true,
     "claude-handoff@claude-handoff": true,
-    "plugin-dev@claude-code-plugins": true
+    "plugin-dev@claude-code-plugins": true,
+    "envato-mcp-servers@envato-claude": true,
+    "envato-productivity@envato-claude": true,
+    "simpleclaude@simpleclaude": true,
+    "frontend-design-pro@frontend-design-pro": true,
+    "ralph-wiggum@claude-code-plugins": true,
+    "frontend-design@claude-code-plugins": true,
+    "browser-automation@browser-tools": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
