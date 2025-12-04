@@ -5,7 +5,9 @@ description: This skill should be used when the user asks to "build a landing pa
 
 # Frontend Design
 
-Create distinctive, production-grade interfaces that avoid generic "AI slop" aesthetics. This skill combines creative vision with systematic execution.
+Build interfaces that people remember. Not "acceptable"—distinctive. Not "clean"—intentional. Production-grade code with a clear aesthetic point of view.
+
+**The anti-pattern to avoid**: Convergence. When every AI-generated site uses Space Grotesk, purple gradients, and the same card layouts, it signals zero creative consideration. Each project deserves its own identity.
 
 ## Design Process
 
@@ -18,9 +20,9 @@ Before writing code, identify:
 - **Stack**: React, Vue, Next.js, Svelte, or vanilla HTML/CSS/JS (default)
 - **Mood**: What feeling should the interface evoke?
 
-### Step 2: Commit to an Aesthetic Direction
+### Step 2: Commit to a Bold Aesthetic Direction
 
-Select a clear conceptual direction. Execute with conviction—the key is intentionality, not intensity.
+Pick an extreme and own it. Timid design is forgettable design.
 
  | Direction              | Characteristics                                                         |
  | -----------            | -----------------                                                       |
@@ -35,16 +37,27 @@ Select a clear conceptual direction. Execute with conviction—the key is intent
  | Art deco/geometric     | Symmetry, gold accents, repeating patterns, ornamental borders          |
  | Industrial/utilitarian | Exposed mechanics, warning colors, functional aesthetic                 |
 
-### Step 3: Define the Memorable Element
+### Step 3: Define the Unforgettable Element
 
-Identify the ONE thing someone will remember about this interface:
-- An unusual scroll interaction
-- A striking color combination
-- Typography that commands attention
-- A micro-interaction that delights
-- An unexpected layout choice
+What's the ONE thing someone will remember? If the answer is "nothing specific," the design isn't done yet.
 
-If no memorable element exists, the design is incomplete—it's just assembled components.
+- An unusual scroll interaction that surprises
+- A color combination that burns into memory
+- Typography that commands the room
+- A micro-interaction that makes people smile
+- A layout that breaks expectations
+
+Assembled components aren't design. Design has a point of view.
+
+---
+
+## Implementation Calibration
+
+Match implementation complexity to the aesthetic vision:
+
+- **Maximalist designs** need elaborate code with extensive animations, layered effects, and rich interactions
+- **Minimalist/refined designs** need restraint—precision spacing, typographic subtlety, careful attention to every detail
+- **The key is intentionality, not intensity.** Both bold maximalism and refined minimalism work when executed with conviction
 
 ---
 
@@ -52,17 +65,18 @@ If no memorable element exists, the design is incomplete—it's just assembled c
 
 ### Typography
 
-Choose fonts with character. Pair a distinctive display font with a refined body font.
+Fonts have personality. Choose ones with character, not the defaults everyone reaches for.
 
-**Never use**: Arial, Helvetica, Inter, Roboto, Open Sans, system-ui defaults
+**Banned fonts**: Arial, Helvetica, Inter, Roboto, Open Sans, system-ui defaults. Not because they're bad—because they're invisible. They signal "I didn't think about this."
 
-**Establish hierarchy**: Hero text should feel dramatically different from body copy, not just "slightly bigger."
+**Hierarchy that hits**: Hero text should feel dramatically different from body copy. Not "slightly bigger"—unmistakably different.
 
 ### Color & Theme
 
-- Commit to a dominant color with sharp accents (avoid evenly-distributed palettes)
+Commit to a palette. Dominant color with sharp accents beats timid, evenly-distributed colors every time.
+
 - Define palette in CSS variables (`:root`) for consistency
-- Design both light and dark modes intentionally—never just invert
+- Design both light and dark modes intentionally—inverting is lazy
 
 **Light mode**: High-contrast text (`slate-900`), `bg-white/80`+ for glass effects, visible borders (`gray-200`+)
 
@@ -90,7 +104,7 @@ Break the grid intentionally:
 
 ### Visual Atmosphere
 
-Avoid solid color backgrounds. Create depth with gradient meshes, subtle noise/grain, geometric patterns, layered transparencies, dramatic shadows, decorative borders.
+Solid color backgrounds are the easy choice. Create depth instead: gradient meshes, subtle noise/grain, geometric patterns, layered transparencies, dramatic shadows, decorative borders. The background sets the mood before anyone reads a word.
 
 ---
 
@@ -146,6 +160,8 @@ Consult these for detailed guidance:
 
 ## Final Note
 
-The goal is **distinctive**, not "acceptable." Every interface should feel designed by someone with taste and intention, not assembled from a template library.
+The goal is **distinctive**, not "acceptable." Every interface should feel designed by someone with taste and intention, not assembled from a component library.
 
-Break conventions when it serves the design. Follow conventions when they genuinely help users.
+Break conventions when it serves the design. Follow them when they genuinely help users. But never default to convention because it's safe.
+
+Claude is capable of extraordinary creative work—interfaces that surprise, delight, and linger in memory. Don't hold back. Show what's possible when design has a point of view and the courage to commit to it.
