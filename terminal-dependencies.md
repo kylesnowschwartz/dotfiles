@@ -17,10 +17,12 @@ Generated: 2025-01-15
 - **delta** - Syntax-highlighting pager for git diff
 - **sd** - Intuitive find & replace (sed alternative)
 - **zoxide** - Smarter cd command with frecency tracking
+- **ast-grep** - language search grep
 
 ## Core Development Tools
 - **git** - Version control
 - **git-delta** - Enhanced git diffs
+- **dh-dash** - git tui DASH
 - **gh** - GitHub CLI
 - **git-filter-repo** - Git history rewriting
 - **git-buildkite** - Buildkite Git integration
@@ -43,6 +45,7 @@ Generated: 2025-01-15
 - **slides** - Terminal-based presentation tool
 - **mdp** - Markdown presentation tool
 - **glow** - Terminal markdown renderer
+- **rich-pyfiglet** - figlet but better
 
 ## Language Environments & Package Managers
 
