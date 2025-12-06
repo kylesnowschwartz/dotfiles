@@ -123,6 +123,8 @@ Generated: 2025-01-15
 
 ### JSON/YAML
 - **jq** - JSON processor
+- **yq** - YAML processor
+- **mq** - MARKDOWN processor
 - **jaq** - jq clone in Rust
 - **yamllint** - YAML linter
 - **jc** (pipx) - JSON converter for command output
