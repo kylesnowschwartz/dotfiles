@@ -2,6 +2,7 @@
 .DS_Store
 .checkpoints/
 .claude/
+**/.claude/settings.local.json
 .claudepoint/
 .dir-locals.el
 .idea/
