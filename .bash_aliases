@@ -260,9 +260,13 @@ git_next() {
 #   /Users/kyle/.claude-wrapper "$@"
 # }
 
-# Claude sound controls
-alias claude-quiet='touch ~/.claude/.sounds_disabled && echo "Claude sounds disabled globally"'
-alias claude-sounds='rm -f ~/.claude/.sounds_disabled && echo "Claude sounds enabled globally"'
+# Claude sound controls (uses ~/.config/claude/sounds.conf)
+# off   - Silent notifications (visual only)
+# glass - macOS notification sound (default)
+# aoe   - Age of Empires themed sounds
+alias claude-quiet='mkdir -p ~/.config/claude && echo "SOUND_MODE=off" > ~/.config/claude/sounds.conf && echo "Claude sounds disabled (SOUND_MODE=off)"'
+alias claude-glass='mkdir -p ~/.config/claude && echo "SOUND_MODE=glass" > ~/.config/claude/sounds.conf && echo "Claude sounds: glass (macOS default)"'
+alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config/claude/sounds.conf && echo "Claude sounds: Age of Empires"'
 
 # Quick Claude CLI with Haiku model - blazing fast text-only responses
 # Disables all tools and MCP servers for maximum speed

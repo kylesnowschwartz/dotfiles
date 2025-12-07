@@ -38,7 +38,7 @@
 	; hyperlinks-file-link-format = "file://{path}:{line}"
   keep-plus-minus-markers = true
   file-decoration-style = "none"
-	features = dark
+	features = light
 
 [delta "light"]
 	light = true
@@ -85,3 +85,6 @@
     sort = version:refname
 [help]
     autocorrect = prompt
+[buildkite]
+	apikey = ***REMOVED***
+	organization = envato-marketplaces

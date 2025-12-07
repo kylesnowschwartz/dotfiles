@@ -103,7 +103,8 @@
       "mcp__ref",
       "mcp__ide",
       "mcp__mcphub",
-      "Plugin:envato-claude-core:*"
+      "Plugin:envato-claude-core:*",
+      "Plugin-dev:*"
     ],
     "deny": [
       "Bash(git push --force)"
@@ -122,33 +123,6 @@
     ]
   },
   "model": "opus",
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": []
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/entrypoints/notification.rb"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/entrypoints/session_end.rb"
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
     "command": "/Users/kyle/Code/dotfiles/claude/status-lines/simple-status-line.sh",
@@ -160,19 +134,25 @@
     "sc-hooks@simpleclaude": true,
     "sc-extras@simpleclaude": true,
     "document-skills@anthropic-agent-skills": true,
-    "envato-claude-core@envato-claude": true,
+    "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
     "claude-bumper-lanes@claude-bumper-lanes": true,
     "sc-output-styles@simpleclaude": true,
     "claude-handoff@claude-handoff": true,
     "plugin-dev@claude-code-plugins": true,
-    "envato-mcp-servers@envato-claude": true,
-    "envato-productivity@envato-claude": true,
+    "envato-mcp-servers@envato-claude": false,
+    "envato-productivity@envato-claude": false,
     "simpleclaude@simpleclaude": true,
-    "frontend-design-pro@frontend-design-pro": true,
     "ralph-wiggum@claude-code-plugins": true,
-    "frontend-design@claude-code-plugins": true,
-    "browser-automation@browser-tools": true
+    "frontend-design@claude-code-plugins": false,
+    "browser-automation@browser-tools": true,
+    "jira-integration@jira-skill": true,
+    "ast-grep@ast-grep-marketplace": true,
+    "context-efficient-tools@xdg-claude": true,
+    "elements-of-style@xdg-claude": true,
+    "coding-best-practices@xdg-claude": true,
+    "refactoring-agent@xdg-claude": true,
+    "sc-age-of-claude@simpleclaude": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
