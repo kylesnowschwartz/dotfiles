@@ -2,7 +2,7 @@
 # Aligned with neovim file navigation vernacular
 # Schema: https://yazi-rs.github.io/schemas/keymap.json
 
-[manager]
+[mgr]
 prepend_keymap = [
     # Search Operations (s* prefix) - Aligned with neovim telescope patterns
     # Replaces default single-key search bindings with hierarchical approach
