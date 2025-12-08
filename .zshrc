@@ -1,3 +1,4 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
 # shellcheck shell=bash
 # ~/.zshrc: executed by zsh for interactive shells
 # Cross-platform configuration for macOS and Linux - migrated from bash
@@ -88,7 +89,7 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
 [ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
-[ -d "/usr/local/opt/rustup/bin" ] && export PATH="/usr/local/opt/rustup/bin:$PATH"
+[ -d "/opt/homebrew/opt/rustup/bin" ] && export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 [ -d "$HOME/.bun/bin" ] && export PATH="$HOME/.bun/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 # Platform-specific paths
@@ -118,7 +119,7 @@ if [ "$OS" = "macos" ]; then
 
   # macOS Ruby with Homebrew openssl
   if command -v brew >/dev/null 2>&1; then
-    openssl_dir=$(brew --prefix openssl@1.1 2>/dev/null || echo '/usr/local')
+    openssl_dir=$(brew --prefix openssl 2>/dev/null)
     export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_dir"
   fi
 fi
@@ -160,8 +161,8 @@ fi
 # ASDF version manager
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
   . "$HOME/.asdf/asdf.sh"
-elif [ -f "/usr/local/opt/asdf/libexec/asdf.sh" ]; then
-  . "/usr/local/opt/asdf/libexec/asdf.sh"
+elif [ -f "/opt/homebrew/opt/asdf/libexec/asdf.sh" ]; then
+  . "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 elif [ -f "/opt/asdf-vm/asdf.sh" ]; then
   . "/opt/asdf-vm/asdf.sh"
 fi
@@ -228,7 +229,7 @@ fi
 
 if [ "$OS" = "macos" ]; then
   # AWS completion setup - will be configured after compinit
-  AWS_COMPLETER_PATH="/usr/local/bin/aws_completer"
+  AWS_COMPLETER_PATH="/opt/homebrew/bin/aws_completer"
 fi
 
 # Yazi file manager (identical to bash version)
@@ -278,13 +279,8 @@ if [ "$AWS_VAULT_AVAILABLE" = "yes" ]; then
   eval "$(aws-vault --completion-script-zsh)"
 fi
 
-# Intel Homebrew (x86_64) only for consistency
-if [[ -x "/usr/local/bin/brew" ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
-
-# PostgreSQL 16 - must come AFTER brew shellenv to take precedence over /usr/local/bin
-[ -d "/usr/local/opt/postgresql@16/bin" ] && export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
+# PostgreSQL 16 (ARM Homebrew path)
+[ -d "/opt/homebrew/opt/postgresql@16/bin" ] && export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 # Zoxide better cd (zsh support)
 eval "$(zoxide init zsh --cmd cd)"
@@ -330,3 +326,6 @@ zsh-features() {
   echo "  cd -<tab>  # Navigate directory stack"
   echo "  **/*.txt   # Recursive glob patterns"
 }
+
+# bun completions
+[ -s "/Users/kyle/.bun/_bun" ] && source "/Users/kyle/.bun/_bun"
