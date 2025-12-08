@@ -3,6 +3,7 @@
 .checkpoints/
 .claude/
 **/.claude/settings.local.json
+.cloned-sources/
 .claudepoint/
 .dir-locals.el
 .idea/
