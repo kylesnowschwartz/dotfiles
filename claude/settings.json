@@ -152,7 +152,9 @@
     "elements-of-style@xdg-claude": true,
     "coding-best-practices@xdg-claude": true,
     "refactoring-agent@xdg-claude": true,
-    "sc-age-of-claude@simpleclaude": true
+    "sc-age-of-claude@simpleclaude": true,
+    "mgrep@Mixedbread-Grep": true,
+    "jira-cli@xdg-claude": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
