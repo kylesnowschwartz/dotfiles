@@ -47,6 +47,29 @@ Generated: 2025-01-15
 - **glow** - Terminal markdown renderer
 - **rich-pyfiglet** - figlet but better
 
+## ZSH
+
+### Plugins (via Homebrew)
+- **zsh-autosuggestions** - Fish-like history suggestions as you type (→ to accept)
+- **zsh-syntax-highlighting** - Real-time command coloring (valid=green, invalid=red)
+
+### Custom Completions (~/.zsh/completions/)
+Generated from tools with `completion zsh` subcommands:
+- **_docker** - Docker container/image completions
+- **_kubectl** - Kubernetes resource completions
+- **_pnpm** - pnpm package manager completions
+
+### Homebrew-Provided Completions
+Automatically available via `/opt/homebrew/share/zsh/site-functions/`:
+- aws, aws-vault, bat, brew, cargo, delta, eza, fd, gh, just, npm, poetry, procs, rbenv, rg, rustup, starship, uv, yazi, zoxide, and 30+ more
+
+### Adding New Completions
+```bash
+# Check if tool has built-in completion generator
+some-tool completion zsh > ~/.zsh/completions/_some-tool
+# Restart shell or run: compinit
+```
+
 ## Language Environments & Package Managers
 
 ### Python

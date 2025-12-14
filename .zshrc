@@ -221,6 +221,12 @@ else
   echo "fzf (fuzzy finder) not installed"
 fi
 
+# Autosuggestions (accept with → or End)
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Syntax highlighting (must be last)
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # AWS CLI tools (zsh support) - will be initialized after compinit
 AWS_VAULT_AVAILABLE=""
 if command -v aws-vault >/dev/null 2>&1; then
@@ -253,6 +259,9 @@ fi
 [ -x "$(command -v starship 2>/dev/null)" ] && eval "$(starship init zsh)"
 
 # ZSH completion system
+# Add custom completions to fpath before compinit
+fpath=(~/.zsh/completions $fpath)
+
 autoload -Uz compinit
 
 # Handle insecure directories by using -i flag to ignore them
