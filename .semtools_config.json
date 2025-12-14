@@ -1,0 +1,12 @@
+{
+  "parse": {
+    "base_url": "https://api.cloud.eu.llamaindex.ai",
+    "num_ongoing_requests": 10,
+    "parse_kwargs": {},
+    "check_interval": 5,
+    "max_timeout": 3600,
+    "max_retries": 10,
+    "retry_delay_ms": 1000,
+    "backoff_multiplier": 2.0
+  }
+}
