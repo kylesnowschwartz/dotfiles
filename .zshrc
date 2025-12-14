@@ -282,6 +282,9 @@ fi
 # PostgreSQL 16 (ARM Homebrew path)
 [ -d "/opt/homebrew/opt/postgresql@16/bin" ] && export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
+# Mysql 8.0 (ARM Homebrew path)
+[ -d "/opt/homebrew/opt/mysql@8.0/bin" ] && export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+
 # Zoxide better cd (zsh support)
 eval "$(zoxide init zsh --cmd cd)"
 
