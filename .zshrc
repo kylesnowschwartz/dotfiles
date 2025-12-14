@@ -1,5 +1,5 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
 # shellcheck shell=bash
+eval "$(/opt/homebrew/bin/brew shellenv)"
 # ~/.zshrc: executed by zsh for interactive shells
 # Cross-platform configuration for macOS and Linux - migrated from bash
 #
@@ -222,10 +222,10 @@ else
 fi
 
 # Autosuggestions (accept with → or End)
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Syntax highlighting (must be last)
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # AWS CLI tools (zsh support) - will be initialized after compinit
 AWS_VAULT_AVAILABLE=""
@@ -260,6 +260,7 @@ fi
 
 # ZSH completion system
 # Add custom completions to fpath before compinit
+# shellcheck disable=SC2206
 fpath=(~/.zsh/completions $fpath)
 
 autoload -Uz compinit
