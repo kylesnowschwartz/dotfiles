@@ -1,6 +1,6 @@
-# Nightfox colors for Ghostty
-## name: dayfox
-## upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/dayfox/dayfox.ghostty
+# Cobalt Next Neon Ghostty color scheme
+## name: cobalt-next-neon
+## upstream:
 
 background = #142838
 foreground = #8ff586
