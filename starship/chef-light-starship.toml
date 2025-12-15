@@ -4,7 +4,7 @@ add_newline = true
 command_timeout = 2000
 
 format = """\
-[╭╴](fg:240)[󰭼](bold black) \
+[╭╴](fg:240)[󰭼](bold) \
 $all$time$line_break\
 $character$jobs"""
 
@@ -29,7 +29,7 @@ Macos = '󰀵'
 
 # Shows the username
 [username]
-style_user = 'black bold'
+style_user = 'bold'
 style_root = 'red bold'
 format = '[$user]($style)  | '
 disabled = false
@@ -119,4 +119,4 @@ style = 'cyan bold'
 disabled = false
 time_format = "%R"
 format = '[ $time]($style)'
-style = 'black bold'
+style = 'bold'
