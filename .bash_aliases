@@ -85,7 +85,7 @@ if command -v duf >/dev/null 2>&1; then
   alias df='duf'
 fi
 
-alias grep='rg'
+# alias grep='rg'  # Disabled: breaks grep -E flag compatibility
 alias cat='bat --paging=never'
 # alias find='fd'
 

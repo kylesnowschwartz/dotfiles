@@ -20,9 +20,9 @@ keybind = super+left=previous_tab
 keybind = shift+enter=text:\n
 keybind = super+e=equalize_splits
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-keybind = "super+shift+comma=text:~/.config/ghostty/switch-theme.sh dayfox\n"
-keybind = "super+shift+period=text:~/.config/ghostty/switch-theme.sh cobalt2\n"
-keybind = "super+shift+tab=text:~/.config/ghostty/switch-theme.sh next\n"
+keybind = "super+shift+comma=text:/Users/kyle/.config/ghostty/switch-theme.sh dayfox\n"
+keybind = "super+shift+period=text:/Users/kyle/.config/ghostty/switch-theme.sh cobalt2\n"
+keybind = "super+slash=text:/Users/kyle/.config/ghostty/switch-theme.sh next\n"
 keybind = super+shift+r=reload_config
 
 # Clipboard
@@ -41,5 +41,5 @@ split-divider-color = #5f27cd
 
 # Colors
 
-# CURRENT_THEME: cobalt-next-neon
-theme = cobalt-next-neon.ghostty
+# CURRENT_THEME: seoulbones-light
+theme = seoulbones-light.ghostty

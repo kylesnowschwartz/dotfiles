@@ -53,6 +53,12 @@ Generated: 2025-01-15
 - **zsh-autosuggestions** - Fish-like history suggestions as you type (→ to accept)
 - **zsh-syntax-highlighting** - Real-time command coloring (valid=green, invalid=red)
 
+### Plugins (via Git clone)
+- **zsh-ai-cmd** - AI-powered command suggestions using Claude (Ctrl+Z to trigger)
+  - Location: ~/Code/my-projects/zsh-ai-cmd
+  - Requires: ANTHROPIC_API_KEY environment variable
+  - Dependencies: jq, curl
+
 ### Custom Completions (~/.zsh/completions/)
 Generated from tools with `completion zsh` subcommands:
 - **_docker** - Docker container/image completions

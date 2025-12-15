@@ -224,6 +224,10 @@ fi
 # Autosuggestions (accept with → or End)
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
+# AI-powered shell suggestions (Ctrl+Z to trigger)
+export ZSH_AI_CMD_DEBUG=true  # Log to /tmp/zsh-ai-cmd.log
+[ -f ~/Code/my-projects/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh ] && source ~/Code/my-projects/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh
+
 # Syntax highlighting (must be last)
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
