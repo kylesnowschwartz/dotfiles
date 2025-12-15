@@ -61,7 +61,20 @@
 [delta "dark"]
 	light = false
 	syntax-theme = 1337
-	file-style = "green"
+	file-style = "blue bold"
+	minus-style = "red"
+	minus-emph-style = "red bold"
+	plus-style = "green"
+	plus-emph-style = "green bold"
+	hunk-header-style = "blue bold"
+	line-numbers = true
+	line-numbers-minus-style = "red"
+	line-numbers-plus-style = "green"
+	line-numbers-left-style = "blue"
+	line-numbers-right-style = "blue"
+	line-numbers-zero-style = "blue"
+	zero-style = "syntax"
+	whitespace-error-style = "reverse magenta"
 [merge]
 	conflictstyle = diff3
 [diff]
