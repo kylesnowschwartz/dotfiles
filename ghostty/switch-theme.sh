@@ -164,14 +164,10 @@ update_starship_config() {
 
 update_delta_config() {
   local delta_theme="$1"
+  local delta_env_file="$HOME/.config/delta-theme.env"
 
-  # Clean up old configs first
-  git config --global --unset delta.dark 2>/dev/null || true
-  git config --global --unset delta.light 2>/dev/null || true
-  git config --unset delta.dark 2>/dev/null || true
-  git config --unset delta.light 2>/dev/null || true
-
-  git config --global delta.features "$delta_theme"
+  # Write DELTA_FEATURES to env file (sourced by shell)
+  echo "export DELTA_FEATURES=$delta_theme" >"$delta_env_file"
 }
 
 update_gh_dash_config() {

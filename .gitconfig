@@ -33,16 +33,14 @@
     autoStash = true
     updateRefs = true
 [delta]
-	navigate = true
-	; hyperlinks = true
-	; hyperlinks-file-link-format = "file://{path}:{line}"
-  keep-plus-minus-markers = true
-  file-decoration-style = "none"
-	features = light
+	; features controlled by DELTA_FEATURES env var (set by ghostty/switch-theme.sh)
 
 [delta "light"]
 	light = true
 	syntax-theme = GitHub
+	navigate = true
+	keep-plus-minus-markers = true
+	file-decoration-style = "none"
 	file-style = "blue bold"
 	minus-style = "red"
 	minus-emph-style = "red bold"
@@ -60,7 +58,10 @@
 
 [delta "dark"]
 	light = false
-	syntax-theme = 1337
+	syntax-theme = Nord
+	navigate = true
+	keep-plus-minus-markers = true
+	file-decoration-style = "none"
 	file-style = "blue bold"
 	minus-style = "red"
 	minus-emph-style = "red bold"

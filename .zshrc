@@ -33,6 +33,13 @@ else
 fi
 
 #################################################
+# THEME ENVIRONMENT VARIABLES
+#################################################
+
+# Source delta theme (set by ghostty/switch-theme.sh)
+[[ -f ~/.config/delta-theme.env ]] && source ~/.config/delta-theme.env
+
+#################################################
 # ZSH-SPECIFIC CONFIGURATION
 #################################################
 
