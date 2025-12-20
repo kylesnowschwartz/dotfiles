@@ -38,3 +38,4 @@ Thumbs.db
 *.cache
 .sounds_disabled
 history.jsonl
+stats-cache.json

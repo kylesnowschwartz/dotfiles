@@ -41,5 +41,5 @@ split-divider-color = #5f27cd
 
 # Colors
 
-# CURRENT_THEME: seoulbones-light
-theme = seoulbones-light.ghostty
+# CURRENT_THEME: cobalt-next-neon
+theme = cobalt-next-neon.ghostty
