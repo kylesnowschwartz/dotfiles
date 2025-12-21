@@ -68,7 +68,7 @@ trae-cli() {
 #
 if command -v eza >/dev/null 2>&1; then
   # Use eza if available
-  alias ls='eza -lA --no-user --no-permissions -o --time-style=relative --group-directories-first --icons=always'
+  alias ls='eza -lA --no-user --no-permissions -o --time-style=relative --group-directories-first --icons=always --all'
 elif [ "$(uname)" = "Darwin" ]; then
   # macOS fallback
   alias ls='ls -AGhs'
