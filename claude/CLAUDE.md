@@ -82,12 +82,8 @@ SLICE: Build software in vertical slices
 
   PT-03 - Claude's Bash can behave oddly when piping output and using bash variable expansion. Try running bash commands explicitly with the shell eg `zsh -c <command>`
 
-  PT-04 - Semtools for Document Search: Use `search` for semantic keyword search across text files, and `parse` to convert PDFs/DOCX to searchable markdown first. Example: `parse *.pdf | xargs search "API endpoints" --n-lines 30 --ignore-case`. Use workspaces (`workspace use NAME && export SEMTOOLS_WORKSPACE=NAME`) for repeated searches to cache embeddings.
+  PT-04 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`.
 
-  PT-05 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`.
-
-  PT-06 - Semantic Search with mgrep: Use `mgrep search "query"` for meaning-based code search using embeddings. Finds conceptually related code even when exact terms differ. Use `-c` for content, `-m N` to limit results, `-r` for recursive. Better than grep for "find code that handles X" queries where you don't know the exact wording.
-
-  PT-07 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting.
+  PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting.
 
 </PREFERRED-TOOLS>

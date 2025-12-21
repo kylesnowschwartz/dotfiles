@@ -1,6 +1,6 @@
 ---
 name: hud-first
-description: This skill reframes problems from "what agent can do this for me" to "what information overlay or extended sense would let me solve this better myself." Invoke when stuck on automation approaches, designing AI features, or seeking creative alternatives to copilot/assistant patterns.
+description: This skill should be used when the user asks to "build an AI assistant", "create a chatbot", "make an agent that does X for me", "design a copilot feature", "automate this workflow with AI", or requests delegation-style AI features. Offers a reframe from copilot patterns (conversation, delegation) to HUD patterns (ambient awareness, perception augmentation).
 ---
 
 <objective>
