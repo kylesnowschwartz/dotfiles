@@ -367,3 +367,6 @@ alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git 
 
 # Server aliases
 alias media='ssh media'
+
+# Git diff tree visualization
+alias gdt='git-diff-tree'

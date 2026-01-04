@@ -19,4 +19,5 @@ yarn.lock
 .beads/
 beads/
 .gitattributes
-history/
+.agent-history/
+.bumper-lanes.json
