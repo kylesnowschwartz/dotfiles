@@ -232,7 +232,7 @@ fi
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # AI-powered shell suggestions (Ctrl+Z to trigger)
-export ZSH_AI_CMD_DEBUG=true  # Log to /tmp/zsh-ai-cmd.log
+export ZSH_AI_CMD_DEBUG=true # Log to /tmp/zsh-ai-cmd.log
 [ -f ~/Code/my-projects/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh ] && source ~/Code/my-projects/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh
 
 # Syntax highlighting (must be last)
@@ -261,6 +261,9 @@ if command -v yazi >/dev/null 2>&1; then
     rm -f -- "$tmp"
   }
 fi
+
+# https://github.com/max-sixty/worktrunk Git Worktrunk init
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 
 #################################################
 # SHELL APPEARANCE

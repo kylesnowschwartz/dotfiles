@@ -110,6 +110,7 @@
       "Bash(git push:*)",
       "Bash(git commit:*)",
       "Bash(rm:*)",
+      "Bash(rm -rf:*)",
       "Bash(curl:*)"
     ],
     "additionalDirectories": [
