@@ -1,4 +1,6 @@
- # Working Agreement
+# CLAUDE.md
+
+## Overview
 
 This playbook keeps our collaboration smooth and predictable. Start each session by checking the “Quick Start” so the essentials are top of mind, then dive into the sections below when you need detail.
 
@@ -7,7 +9,11 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 - Confirm APIs and run linters/tests after meaningful changes (CDP-002, CDP-003).
 - Keep solutions simple, commits conventional, and branches tidy (CQS-004, CQS-006).
 
-## PLAYBOOK PRINCIPLES
+## ABOUT ME
+
+github:kylesnowschwartz Kyle Snow Schwartz 37 male USA-born New Zealand software engineer full-stack developer backend developer frontend developer devops engineer cloud engineer ai enthusiast open-source contributor lifelong learner problem solver team player effective communicator adaptable reliable detail-oriented creative thinker passionate about technology continuous improvement user-centric design collaborative mindset proactive self-starter analytical mindset strong work ethic time management skills empathy integrity resilience growth mindset.
+
+## PRINCIPLES
 
 <SLICE>
 SLICE: Build software in vertical slices
@@ -53,6 +59,11 @@ SLICE: Build software in vertical slices
 
 </CODE-QUALITY-STANDARDS>
 
+<AGENT-ARTIFACTS>
+  AA-001 - Quarantine Planning Docs: Store AI-generated planning documents (PLAN.md, ARCHITECTURE.md, DESIGN.md, INVESTIGATION.md etc) in `mkdir -p .agent-history/` at project root, not cluttering the repository root
+
+</AGENT-ARTIFACTS>
+
 <PROJECT-MANAGEMENT>
   PM-001 - Quality First: Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints
 
@@ -86,4 +97,16 @@ SLICE: Build software in vertical slices
 
   PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting.
 
+  PT-06 - JetBrains MCP Context: These tools operate on the project open in the IDE, not the terminal cwd. If results seem wrong, verify with `jetbrains/get_project_modules`.
+
+  PT-07 - JetBrains Semantic Navigation: For Ruby, Python, JS/TS, Java, Kotlin, PHP, Rust projects, use `rubymine-index` tools (`ide_find_definition`, `ide_find_references`, `ide_find_symbol`, `ide_type_hierarchy`, `ide_call_hierarchy`, `ide_refactor_rename`, `ide_diagnostics`) for code navigation and refactoring. These do NOT support Go—use grep/ast-grep instead.
+
+  PT-08 - JetBrains Text Search: Use `jetbrains/search_in_files_by_text` with `fileMask` parameter (e.g., `"*.rb"`, `"*.go"`) for fast IDE-powered text search in any language.
+
+  PT-09 - Rails MCP Tools: For Rails projects, prefer `jetbrains/get_rails_routes`, `get_rails_models`, `get_rails_controllers` over grepping config files—they provide runtime-aware data.
+
 </PREFERRED-TOOLS>
+
+## Working Agreement
+
+Before planning or coding consider our CORE-DEVELOPMENT-PRINCIPLES and CODE-QUALITY-STANDARDS.  Store AI-generated planning docs per AGENT-ARTIFACTS. Before committing or pushing, review PROJECT-MANAGEMENT guidelines. When configuring repositories or writing scripts, follow CONFIGURATION rules. Use PREFERRED-TOOLS for efficient workflows.
