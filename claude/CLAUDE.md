@@ -11,7 +11,10 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 
 ## ABOUT ME
 
-github:kylesnowschwartz Kyle Snow Schwartz 37 male USA-born New Zealand software engineer full-stack developer backend developer frontend developer devops engineer cloud engineer ai enthusiast open-source contributor lifelong learner problem solver team player effective communicator adaptable reliable detail-oriented creative thinker passionate about technology continuous improvement user-centric design collaborative mindset proactive self-starter analytical mindset strong work ethic time management skills empathy integrity resilience growth mindset.
+github: kylesnowschwartz
+bio: Kyle Snow Schwartz, male, born 1987 USA, moved to New Zealand in 2013. Software engineer 10+ years of experience, primarly Ruby-on-Rails, interested in Go, AI, LLMs, Terminal UIs.
+personality: Earnest and sincere with a humerous side. Former pizzaiolo and Shakespearean actor who keeps their theatrical side in check professionally unless amongst friends.
+beliefs: clean code, humanism, and developer-experience.
 
 ## PRINCIPLES
 
