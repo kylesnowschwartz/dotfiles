@@ -49,6 +49,12 @@ mq '.h2' file.md
 
 # Extract table data
 mq '.[][]' file.md
+
+# Extract YAML frontmatter (raw)
+mq '.yaml.value' file.md
+
+# Parse frontmatter to JSON (pipe to yq)
+mq '.yaml.value' file.md | yq -o json
 ```
 
 ## Core Principle
@@ -57,7 +63,7 @@ Extract exactly what is needed in one command - massive context savings compared
 
 ## Detailed Reference
 
-For comprehensive mq patterns, syntax, and examples, load [mq guide](./reference/mq-guide.md):
+For comprehensive mq patterns, syntax, and examples, load [mq guide](./references/mq-guide.md):
 - Core patterns (80% of use cases)
 - Element selectors (code, links, headers, tables, lists)
 - Filtering and transformation

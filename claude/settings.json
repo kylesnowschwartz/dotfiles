@@ -32,9 +32,11 @@
       "Bash(find:*)",
       "Bash(free:*)",
       "Bash(gem list:*)",
+      "Bash(gh issue view:*)",
       "Bash(gh pr checks:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh pr view:*)",
+      "Bash(gh search:*)",
       "Bash(git cd:*)",
       "Bash(git checkout:*)",
       "Bash(git diff:*)",
@@ -165,5 +167,6 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
-  }
+  },
+  "model": "opus"
 }

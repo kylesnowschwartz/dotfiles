@@ -67,6 +67,10 @@ SLICE: Build software in vertical slices
 
 </AGENT-ARTIFACTS>
 
+<CLONED-SOURCES>
+  CS-001 - Project directories will contain a .cloned-sources/ directory which contains git-cloned upstream repositories for local reference of frameworks, libraries, or tools. Lean heavily on .cloned-sources/ for accurate information throughout development and planning.
+</CLONED-SOURCES>
+
 <PROJECT-MANAGEMENT>
   PM-001 - Quality First: Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints
 

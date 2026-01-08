@@ -173,39 +173,45 @@ Control output rendering:
 
 ```bash
 mq '.code' file.md                    # Markdown output (default)
-mq -o html '.code' file.md            # HTML output
-mq -o text '.code' file.md            # Plain text output
-mq -o json '.code' file.md            # JSON output
-mq -o null '.code' file.md            # Suppress output
+mq -F html '.code' file.md            # HTML output
+mq -F text '.code' file.md            # Plain text output
+mq -F json '.code' file.md            # JSON output
+mq -F none '.code' file.md            # Suppress output
 ```
 
 ---
 
-# Built-in Modules
+# YAML Frontmatter Extraction
 
-mq includes modules for other formats:
+mq has a `.yaml` selector for extracting YAML frontmatter from Markdown files:
 
 ```bash
-# Parse CSV within Markdown
-mq 'csv::parse' data.md
+# Extract raw frontmatter content
+mq '.yaml.value' file.md
 
-# Parse YAML front matter
-mq 'yaml::parse' file.md
+# Extract with delimiters (---)
+mq --yaml '.yaml' file.md
 
-# Parse TOML
-mq 'toml::parse' file.md
+# Parse to JSON (pipe to yq)
+mq '.yaml.value' file.md | yq -F json
 
-# Parse XML
-mq 'xml::parse' file.md
+# Get specific frontmatter field
+mq '.yaml.value' file.md | yq '.description'
+
+# Extract frontmatter from multiple files
+fd -e md | xargs -I {} sh -c 'echo "=== {} ===" && mq ".yaml.value" "{}"'
 ```
+
+**Note:** The `.yaml` selector extracts the raw YAML text. For structured parsing, pipe to `yq`.
 
 ---
 
 # Common Flags
 
-- `-o FORMAT` - Output format (markdown, html, text, json, null)
-- `--from FORMAT` - Input format (markdown, mdx, html, text)
-- `-r` - Raw output mode
+- `-F FORMAT` - Output format (markdown, html, text, json, none)
+- `-I FORMAT` - Input format (markdown, mdx, html, text, null, raw)
+- `--yaml` - Include YAML module for frontmatter
+- `--json` - JSON mode
 
 ---
 
@@ -213,7 +219,7 @@ mq 'xml::parse' file.md
 
 ## With jq (JSON output)
 ```bash
-mq -o json '.code' README.md | jq '.[0]'
+mq -F json '.code' README.md | jq '.[0]'
 ```
 
 ## With ripgrep (find then query)
@@ -250,7 +256,7 @@ mq '.code | select(contains("import"))' file.md
 
 ## 3. Use JSON Output for Further Processing
 ```bash
-mq -o json '.link' README.md | jq '.[] | .url'
+mq -F json '.link' README.md | jq '.[] | .url'
 ```
 
 ## 4. Combine with File Finding
@@ -286,11 +292,15 @@ mq '.list' file.md
 # Images
 mq '.image' file.md
 
+# Frontmatter
+mq '.yaml.value' file.md
+mq '.yaml.value' file.md | yq -F json
+
 # Filter
 mq '.code | select(contains("text"))' file.md
 
 # Output as JSON
-mq -o json '.code' file.md
+mq -F json '.code' file.md
 ```
 
 ---
@@ -318,10 +328,11 @@ mq '.selector' file.md
 ```
 
 **Key principles:**
-1. Use element selectors (`.code`, `.h`, `.link`, `.list`)
+1. Use element selectors (`.code`, `.h`, `.link`, `.list`, `.yaml`)
 2. Filter with language specifier `.code("lang")`
 3. Use `select()` for content filtering
-4. Use `-o json` for further processing with jq
-5. Access sub-properties with `.url`, `.text`, `.alt`
+4. Use `-F json` for further processing with jq
+5. Access sub-properties with `.url`, `.text`, `.alt`, `.value`
+6. For frontmatter parsing, pipe `.yaml.value` to `yq`
 
 **Massive context savings: Extract only what you need instead of reading entire Markdown files.**

@@ -30,6 +30,7 @@ claude/*.cache
 claude/ide/
 claude/backups/
 claude/.update.lock
+claude/cache/
 
 # backup files
 *.bak
