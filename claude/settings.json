@@ -36,6 +36,8 @@
       "Bash(gh pr checks:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh pr view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh repo view:*)",
       "Bash(gh search:*)",
       "Bash(git cd:*)",
       "Bash(git checkout:*)",
@@ -133,6 +135,7 @@
       "/tmp/"
     ]
   },
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "/Users/kyle/.claude/plugins/cache/claude-bumper-lanes/claude-bumper-lanes/3.8.0/bin/bumper-lanes"
@@ -160,13 +163,13 @@
     "sc-hooks@simpleclaude": true,
     "sc-output-styles@simpleclaude": true,
     "sc-skills@simpleclaude": true,
-    "simpleclaude-core@simpleclaude": true
+    "simpleclaude-core@simpleclaude": true,
+    "astro-dev@astro-claude-skills": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
-  },
-  "model": "opus"
+  }
 }
