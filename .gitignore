@@ -31,6 +31,7 @@ claude/ide/
 claude/backups/
 claude/.update.lock
 claude/cache/
+claude/telemetry/
 
 # backup files
 *.bak

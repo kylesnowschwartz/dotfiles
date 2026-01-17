@@ -5,6 +5,8 @@
 env = SIMPLE_CLAUDE_DISABLE_NOTIFICATIONS=1
 shell-integration = detect
 shell-integration-features = sudo,ssh-terminfo,ssh-env
+ # Use nightly build
+auto-update-channel = tip
 
 # Fonts
 font-family = "ZenbonesBrainy Nerd Font"
