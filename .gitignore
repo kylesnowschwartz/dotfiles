@@ -35,3 +35,6 @@ claude/telemetry/
 
 # backup files
 *.bak
+
+# Ghostty runtime state (theme selection)
+ghostty/theme.local

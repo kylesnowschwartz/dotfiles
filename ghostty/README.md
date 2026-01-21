@@ -54,7 +54,8 @@ switch-theme.sh
 
 | File | Purpose |
 |------|---------|
-| `ghostty/config` | Main Ghostty config, includes theme line |
+| `ghostty/config` | Main Ghostty config (tracked, static) |
+| `ghostty/theme.local` | Current theme (gitignored, runtime state) |
 | `ghostty/themes/` | Ghostty theme files (*.ghostty) |
 | `ghostty/switch-theme.sh` | Main theme orchestrator |
 | `starship/*-starship.toml` | Starship prompt themes |
@@ -62,6 +63,8 @@ switch-theme.sh
 | `gh-dash/themes/*.yml` | gh-dash color themes |
 | `~/.config/delta-theme.txt` | Current delta theme (plain text) |
 | `~/.config/bat-theme.txt` | Current bat theme (plain text) |
+
+The main `ghostty/config` uses `config-file = ?theme.local` to include runtime theme state without modifying tracked files.
 
 ## Theme Buckets
 

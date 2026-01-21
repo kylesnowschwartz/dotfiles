@@ -8,7 +8,8 @@ set -euo pipefail
 # Constants
 # =============================================================================
 
-CONFIG_FILE="$HOME/.config/ghostty/config"
+CONFIG_DIR="$HOME/.config/ghostty"
+THEME_LOCAL_FILE="$CONFIG_DIR/theme.local"
 STARSHIP_CONFIG="$HOME/.config/starship.toml"
 STARSHIP_DIR="$HOME/Code/dotfiles/starship"
 CLAUDE_CONFIG="$HOME/.claude.json"
@@ -64,7 +65,12 @@ declare -A BLEU_CONFIG=(
 # =============================================================================
 
 get_current_theme() {
-  grep "^$THEME_MARKER" "$CONFIG_FILE" 2>/dev/null | sed "s/^$THEME_MARKER //" || echo ""
+  # Read theme name from theme.local (first line is comment with theme name)
+  if [[ -f "$THEME_LOCAL_FILE" ]]; then
+    grep "^$THEME_MARKER" "$THEME_LOCAL_FILE" 2>/dev/null | sed "s/^$THEME_MARKER //" || echo ""
+  else
+    echo ""
+  fi
 }
 
 get_theme_index() {
@@ -80,7 +86,7 @@ get_theme_index() {
 
 get_ghostty_theme_value() {
   local theme="$1"
-  local themes_dir="${CONFIG_FILE%/*}/themes"
+  local themes_dir="$CONFIG_DIR/themes"
 
   # Check for theme.ghostty first, then bare name
   if [[ -f "$themes_dir/${theme}.ghostty" ]]; then
@@ -157,13 +163,12 @@ update_ghostty_config() {
   local theme="$1"
   local theme_value="$2"
 
-  # Remove existing theme lines
-  sed -i.bak "/^theme = /d" "$CONFIG_FILE"
-  sed -i.bak "/^$THEME_MARKER/d" "$CONFIG_FILE"
-
-  # Add new theme
-  echo "$THEME_MARKER $theme" >>"$CONFIG_FILE"
-  echo "theme = $theme_value" >>"$CONFIG_FILE"
+  # Write to theme.local (included by main config via config-file directive)
+  # This keeps runtime state out of tracked config files
+  cat >"$THEME_LOCAL_FILE" <<EOF
+$THEME_MARKER $theme
+theme = $theme_value
+EOF
 }
 
 update_starship_config() {

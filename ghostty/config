@@ -42,6 +42,5 @@ unfocused-split-opacity = 0.9
 split-divider-color = #5f27cd
 
 # Colors
-
-# CURRENT_THEME: cobalt-next-neon
-theme = cobalt-next-neon.ghostty
+# Theme loaded from theme.local (written by switch-theme.sh, gitignored)
+config-file = ?theme.local
