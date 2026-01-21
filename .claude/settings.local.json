@@ -1,3 +1,10 @@
 {
-  "permissions": {}
+  "permissions": {
+    "additionalDirectories": [
+      "/Users/kyle/Code/meta-terminal/bleu-theme"
+    ],
+    "allow": [
+      "Bash(pgrep:*)"
+    ]
+  }
 }

@@ -1,0 +1,108 @@
+# Bleu Theme for eza
+# Based on the comprehensive Bleu Neovim color palette
+# Author: bnema
+
+colourful: true
+
+filekinds:
+  normal: {foreground: "#e8f4f8"}           # Main text color
+  directory: {foreground: "#5588cc"}        # Focus blue for directories (darker)
+  symlink: {foreground: "#87ceeb"}          # String blue for symlinks
+  pipe: {foreground: "#708090"}             # Dimmed for pipes
+  block_device: {foreground: "#4a7ba7"}     # Number blue for devices
+  char_device: {foreground: "#4a7ba7"}
+  socket: {foreground: "#87ceeb"}           # String blue for sockets
+  special: {foreground: "#5588cc"}          # Focus blue for special
+  executable: {foreground: "#00d4ff", is_bold: true}  # Bright cyan pops for executables!
+  mount_point: {foreground: "#5588cc"}      # Focus blue
+
+perms:
+  user_read: {foreground: "#5588cc"}        # Focus blue
+  user_write: {foreground: "#00d4ff"}       # Bright cyan for write
+  user_executable_file: {foreground: "#99FFE4"}  # Success color
+  user_execute_other: {foreground: "#99FFE4"}
+  group_read: {foreground: "#708090"}       # Dimmed grey
+  group_write: {foreground: "#708090"}
+  group_execute: {foreground: "#708090"}
+  other_read: {foreground: "#708090"}
+  other_write: {foreground: "#708090"}
+  other_execute: {foreground: "#708090"}
+  special_user_file: {foreground: "#00d4ff"}
+  special_other: {foreground: "#2d4a6b"}    # Border color
+  attribute: {foreground: "#708090"}
+
+size:
+  major: {foreground: "#4a7ba7"}
+  minor: {foreground: "#87ceeb"}
+  number_byte: {foreground: "#e8f4f8"}      # Main fg for small sizes
+  number_kilo: {foreground: "#e8f4f8"}
+  number_mega: {foreground: "#e8f4f8"}
+  number_giga: {foreground: "#87ceeb"}      # String blue for large
+  number_huge: {foreground: "#00d4ff"}      # Accent for huge
+  unit_byte: {foreground: "#708090"}        # Dimmed for units
+  unit_kilo: {foreground: "#708090"}
+  unit_mega: {foreground: "#708090"}
+  unit_giga: {foreground: "#708090"}
+  unit_huge: {foreground: "#708090"}
+
+users:
+  user_you: {foreground: "#708090"}         # Dimmed grey for your username
+  user_root: {foreground: "#5588cc"}        # Focus blue for root (more visible than you)
+  user_other: {foreground: "#87ceeb"}       # String blue for others
+  group_yours: {foreground: "#708090"}      # Dimmed grey
+  group_other: {foreground: "#2d4a6b"}      # Border color
+  group_root: {foreground: "#5588cc"}       # Focus blue for root group
+
+links:
+  normal: {foreground: "#00d4ff"}           # Bright cyan for links
+  multi_link_file: {foreground: "#5588cc"}  # Focus blue
+
+git:
+  new: {foreground: "#99FFE4"}              # Success color
+  modified: {foreground: "#00d4ff"}         # Cyan for modified
+  deleted: {foreground: "#ff6b8a"}          # Error red
+  renamed: {foreground: "#87ceeb"}          # String blue
+  typechange: {foreground: "#5588cc"}       # Focus blue
+  ignored: {foreground: "#708090", is_dimmed: true}
+  conflicted: {foreground: "#ff6b8a"}
+
+git_repo:
+  branch_main: {foreground: "#00d4ff"}
+  branch_other: {foreground: "#5588cc"}
+  git_clean: {foreground: "#99FFE4"}
+  git_dirty: {foreground: "#00d4ff"}
+
+security_context:
+  none: {foreground: "#708090"}
+  selinux:
+    colon: {foreground: "#2d4a6b"}
+    user: {foreground: "#708090"}
+    role: {foreground: "#5588cc"}
+    typ: {foreground: "#4a7ba7"}
+    range: {foreground: "#5588cc"}
+
+file_type:
+  image: {foreground: "#87ceeb"}            # String blue
+  video: {foreground: "#87ceeb"}
+  music: {foreground: "#99FFE4"}            # Success color
+  lossless: {foreground: "#00d4ff"}         # Accent cyan
+  crypto: {foreground: "#708090"}           # Dimmed
+  document: {foreground: "#e8f4f8"}         # Main fg
+  compressed: {foreground: "#5588cc"}       # Focus blue
+  temp: {foreground: "#708090", is_dimmed: true}
+  compiled: {foreground: "#4a7ba7"}         # Number blue
+  build: {foreground: "#5588cc"}            # Focus blue
+  source: {foreground: "#00d4ff"}           # Accent cyan
+
+punctuation: {foreground: "#5588cc"}        # Focus blue for arrows and punctuation
+date: {foreground: "#87ceeb"}               # String blue
+inode: {foreground: "#708090"}              # Dimmed
+blocks: {foreground: "#708090"}             # Dimmed
+header: {foreground: "#fefefe", is_bold: true}  # Pure white
+octal: {foreground: "#4a7ba7"}              # Number blue
+flags: {foreground: "#5588cc"}              # Focus blue
+
+symlink_path: {foreground: "#00d4ff"}       # Bright cyan for symlink paths
+control_char: {foreground: "#87ceeb"}
+broken_symlink: {foreground: "#ff6b8a"}     # Error red
+broken_path_overlay: {foreground: "#2d4a6b"}

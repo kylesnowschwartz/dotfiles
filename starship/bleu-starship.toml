@@ -1,0 +1,252 @@
+# Bleu Theme for Starship Prompt
+# A sophisticated dark theme with a cool blue color palette
+# Source: https://github.com/bnema/bleu-theme
+#
+# Installation:
+# Copy this file to ~/.config/starship.toml
+#
+# Color Palette:
+# - Directory: #5588cc (Pure Blue)
+# - Git Branch: #87ceeb (Light Sky Blue)
+# - Git Status: #00d4ff (Bright Cyan)
+# - Success: #00d4ff (Bright Cyan)
+# - Error: #6a8caf (Medium Blue)
+# - Success State: #99FFE4 (Success Green)
+# - Dimmed: #708090 (Dimmed Text)
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status \
+$cmd_duration\
+$nodejs\
+$python\
+$rust\
+$golang\
+$docker_context\
+$package\
+$line_break\
+$character"""
+
+[directory]
+style = "#5588cc"
+read_only = " 󰌾"
+
+[character]
+success_symbol = "[❯](#00d4ff)"
+error_symbol = "[❯](#6a8caf)"
+vimcmd_symbol = "[❮](#99FFE4)"
+
+[git_branch]
+format = "on [$branch]($style)"
+style = "#87ceeb"
+symbol = " "
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](#87ceeb) ($ahead_behind$stashed)]($style)"
+style = "#00d4ff"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "#708090"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "#6bb6d6"
+
+[python]
+format = "[$virtualenv]($style) "
+style = "#708090"
+symbol = " "
+
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[bun]
+symbol = " "
+
+[c]
+symbol = " "
+
+[cpp]
+symbol = " "
+
+[cmake]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[deno]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[gcloud]
+symbol = "  "
+
+[git_commit]
+tag_symbol = '  '
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[pixi]
+symbol = "󰏗 "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "󱘗 "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+[gradle]
+symbol = " "

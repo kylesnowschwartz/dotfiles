@@ -23,7 +23,7 @@ keybind = shift+enter=text:\n
 keybind = super+e=equalize_splits
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = "super+shift+comma=text:/Users/kyle/.config/ghostty/switch-theme.sh dayfox\n"
-keybind = "super+shift+period=text:/Users/kyle/.config/ghostty/switch-theme.sh cobalt2\n"
+keybind = "super+shift+period=text:/Users/kyle/.config/ghostty/switch-theme.sh cobalt-next-neon\n"
 keybind = "super+slash=text:/Users/kyle/.config/ghostty/switch-theme.sh next\n"
 keybind = super+shift+r=reload_config
 
@@ -43,5 +43,5 @@ split-divider-color = #5f27cd
 
 # Colors
 
-# CURRENT_THEME: cobalt2
-theme = cobalt2
+# CURRENT_THEME: cobalt-next-neon
+theme = cobalt-next-neon.ghostty

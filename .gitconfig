@@ -76,6 +76,28 @@
 	line-numbers-zero-style = "blue"
 	zero-style = "syntax"
 	whitespace-error-style = "reverse magenta"
+
+[delta "bleu"]
+	; Bleu theme - cool blue palette from github.com/bnema/bleu-theme
+	light = false
+	syntax-theme = Nord
+	navigate = true
+	keep-plus-minus-markers = true
+	file-decoration-style = "none"
+	file-style = "#5588cc bold"
+	minus-style = "#A167A5"
+	minus-emph-style = "#A167A5 bold"
+	plus-style = "#99FFE4"
+	plus-emph-style = "#99FFE4 bold"
+	hunk-header-style = "#00d4ff bold"
+	line-numbers = true
+	line-numbers-minus-style = "#A167A5"
+	line-numbers-plus-style = "#99FFE4"
+	line-numbers-left-style = "#2d4a6b"
+	line-numbers-right-style = "#2d4a6b"
+	line-numbers-zero-style = "#708090"
+	zero-style = "syntax"
+	whitespace-error-style = "reverse #87ceeb"
 [merge]
 	conflictstyle = diff3
 [diff]

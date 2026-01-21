@@ -1,0 +1,28 @@
+# Bleu theme for Ghostty - inspired by blue gradient wallpaper
+
+palette = 0=#050a14
+palette = 1=#A167A5
+palette = 2=#99FFE4
+palette = 3=#FDBD85
+palette = 4=#5588cc
+palette = 5=#87ceeb
+palette = 6=#6bb6d6
+palette = 7=#e0ecf4
+palette = 8=#2d4a6b
+palette = 9=#A167A5
+palette = 10=#99FFE4
+palette = 11=#FDBD85
+palette = 12=#5588cc
+palette = 13=#87ceeb
+palette = 14=#6bb6d6
+palette = 15=#fefefe
+
+background = #050a14
+foreground = #e0ecf4
+cursor-color = #5588cc
+cursor-text = #e0ecf4
+selection-background = #2d4a6b
+selection-foreground = #e0ecf4
+
+# Transparency and blur effects
+unfocused-split-opacity = 0.7

@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "cleanupPeriodDays": 90,
+  "cleanupPeriodDays": 30,
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
     "MAX_MCP_OUTPUT_TOKENS": "20000",
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
     "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "ENABLE_EXPERIMENTAL_MCP_CLI": "true"
+    "ENABLE_INCREMENTAL_TUI": "true"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -139,7 +139,7 @@
   "model": "opus",
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/.claude/plugins/cache/claude-bumper-lanes/claude-bumper-lanes/3.8.0/bin/bumper-lanes"
+    "command": "/Users/kyle/.claude/plugins/cache/claude-bumper-lanes/claude-bumper-lanes/3.9.1/bin/bumper-lanes"
   },
   "enabledPlugins": {
     "agent-deck@agent-deck": false,
