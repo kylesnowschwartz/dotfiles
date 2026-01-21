@@ -40,6 +40,7 @@ declare -A DARK_CONFIG=(
   ["claude"]="dark"
   ["eza"]="none"
   ["bat"]="Dracula"
+  ["nvim"]="cobalt-neon"
 )
 
 declare -A LIGHT_CONFIG=(
@@ -49,6 +50,7 @@ declare -A LIGHT_CONFIG=(
   ["claude"]="light"
   ["eza"]="none"
   ["bat"]="Solarized (light)"
+  ["nvim"]="dayfox"
 )
 
 declare -A BLEU_CONFIG=(
@@ -58,6 +60,7 @@ declare -A BLEU_CONFIG=(
   ["claude"]="dark"
   ["eza"]="bleu"
   ["bat"]="bleu"
+  ["nvim"]="bleu"
 )
 
 # =============================================================================
@@ -225,6 +228,24 @@ update_bat_config() {
   echo "$theme" >"$BAT_THEME_FILE"
 }
 
+update_nvim_config() {
+  local theme="$1"
+
+  # Skip if nvim not installed
+  if ! command -v nvim &>/dev/null; then
+    echo "○"
+    return
+  fi
+
+  # Use headless nvim to set theme via Themery (persists for new instances)
+  # Running instances won't pick this up - that's a Themery limitation
+  if nvim --headless -c "lua pcall(function() require('themery').setThemeByName('$theme', true) end)" -c "qa" 2>/dev/null; then
+    echo "✓"
+  else
+    echo "⚠"
+  fi
+}
+
 apply_theme() {
   local theme="$1"
   local bucket="${THEME_BUCKETS[$theme]}"
@@ -255,6 +276,8 @@ apply_theme() {
 
   update_bat_config "${config_ref[bat]}"
 
+  NVIM_STATUS=$(update_nvim_config "${config_ref[nvim]}")
+
   set_claude_theme "${config_ref[claude]}"
   CLAUDE_STATUS=$?
   if [[ $CLAUDE_STATUS -eq 0 ]]; then
@@ -272,6 +295,7 @@ apply_theme() {
   echo "  - Delta: ${config_ref[delta]}"
   echo "  - eza: ${config_ref[eza]} ${EZA_STATUS}"
   echo "  - bat: ${config_ref[bat]}"
+  echo "  - nvim: ${config_ref[nvim]} ${NVIM_STATUS}"
   echo "  - gh-dash: ${config_ref[gh_dash]} ${GH_DASH_STATUS}"
   echo "  - Claude: ${config_ref[claude]} ${CLAUDE_DISPLAY}"
 }
