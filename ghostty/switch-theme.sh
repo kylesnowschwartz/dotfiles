@@ -14,19 +14,22 @@ STARSHIP_DIR="$HOME/Code/dotfiles/starship"
 CLAUDE_CONFIG="$HOME/.claude.json"
 GH_DASH_CONFIG="$HOME/.config/gh-dash/config.yml"
 GH_DASH_THEME_DIR="$HOME/Code/dotfiles/gh-dash/themes"
+EZA_CONFIG="$HOME/.config/eza/theme.yml"
+EZA_THEME_DIR="$HOME/Code/dotfiles/eza/themes"
+BAT_THEME_FILE="$HOME/.config/bat-theme.txt"
+DELTA_THEME_FILE="$HOME/.config/delta-theme.txt"
 THEME_MARKER="# CURRENT_THEME:"
 
-# Theme registry: name -> bucket (dark|light)
+# Theme registry: name -> bucket (dark|light|bleu)
 # Ghostty theme file is derived from name (name or name.ghostty in themes/)
 declare -A THEME_BUCKETS=(
-  ["cobalt2"]="dark"
   ["cobalt-next-neon"]="dark"
   ["dayfox"]="light"
-  ["seoulbones-light"]="light"
+  ["bleu"]="bleu"
 )
 
 # Ordered list for cycling
-THEME_ORDER=(cobalt2 cobalt-next-neon dayfox seoulbones-light)
+THEME_ORDER=(cobalt-next-neon bleu dayfox)
 
 # Bucket configurations
 declare -A DARK_CONFIG=(
@@ -34,6 +37,8 @@ declare -A DARK_CONFIG=(
   ["delta"]="dark"
   ["gh_dash"]="cobalt2"
   ["claude"]="dark"
+  ["eza"]="none"
+  ["bat"]="Dracula"
 )
 
 declare -A LIGHT_CONFIG=(
@@ -41,6 +46,17 @@ declare -A LIGHT_CONFIG=(
   ["delta"]="light"
   ["gh_dash"]="dayfox"
   ["claude"]="light"
+  ["eza"]="none"
+  ["bat"]="Solarized (light)"
+)
+
+declare -A BLEU_CONFIG=(
+  ["starship"]="bleu"
+  ["delta"]="bleu"
+  ["gh_dash"]="cobalt2"
+  ["claude"]="dark"
+  ["eza"]="bleu"
+  ["bat"]="bleu"
 )
 
 # =============================================================================
@@ -164,10 +180,7 @@ update_starship_config() {
 
 update_delta_config() {
   local delta_theme="$1"
-  local delta_env_file="$HOME/.config/delta-theme.env"
-
-  # Write DELTA_FEATURES to env file (sourced by shell)
-  echo "export DELTA_FEATURES=$delta_theme" >"$delta_env_file"
+  echo "$delta_theme" >"$DELTA_THEME_FILE"
 }
 
 update_gh_dash_config() {
@@ -182,6 +195,31 @@ update_gh_dash_config() {
   fi
 }
 
+update_eza_config() {
+  local theme="$1"
+  local theme_file="$EZA_THEME_DIR/${theme}.yml"
+  local config_dir="${EZA_CONFIG%/*}"
+
+  # Ensure config dir exists
+  mkdir -p "$config_dir"
+
+  if [[ "$theme" == "none" ]]; then
+    # Remove custom theme, use defaults
+    rm -f "$EZA_CONFIG"
+    echo "○"
+  elif [[ -f "$theme_file" ]]; then
+    ln -sf "$theme_file" "$EZA_CONFIG"
+    echo "✓"
+  else
+    echo "⚠"
+  fi
+}
+
+update_bat_config() {
+  local theme="$1"
+  echo "$theme" >"$BAT_THEME_FILE"
+}
+
 apply_theme() {
   local theme="$1"
   local bucket="${THEME_BUCKETS[$theme]}"
@@ -190,6 +228,8 @@ apply_theme() {
   local -n config_ref
   if [[ "$bucket" == "dark" ]]; then
     config_ref=DARK_CONFIG
+  elif [[ "$bucket" == "bleu" ]]; then
+    config_ref=BLEU_CONFIG
   else
     config_ref=LIGHT_CONFIG
   fi
@@ -206,6 +246,10 @@ apply_theme() {
 
   GH_DASH_STATUS=$(update_gh_dash_config "${config_ref[gh_dash]}")
 
+  EZA_STATUS=$(update_eza_config "${config_ref[eza]}")
+
+  update_bat_config "${config_ref[bat]}"
+
   set_claude_theme "${config_ref[claude]}"
   CLAUDE_STATUS=$?
   if [[ $CLAUDE_STATUS -eq 0 ]]; then
@@ -221,6 +265,8 @@ apply_theme() {
   echo "  - Ghostty: $ghostty_value"
   echo "  - Starship: ${config_ref[starship]} ${STARSHIP_STATUS}"
   echo "  - Delta: ${config_ref[delta]}"
+  echo "  - eza: ${config_ref[eza]} ${EZA_STATUS}"
+  echo "  - bat: ${config_ref[bat]}"
   echo "  - gh-dash: ${config_ref[gh_dash]} ${GH_DASH_STATUS}"
   echo "  - Claude: ${config_ref[claude]} ${CLAUDE_DISPLAY}"
 }

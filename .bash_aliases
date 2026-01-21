@@ -86,8 +86,30 @@ if command -v duf >/dev/null 2>&1; then
 fi
 
 # alias grep='rg'  # Disabled: breaks grep -E flag compatibility
-alias cat='bat --paging=never'
 # alias find='fd'
+
+# bat wrapper - reads theme from file for instant switching across all shells
+# No env var propagation needed - file is read fresh each invocation
+bat() {
+  local theme_file="$HOME/.config/bat-theme.txt"
+  if [[ -f "$theme_file" ]]; then
+    command bat --theme="$(< "$theme_file")" "$@"
+  else
+    command bat "$@"
+  fi
+}
+alias cat='bat --paging=never'
+
+# git wrapper - sets DELTA_FEATURES from file for instant theme switching
+# Delta reads DELTA_FEATURES fresh each invocation, so this just works
+git() {
+  local theme_file="$HOME/.config/delta-theme.txt"
+  if [[ -f "$theme_file" ]]; then
+    DELTA_FEATURES="$(< "$theme_file")" command git "$@"
+  else
+    command git "$@"
+  fi
+}
 
 # Make a new file
 #
@@ -256,8 +278,13 @@ git_next() {
 
 # CLAUDE
 #
+# Wrap interactive claude with claude-chill for sane terminal rendering
+# DISABLED: claude-chill has issues with Kitty keyboard protocol (see github.com/davidbeesley/claude-chill/issues/15)
 # claude() {
-#   /Users/kyle/.claude-wrapper "$@"
+#   for arg in "$@"; do
+#     [[ "$arg" == "-p" ]] && { command claude "$@"; return; }
+#   done
+#   claude-chill -a 0 claude "$@"
 # }
 
 # Claude sound controls (uses ~/.config/claude/sounds.conf)
@@ -292,8 +319,14 @@ alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config
 #
 gif() { ffmpeg -i "$1" -vf "setpts=0.80*PTS" -r 15 -f gif "${1%.*}.gif"; }
 
+# Unified theme switcher - file-based, instant effect in all shells
+# Wrapper functions (bat, git) read theme files fresh each invocation
+theme() {
+  ~/.config/ghostty/switch-theme.sh "$@"
+}
+
 # Starship theme switcher
-#
+# NOTE: Prefer `theme <name>` for coordinated switching (Ghostty+Starship+Delta+bat+eza)
 starship-set() {
   local theme="$1"
   local starship_dir="/Users/kyle/Code/dotfiles/starship"
@@ -361,6 +394,7 @@ starship-set() {
 alias iterm_nvim='iterm-nvim'
 
 # Delta color scheme switching - uses delta's features system with proper cleanup
+# DEPRECATED: Prefer `theme <name>` for coordinated switching across all tools
 alias delta-light='git config --global --unset delta.dark 2>/dev/null; git config --global --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config delta.features light; echo "Delta switched to light mode"'
 alias delta-dark='git config --global --unset delta.light 2>/dev/null; git config --global --unset delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config delta.features dark; echo "Delta switched to dark mode"'
 alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git config --global --unset-all delta.dark 2>/dev/null; git config --unset delta.light 2>/dev/null; git config --unset delta.dark 2>/dev/null; git config --unset delta.features 2>/dev/null; echo "Delta reset to default"'
