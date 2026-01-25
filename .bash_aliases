@@ -35,6 +35,15 @@ rubymine() {
   open -a RubyMine "$@"
 }
 
+finder() {
+  local path="${1:-.}"
+  if [[ ! -e "$path" ]]; then
+    echo "finder: path not found: $path"
+    return 1
+  fi
+  open -R "$path"
+}
+
 trae-cli() {
   local task_or_file="$1"
   local working_dir="${2:-$(pwd)}"
