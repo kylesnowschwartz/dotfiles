@@ -7,7 +7,7 @@
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
     "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "ENABLE_INCREMENTAL_TUI": "true"
+    "ENABLE_INCREMENTAL_TUI": "false"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -142,32 +142,21 @@
     "command": "/Users/kyle/.claude/plugins/cache/claude-bumper-lanes/claude-bumper-lanes/3.9.1/bin/bumper-lanes"
   },
   "enabledPlugins": {
-    "agent-deck@agent-deck": false,
-    "ast-grep@ast-grep-marketplace": true,
+    "astro-dev@astro-claude-skills": true,
     "claude-bumper-lanes@claude-bumper-lanes": true,
     "claude-handoff@claude-handoff": true,
-    "claude-mem@thedotmack": false,
-    "coding-best-practices@xdg-claude": false,
-    "context-efficient-tools@xdg-claude": false,
-    "elements-of-style@xdg-claude": false,
     "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
-    "envato-mcp-servers@envato-claude": true,
+    "envato-mcp-servers@envato-claude": false,
     "envato-productivity@envato-claude": false,
-    "jira-cli@xdg-claude": true,
-    "jira-integration@jira-skill": false,
-    "plugin-dev@claude-plugins-official": false,
+    "jira-cli-skill@jira-cli-skill": true,
     "plugin-dev@plugin-dev-marketplace": true,
-    "ralph-loop@claude-plugins-official": true,
-    "refactoring-agent@xdg-claude": false,
     "sc-extras@simpleclaude": true,
     "sc-hooks@simpleclaude": true,
     "sc-output-styles@simpleclaude": true,
+    "sc-refactor@simpleclaude": true,
     "sc-skills@simpleclaude": true,
-    "simpleclaude-core@simpleclaude": true,
-    "astro-dev@astro-claude-skills": true,
-    "code-review@claude-plugins-official": true,
-    "sc-refactor@simpleclaude": true
+    "simpleclaude-core@simpleclaude": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
