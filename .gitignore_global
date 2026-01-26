@@ -17,6 +17,7 @@
 .rspec
 .ruby-lsp/
 .worktrees/
+.playwright-mcp/
 Brewfile.lock.json
 TAGS
 beads/

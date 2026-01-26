@@ -8,6 +8,8 @@ logs/
 debug/
 plans/
 paste-cache/
+image-cache/
+tasks/
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json
