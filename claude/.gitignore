@@ -10,6 +10,7 @@ plans/
 paste-cache/
 image-cache/
 tasks/
+usage-data/
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json

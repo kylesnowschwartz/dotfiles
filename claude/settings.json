@@ -7,7 +7,7 @@
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
     "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "ENABLE_INCREMENTAL_TUI": "false"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" : "1"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -16,6 +16,7 @@
       "Bash(R:*)",
       "Bash(Rscript:*)",
       "Bash(bd:*)",
+      "Bash(bl:*)",
       "Bash(bundle exec rspec:*)",
       "Bash(bundle exec rubocop:*)",
       "Bash(bundle exec ruby:*)",
@@ -109,7 +110,8 @@
       "Write"
     ],
     "deny": [
-      "Bash(git push --force)"
+      "Bash(git push --force)",
+      "Bash(aws-vault:*)"
     ],
     "ask": [
       "Bash(gh api:*)",
