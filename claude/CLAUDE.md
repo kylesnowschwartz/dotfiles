@@ -9,7 +9,7 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 - Confirm APIs and run linters/tests after meaningful changes (CDP-002, CDP-003).
 - Keep solutions simple, commits conventional, and branches tidy (CQS-004, CQS-006).
 
-## ABOUT ME
+## ABOUT THE USER
 
 github: kylesnowschwartz
 bio: Kyle Snow Schwartz, male, born 1987 USA, moved to New Zealand in 2013. Software engineer 10+ years of experience, primarly Ruby-on-Rails, interested in Go, AI, LLMs, Terminal UIs.
@@ -60,16 +60,18 @@ SLICE: Build software in vertical slices
 
   CQS-006 - Keep Solutions Simple: Follow KISS and YAGNI principles; prefer obvious, well-documented solutions over cleverness; minimize external dependencies; document public interfaces
 
+  CQS-007 - Keep the Campground Tidy, even if linting errors or test failures are pre-existing fix them before continuing
+
 </CODE-QUALITY-STANDARDS>
 
 <AGENT-ARTIFACTS>
   AA-001 - Quarantine Planning Docs: Store AI-generated planning documents (PLAN.md, ARCHITECTURE.md, DESIGN.md, INVESTIGATION.md etc) in `mkdir -p .agent-history/` at project root, not cluttering the repository root
 
-</AGENT-ARTIFACTS>
+  AA-002 - Project directories will contain a .cloned-sources/ directory which contains git-cloned upstream repositories for local reference of frameworks, libraries, or tools. Lean heavily on .cloned-sources/ for accurate information throughout development and planning
 
-<CLONED-SOURCES>
-  CS-001 - Project directories will contain a .cloned-sources/ directory which contains git-cloned upstream repositories for local reference of frameworks, libraries, or tools. Lean heavily on .cloned-sources/ for accurate information throughout development and planning.
-</CLONED-SOURCES>
+  AA-003 - Agent Artifacts may be ephemeral, but are often persisted on disk for reference. They are always git-ignored
+
+</AGENT-ARTIFACTS>
 
 <PROJECT-MANAGEMENT>
   PM-001 - Quality First: Do not concern yourself with ROI, timelines, time or effort estimations, or other traditional measurements; focus on quality over arbitrary constraints
@@ -100,20 +102,12 @@ SLICE: Build software in vertical slices
 
   PT-03 - Claude's Bash can behave oddly when piping output and using bash variable expansion. Try running bash commands explicitly with the shell eg `zsh -c <command>`
 
-  PT-04 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`.
+  PT-04 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`
 
-  PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting.
-
-  PT-06 - JetBrains MCP Context: These tools operate on the project open in the IDE, not the terminal cwd. If results seem wrong, verify with `jetbrains/get_project_modules`.
-
-  PT-07 - JetBrains Semantic Navigation: For Ruby, Python, JS/TS, Java, Kotlin, PHP, Rust projects, use `rubymine-index` tools (`ide_find_definition`, `ide_find_references`, `ide_find_symbol`, `ide_type_hierarchy`, `ide_call_hierarchy`, `ide_refactor_rename`, `ide_diagnostics`) for code navigation and refactoring. These do NOT support Go—use grep/ast-grep instead.
-
-  PT-08 - JetBrains Text Search: Use `jetbrains/search_in_files_by_text` with `fileMask` parameter (e.g., `"*.rb"`, `"*.go"`) for fast IDE-powered text search in any language.
-
-  PT-09 - Rails MCP Tools: For Rails projects, prefer `jetbrains/get_rails_routes`, `get_rails_models`, `get_rails_controllers` over grepping config files—they provide runtime-aware data.
+  PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting
 
 </PREFERRED-TOOLS>
 
 ## Working Agreement
 
-Before planning or coding consider our CORE-DEVELOPMENT-PRINCIPLES and CODE-QUALITY-STANDARDS.  Store AI-generated planning docs per AGENT-ARTIFACTS. Before committing or pushing, review PROJECT-MANAGEMENT guidelines. When configuring repositories or writing scripts, follow CONFIGURATION rules. Use PREFERRED-TOOLS for efficient workflows.
+YOU MUST follow our <CORE-DEVELOPMENT-PRINCIPLES> and <CODE-QUALITY-STANDARDS> when planning or coding. ALWAYS Store AI-generated planning docs per <AGENT-ARTIFACTS>. ALWAYS review <PROJECT-MANAGEMENT> guidelines before committing or pushing. When configuring repositories or writing scripts, you MUST follow <CONFIGURATION> rules. It is REQUIRED that you use <PREFERRED-TOOLS> for efficient workflows.
