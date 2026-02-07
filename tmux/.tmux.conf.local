@@ -1,0 +1,64 @@
+# Oh my tmux! local overrides
+# https://github.com/gpakosz/.tmux
+#
+# Customizations for Kyle's dotfiles
+# All settings here override the defaults in .tmux.conf
+
+# -- display -------------------------------------------------------------------
+
+# Ghostty supports true color natively
+tmux_conf_24b_colour=true
+
+# -- windows & panes -----------------------------------------------------------
+
+# Retain current path when splitting panes (default: true)
+tmux_conf_new_pane_retain_current_path=true
+
+# Retain current path when creating new windows
+tmux_conf_new_window_retain_current_path=true
+
+# -- theming -------------------------------------------------------------------
+
+# Powerline separators (MesloLGS Nerd Font has these glyphs)
+tmux_conf_theme_left_separator_main='\uE0B0'
+tmux_conf_theme_left_separator_sub='\uE0B1'
+tmux_conf_theme_right_separator_main='\uE0B2'
+tmux_conf_theme_right_separator_sub='\uE0B3'
+
+# Simplified status bar - session name left, time/date/host right
+tmux_conf_theme_status_left=" #S "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized} , %R , %d %b | #{hostname} "
+
+# -- clipboard -----------------------------------------------------------------
+
+# Copy to macOS clipboard automatically in copy mode
+tmux_conf_copy_to_os_clipboard=true
+
+# -- user customizations -------------------------------------------------------
+
+# History
+set -g history-limit 50000
+
+# Mouse support
+set -g mouse on
+
+# Zero escape delay (critical for vi-mode responsiveness)
+set -sg escape-time 0
+
+# Vi mode for copy/status
+set -g mode-keys vi
+set -g status-keys vi
+
+# Focus events (helps editors detect window focus changes)
+set -g focus-events on
+
+# -- tpm -----------------------------------------------------------------------
+
+# Disable auto-updating plugins on launch (opt in when needed)
+tmux_conf_update_plugins_on_launch=false
+tmux_conf_update_plugins_on_reload=true
+
+# Uncomment plugins as needed:
+#set -g @plugin 'tmux-plugins/tmux-resurrect'
+#set -g @plugin 'tmux-plugins/tmux-continuum'
+#set -g @continuum-restore 'on'

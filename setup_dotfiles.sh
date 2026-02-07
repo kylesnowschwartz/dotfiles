@@ -335,6 +335,9 @@ CONFIG_FILES=(
 # starship-set function in .bash_aliases, which creates a symlink to
 # one of the theme files in starship/ directory
 
+# NOTE: tmux uses a custom setup below because Oh My Tmux requires
+# three symlinks with non-standard paths (submodule + local overrides)
+
 # Set up symlinks for home files
 for file in "${HOME_FILES[@]}"; do
   setup_symlink "$file" "home"
@@ -364,6 +367,49 @@ if [ ! -e "$STARSHIP_CONFIG" ]; then
   log "INFO" "Use 'starship-set <theme>' to switch themes"
 else
   log "DEBUG" "Starship config already exists at $STARSHIP_CONFIG"
+fi
+
+# Set up Oh My Tmux symlinks
+# Oh My Tmux requires: ~/.tmux (repo), ~/.tmux.conf (core), ~/.tmux.conf.local (overrides)
+# These use custom target paths so we handle them inline rather than via setup_symlink
+OH_MY_TMUX_DIR="$DOTFILES_DIR/tmux/oh-my-tmux"
+
+if [ -d "$OH_MY_TMUX_DIR" ]; then
+  log "INFO" "Setting up Oh My Tmux..."
+
+  # Symlink pairs: source -> target
+  declare -A TMUX_LINKS=(
+    ["$OH_MY_TMUX_DIR"]="$HOME/.tmux"
+    ["$OH_MY_TMUX_DIR/.tmux.conf"]="$HOME/.tmux.conf"
+    ["$DOTFILES_DIR/tmux/.tmux.conf.local"]="$HOME/.tmux.conf.local"
+  )
+
+  for source_path in "${!TMUX_LINKS[@]}"; do
+    target_path="${TMUX_LINKS[$source_path]}"
+
+    if [ -L "$target_path" ]; then
+      current_target=$(readlink "$target_path")
+      if [ "$current_target" = "$source_path" ]; then
+        log "DEBUG" "Tmux symlink already correct: $target_path"
+        continue
+      fi
+      log "INFO" "Updating tmux symlink $target_path"
+      safe_remove "$target_path"
+    elif [ -e "$target_path" ]; then
+      if [ "$NO_BACKUP" -eq 0 ] && [ "$DRY_RUN" -eq 0 ]; then
+        log "INFO" "Backing up $target_path to $BACKUP_DIR"
+        cp -a "$target_path" "$BACKUP_DIR/"
+      fi
+      safe_remove "$target_path"
+    fi
+
+    log "INFO" "Creating symlink: $target_path -> $source_path"
+    if [ "$DRY_RUN" -eq 0 ]; then
+      ln -sf "$source_path" "$target_path" || log "ERROR" "Failed to symlink $target_path"
+    fi
+  done
+else
+  log "WARNING" "Oh My Tmux submodule not found. Run: git submodule update --init"
 fi
 
 # Set up symlinks for any other configuration files

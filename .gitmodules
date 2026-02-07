@@ -1,0 +1,3 @@
+[submodule "tmux/oh-my-tmux"]
+	path = tmux/oh-my-tmux
+	url = https://github.com/gpakosz/.tmux.git
