@@ -96,11 +96,15 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 if [ "$OS" = "macos" ]; then
   # macOS-specific paths
   [ -d "/Applications/RubyMine.app/Contents/MacOS" ] && export PATH="/Applications/RubyMine.app/Contents/MacOS:$PATH"
+  [ -d "/Applications/Tailscale.app/Contents/MacOS" ] && export PATH="/Applications/Tailscale.app/Contents/MacOS:$PATH"
 fi
 
 #################################################
 # ENVIRONMENT VARIABLES
 #################################################
+
+# Expose tmux state to subprocesses (Claude Code strips $TMUX but preserves this)
+[ -n "$TMUX" ] && export TMUX_ATTACHED=1
 
 # Editor and pager settings
 export EDITOR=nvim

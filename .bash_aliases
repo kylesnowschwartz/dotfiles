@@ -411,5 +411,18 @@ alias delta-reset='git config --global --unset-all delta.light 2>/dev/null; git 
 # Server aliases
 alias media='ssh media'
 
+# Put Mac to sleep from the terminal
+alias zzz='pmset sleepnow'
+
 # Git diff tree visualization
 alias gdt='git-diff-tree'
+
+# Moshi mobile dev session (3 agent windows + servers + misc)
+alias mdev='~/Code/dotfiles/scripts/moshi-dev-session.sh'
+# Attach from phone via grouped session (own viewport size, shared windows)
+# Switches to minimal prompt on attach, restores on detach
+matt() {
+  starship-set moshi
+  tmux new-session -t dev -s phone 2>/dev/null || tmux attach -t phone
+  starship-set chef
+}

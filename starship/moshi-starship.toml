@@ -1,0 +1,79 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Minimal prompt for phone-width terminals (Moshi)
+# Switch to this with: starship-set moshi
+# Switch back with:    starship-set chef
+
+add_newline = false
+command_timeout = 2000
+
+# Single line: directory + git branch + prompt char. That's it.
+format = '$directory$git_branch$git_status$character$jobs'
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[>](bold red)"
+
+[directory]
+truncation_length = 2
+truncation_symbol = ".../"
+home_symbol = "~"
+format = '[$path]($style) '
+
+[git_branch]
+symbol = ""
+format = '[$branch]($style)'
+
+[git_status]
+format = '[$ahead_behind]($style) '
+# Only show divergence, skip the noise
+conflicted = '!'
+ahead = '+'
+behind = '-'
+diverged = '+-'
+up_to_date = ''
+untracked = ''
+stashed = ''
+modified = ''
+staged = ''
+renamed = ''
+deleted = ''
+
+[jobs]
+format = "[$symbol$number ]($style)"
+symbol = "+"
+style = "bold purple"
+
+# Disable everything else - not useful on a phone
+[python]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[lua]
+disabled = true
+
+[package]
+disabled = true
+
+[aws]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[time]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[username]
+disabled = true

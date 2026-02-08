@@ -25,9 +25,39 @@ tmux_conf_theme_left_separator_sub='\uE0B1'
 tmux_conf_theme_right_separator_main='\uE0B2'
 tmux_conf_theme_right_separator_sub='\uE0B3'
 
-# Simplified status bar - session name left, time/date/host right
+# Minimal status bar — optimized for ~45 char phone width (Moshi on iPhone 13 Mini)
+#
+# Budget: ~7 left + ~32 windows + ~6 right = 45 chars
+# Mouse indicator removed: always on, never changes, wasted 2 chars.
+# Pairing/sync only appear when active (no space reservation).
+# Prefix reserves 3 chars (symbol + space) even when inactive to prevent bar shift.
 tmux_conf_theme_status_left=" #S "
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized} , %R , %d %b | #{hostname} "
+tmux_conf_theme_status_right=" #{prefix}#{pairing}#{synchronized} "
+
+# Prefix indicator — bright yellow block, unmissable on a phone
+tmux_conf_theme_prefix="^A"
+tmux_conf_theme_prefix_fg="#000000"
+tmux_conf_theme_prefix_bg="#ffff00"
+tmux_conf_theme_prefix_attr="bold"
+
+# Pairing indicator — orange block when Mac + phone both attached
+# Uses session_many_attached: only visible with 2+ clients
+tmux_conf_theme_pairing="2+"
+tmux_conf_theme_pairing_fg="#000000"
+tmux_conf_theme_pairing_bg="#ff5f00"
+tmux_conf_theme_pairing_attr="bold"
+
+# Synchronized panes — red warning, typing goes to ALL panes
+tmux_conf_theme_synchronized="SY"
+tmux_conf_theme_synchronized_fg="#000000"
+tmux_conf_theme_synchronized_bg="#d70000"
+tmux_conf_theme_synchronized_attr="bold"
+
+# Compact window format with zoom flag
+# Names truncated to 8 chars to prevent overflow on narrow screens.
+# Z appended when pane is zoomed — critical for agent supervision.
+tmux_conf_theme_window_status_format="#I:#{=8:window_name}#{?window_zoomed_flag,Z,}"
+tmux_conf_theme_window_status_current_format="#I:#{=8:window_name}#{?window_zoomed_flag,Z,}"
 
 # -- clipboard -----------------------------------------------------------------
 
@@ -36,8 +66,16 @@ tmux_conf_copy_to_os_clipboard=true
 
 # -- user customizations -------------------------------------------------------
 
-# History
-set -g history-limit 50000
+# History (100k for long agent output sessions)
+set -g history-limit 100000
+
+# Per-client viewport sizing for grouped sessions
+# Phone gets phone-sized viewport, Mac gets Mac-sized, same windows
+set -g window-size latest
+
+# Window title propagation for Moshi
+# Claude Code auto-sets terminal titles; this format passes them through
+set -g set-titles-string "#I: #W"
 
 # Mouse support
 set -g mouse on
