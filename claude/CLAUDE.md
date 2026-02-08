@@ -8,6 +8,7 @@ This playbook keeps our collaboration smooth and predictable. Start each session
 - Plan your approach and get buy-in before touching code (CDP-001).
 - Confirm APIs and run linters/tests after meaningful changes (CDP-002, CDP-003).
 - Keep solutions simple, commits conventional, and branches tidy (CQS-004, CQS-006).
+- Secrets stay secret: never expose credentials in code, logs, or tool output (SEC-001).
 
 ## ABOUT THE USER
 
@@ -18,14 +19,20 @@ beliefs: clean code, humanism, and developer-experience.
 
 ## PRINCIPLES
 
-<SLICE>
-SLICE: Build software in vertical slices
-•   Stable dependencies: Point slices only at equal-or-more-stable neighbors (Stable Dependencies Principle).
-•   Local change: Keep UI, logic, data, and integration for a feature together so changes stay inside one slice (high cohesion / Common Closure Principle).
-•   Information hiding: Encapsulate volatile design choices behind the slice’s interface (Parnas).
-•   Cohesive units: Depend on the slice’s public API or not at all — no half-layer imports, no leaking internals (Common Reuse Principle).
-•   Encapsulated domains: Shape slices around domain boundaries that drive both modeling and deployment, not just folder structure (DDD).
-</SLICE>
+<SLICE-SOFTWARE-ARCHITECTURE>
+  Build Software in Vertical Slices
+
+  SLC-001 - Stable Dependencies: Point slices only at equal-or-more-stable neighbors; never depend upward on less-stable code (Stable Dependencies Principle)
+
+  SLC-002 - Local Change: Keep UI, logic, data, and integration for a feature together so changes stay inside one slice (Common Closure Principle)
+
+  SLC-003 - Information Hiding: Encapsulate volatile design choices behind the slice's interface (Parnas)
+
+  SLC-004 - Cohesive Units: Depend on the slice's public API or not at all; no half-layer imports, no leaking internals (Common Reuse Principle)
+
+  SLC-005 - Encapsulated Domains: Shape slices around domain boundaries that drive both modeling and deployment, not just folder structure (DDD)
+
+</SLICE-SOFTWARE-ARCHITECTURE>
 
 <CORE-DEVELOPMENT-PRINCIPLES>
   CDP-001 - Plan First: Present your step-by-step plan for approval before coding
@@ -44,6 +51,8 @@ SLICE: Build software in vertical slices
 
   CDP-008 - Trust But Verify: Verify user claims that contradict yours before declaring them correct
 
+  CDP-009 - Review Before PR: Run a structured code review before creating any pull request; use /sc-review when available
+
 </CORE-DEVELOPMENT-PRINCIPLES>
 
 
@@ -60,16 +69,16 @@ SLICE: Build software in vertical slices
 
   CQS-006 - Keep Solutions Simple: Follow KISS and YAGNI principles; prefer obvious, well-documented solutions over cleverness; minimize external dependencies; document public interfaces
 
-  CQS-007 - Keep the Campground Tidy, even if linting errors or test failures are pre-existing fix them before continuing
+  CQS-007 - Keep the Campground Tidy: Even if linting errors or test failures are pre-existing, fix them before continuing
 
 </CODE-QUALITY-STANDARDS>
 
 <AGENT-ARTIFACTS>
   AA-001 - Quarantine Planning Docs: Store AI-generated planning documents (PLAN.md, ARCHITECTURE.md, DESIGN.md, INVESTIGATION.md etc) in `mkdir -p .agent-history/` at project root, not cluttering the repository root
 
-  AA-002 - Project directories will contain a .cloned-sources/ directory which contains git-cloned upstream repositories for local reference of frameworks, libraries, or tools. Lean heavily on .cloned-sources/ for accurate information throughout development and planning
+  AA-002 - Use Cloned Sources: Project directories will contain a .cloned-sources/ directory with git-cloned upstream repositories for local reference; lean heavily on .cloned-sources/ for accurate information throughout development and planning
 
-  AA-003 - Agent Artifacts may be ephemeral, but are often persisted on disk for reference. They are always git-ignored
+  AA-003 - Git-Ignore Artifacts: Agent artifacts may be ephemeral, but are often persisted on disk for reference; they are always git-ignored
 
 </AGENT-ARTIFACTS>
 
@@ -95,6 +104,25 @@ SLICE: Build software in vertical slices
 
 </CONFIGURATION>
 
+<SECURITY>
+  Secrets Stay Secret
+
+  SEC-001 - Never Expose Secrets: Never place API keys, tokens, passwords, or credentials into prompts, code comments, commit messages, logs, or tool outputs; treat any raw secret as radioactive
+
+  SEC-002 - Credential Isolation: Never read, echo, interpolate, or pipe the contents of .env, credentials.json, service-account keys, or similarly sensitive files; if a task requires a secret value, ask the User to supply it through a secure channel
+
+  SEC-003 - Least Privilege: Request only the minimum permissions, scopes, and file access a task actually needs; prefer short-lived, narrowly-scoped tokens over long-lived, broad ones
+
+  SEC-004 - Deterministic Authorization: Never make access-control decisions probabilistically; auth checks, permission gates, and scope validations must be explicit, rule-based, and auditable
+
+  SEC-005 - Audit Trail: When writing code that touches credentials or auth, ensure every access is logged with context (who, what, when, why) so anomalies surface quickly
+
+  SEC-006 - Verify Before Sending: Before any outbound action (API call, git push, webhook, message) confirm no secrets have leaked into the payload; scan staged diffs for high-entropy strings and known secret patterns
+
+  SEC-007 - Quarantine Sensitive Files: Ensure .env, *.pem, *-key.json, and similar files are in .gitignore; if they are not, flag this to the User before any commit
+
+</SECURITY>
+
 <PREFERRED-TOOLS>
   PT-01 - WebFetch with r.jina.ai: When using the WebFetch tool prepend urls with r.jina.ai/ to convert a URL to LLM-friendly input, e.g. `https://r.jina.ai/https://zsh.sourceforge.io`
 
@@ -110,4 +138,4 @@ SLICE: Build software in vertical slices
 
 ## Working Agreement
 
-YOU MUST follow our <CORE-DEVELOPMENT-PRINCIPLES> and <CODE-QUALITY-STANDARDS> when planning or coding. ALWAYS Store AI-generated planning docs per <AGENT-ARTIFACTS>. ALWAYS review <PROJECT-MANAGEMENT> guidelines before committing or pushing. When configuring repositories or writing scripts, you MUST follow <CONFIGURATION> rules. It is REQUIRED that you use <PREFERRED-TOOLS> for efficient workflows.
+YOU MUST follow our <SLICE-SOFTWARE-ARCHITECTURE> and <CORE-DEVELOPMENT-PRINCIPLES> and <CODE-QUALITY-STANDARDS> when planning or coding. ALWAYS Store AI-generated planning docs per <AGENT-ARTIFACTS>. ALWAYS review <PROJECT-MANAGEMENT> guidelines before committing or pushing. When configuring repositories or writing scripts, you MUST follow <CONFIGURATION> rules. It is REQUIRED that you use <PREFERRED-TOOLS> for efficient workflows. You MUST follow <SECURITY> rules when handling any credentials, secrets, or sensitive data.
