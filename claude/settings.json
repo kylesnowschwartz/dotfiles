@@ -7,7 +7,7 @@
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
     "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" : "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -33,16 +33,16 @@
       "Bash(find:*)",
       "Bash(free:*)",
       "Bash(gem list:*)",
-      "Bash(gh api /orgs/:*)",
-      "Bash(gh api /repos/:*)",
-      "Bash(gh api /search/:*)",
-      "Bash(gh api /users/:*)",
+      "Bash(gh api /orgs/*)",
+      "Bash(gh api /repos/*)",
+      "Bash(gh api /search/*)",
+      "Bash(gh api /users/*)",
       "Bash(gh api -X GET:*)",
       "Bash(gh api --method GET:*)",
-      "Bash(gh api orgs/:*)",
-      "Bash(gh api repos/:*)",
-      "Bash(gh api search/:*)",
-      "Bash(gh api users/:*)",
+      "Bash(gh api orgs/*)",
+      "Bash(gh api repos/*)",
+      "Bash(gh api search/*)",
+      "Bash(gh api users/*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr checks:*)",
       "Bash(gh pr diff:*)",
@@ -164,7 +164,7 @@
   "model": "opus",
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/.claude/plugins/cache/claude-bumper-lanes/claude-bumper-lanes/3.9.1/bin/bumper-lanes"
+    "command": "/Users/kyle/Code/dotfiles/scripts/claude-statusline.sh"
   },
   "enabledPlugins": {
     "astro-dev@astro-claude-skills": true,
@@ -188,5 +188,19 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/Code/dotfiles/claude/hooks/handlers/moshi_notify.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }
