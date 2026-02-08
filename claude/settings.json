@@ -162,9 +162,23 @@
     ]
   },
   "model": "opus",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/Code/dotfiles/claude/hooks/handlers/moshi_notify.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/Code/dotfiles/scripts/claude-statusline.sh"
+    "command": "/Users/kyle/Code/dotfiles/claude/scripts/claude-statusline.sh"
   },
   "enabledPlugins": {
     "astro-dev@astro-claude-skills": true,
@@ -188,19 +202,5 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/Code/dotfiles/claude/hooks/handlers/moshi_notify.sh",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
   }
 }
