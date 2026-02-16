@@ -10,7 +10,7 @@ auto-update-channel = tip
 
 # Fonts
 font-family = "ZenbonesBrainy Nerd Font"
-font-size = 16
+font-size = 13
 
 # Macos
 macos-titlebar-style = tabs
@@ -38,7 +38,7 @@ window-save-state = always
 window-inherit-working-directory = true
 window-subtitle = working-directory
 unfocused-split-fill = #b2bec3
-unfocused-split-opacity = 0.9
+unfocused-split-opacity = 0.85
 split-divider-color = #5f27cd
 
 # Colors
