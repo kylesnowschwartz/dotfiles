@@ -102,7 +102,7 @@ fi
 bat() {
   local theme_file="$HOME/.config/bat-theme.txt"
   if [[ -f "$theme_file" ]]; then
-    command bat --theme="$(< "$theme_file")" "$@"
+    command bat --theme="$(<"$theme_file")" "$@"
   else
     command bat "$@"
   fi
@@ -114,7 +114,7 @@ alias cat='bat --paging=never'
 git() {
   local theme_file="$HOME/.config/delta-theme.txt"
   if [[ -f "$theme_file" ]]; then
-    DELTA_FEATURES="$(< "$theme_file")" command git "$@"
+    DELTA_FEATURES="$(<"$theme_file")" command git "$@"
   else
     command git "$@"
   fi
@@ -322,6 +322,13 @@ alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config
     trap 'set +f' EXIT
     claude -p --model haiku --tools "" --strict-mcp-config "$*"
   fi
+}
+
+# oh-my-pi omp
+# https://github.com/can1357/oh-my-pi#
+
+omp() {
+  ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY via direnv}" command omp "$@"
 }
 
 # Turn .mov into gif

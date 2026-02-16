@@ -92,6 +92,7 @@ bindkey '^N' history-search-forward              # Ctrl+N for next command
 [ -d "/opt/homebrew/opt/rustup/bin" ] && export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 [ -d "$HOME/.bun/bin" ] && export PATH="$HOME/.bun/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
+[ -d "$HOME/.omp/python-env/bin" ] && export PATH="$HOME/.omp/python-env/bin:$PATH"
 # Platform-specific paths
 if [ "$OS" = "macos" ]; then
   # macOS-specific paths
