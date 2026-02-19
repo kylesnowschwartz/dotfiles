@@ -304,24 +304,46 @@ alias claude-quiet='mkdir -p ~/.config/claude && echo "SOUND_MODE=off" > ~/.conf
 alias claude-glass='mkdir -p ~/.config/claude && echo "SOUND_MODE=glass" > ~/.config/claude/sounds.conf && echo "Claude sounds: glass (macOS default)"'
 alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config/claude/sounds.conf && echo "Claude sounds: Age of Empires"'
 
-# Quick Claude CLI with Haiku model - blazing fast text-only responses
-# Disables all tools and MCP servers for maximum speed
+# Quick Claude query via Anthropic API - streaming Haiku responses
+# API key from ANTHROPIC_API_KEY env var or macOS Keychain (anthropic-api-key)
 # Usage:
 #   @@ "quoted query"  - Direct query with arguments
 #   @@                 - Interactive prompt (handles special chars automatically)
 @@() {
+  local query
   if [[ $# -eq 0 ]]; then
-    # Interactive mode - bypasses shell parsing
-    echo -n "Query: "
+    printf "Query: "
     read -r query
     [[ -z "$query" ]] && return 1
-    claude -p --model haiku --tools "" --strict-mcp-config "$query"
   else
-    # Argument mode - still useful for simple queries
-    set -f
-    trap 'set +f' EXIT
-    claude -p --model haiku --tools "" --strict-mcp-config "$*"
+    query="$*"
   fi
+
+  local api_key="${ANTHROPIC_API_KEY:-}"
+  if [[ -z "$api_key" ]]; then
+    api_key=$(security find-generic-password -s 'anthropic-api-key' -a "$USER" -w 2>/dev/null)
+    [[ -z "$api_key" ]] && { echo "@@: set ANTHROPIC_API_KEY or add 'anthropic-api-key' to Keychain" >&2; return 1; }
+  fi
+
+  local payload
+  payload=$(jq -nc \
+    --arg content "$query" \
+    '{
+      model: "claude-sonnet-4-6",
+      max_tokens: 4096,
+      stream: true,
+      messages: [{role: "user", content: $content}]
+    }')
+
+  curl -sS --no-buffer "https://api.anthropic.com/v1/messages" \
+    -H "Content-Type: application/json" \
+    -H "x-api-key: $api_key" \
+    -H "anthropic-version: 2023-06-01" \
+    -d "$payload" 2>/dev/null | while IFS= read -r line; do
+      [[ "$line" == data:\ * ]] || continue
+      printf '%s' "${line#data: }" | jq -jr '.delta.text // empty' 2>/dev/null
+    done
+  echo
 }
 
 # oh-my-pi omp
@@ -329,6 +351,69 @@ alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config
 
 omp() {
   ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY via direnv}" command omp "$@"
+}
+
+# tmux wrapper - GNU-style --help because the maintainer won't
+tmux() {
+  if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    cat <<'HELP'
+tmux - terminal multiplexer
+
+Usage: tmux [command] [flags]
+
+Sessions:
+  tmux                          Start a new session
+  tmux new -s NAME              Start a named session
+  tmux attach -t NAME           Attach to a session (or: tmux a -t NAME)
+  tmux ls                       List sessions
+  tmux kill-session -t NAME     Kill a session
+  tmux kill-server              Kill the server and all sessions
+
+Windows (tabs):
+  tmux new-window               Create window        (prefix + c)
+  tmux select-window -t NUM     Switch to window N   (prefix + 0-9)
+  tmux rename-window NAME       Rename window        (prefix + ,)
+  tmux kill-window              Kill window          (prefix + &)
+
+Panes (splits):                               [oh-my-tmux bindings]
+  tmux split-window -h          Left/right split     (prefix + _)
+  tmux split-window -v          Top/bottom split     (prefix + -)
+  tmux select-pane -U/-D/-L/-R  Move between panes   (prefix + hjkl)
+  tmux resize-pane -U/-D/-L/-R  Resize pane          (prefix + HJKL)
+  tmux swap-pane -D/-U          Swap panes           (prefix + > / <)
+  tmux kill-pane                Kill pane            (prefix + x)
+
+Copy mode:                                    [vi keys: hjkl, /, ?, n]
+  prefix + Enter                Enter copy mode
+  prefix + p                    Paste buffer
+  prefix + b                    List buffers
+
+Startup flags:
+  -2        Force 256 color
+  -u        Force UTF-8
+  -f FILE   Use config file (default: ~/.tmux.conf)
+  -L NAME   Use socket name (for separate server instances)
+  -V        Print version
+
+Useful in scripts:
+  tmux send-keys -t NAME 'command' Enter    Type into a pane
+  tmux capture-pane -t NAME -p              Grab pane contents
+  tmux display-message -p '#{pane_id}'      Query tmux variables
+  tmux list-commands                        List all tmux commands
+
+Config:
+  ~/.tmux.conf                  Main config file
+  tmux source ~/.tmux.conf      Reload config        (or bind to prefix + r)
+  tmux show-options -g          Show global options
+  tmux list-keys                Show all key bindings
+
+Default prefix: Ctrl-b (most people rebind to Ctrl-a)
+
+Full docs: man tmux
+HELP
+    return 0
+  fi
+  command tmux "$@"
 }
 
 # Turn .mov into gif
