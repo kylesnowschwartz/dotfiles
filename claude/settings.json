@@ -52,6 +52,7 @@
       "Bash(gh repo view *)",
       "Bash(gh repo clone *)",
       "Bash(gh search *)",
+      "Bash(git -C *)",
       "Bash(git cd *)",
       "Bash(git checkout *)",
       "Bash(git diff *)",
@@ -153,8 +154,11 @@
       "Bash(gh pr unlock *)",
       "Bash(gh pr update-branch *)",
       "Bash(git add *)",
+      "Bash(git -C add *)",
       "Bash(git push *)",
+      "Bash(git -C push *)",
       "Bash(git commit *)",
+      "Bash(git -C commit *)",
       "Bash(rm *)",
       "Bash(rm -rf *)",
       "Bash(curl *)"
@@ -164,20 +168,6 @@
     ]
   },
   "model": "opus",
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/Code/dotfiles/claude/hooks/handlers/moshi_notify.sh",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
     "command": "/Users/kyle/Code/dotfiles/claude/scripts/claude-statusline.sh"
