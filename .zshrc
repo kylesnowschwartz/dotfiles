@@ -4,9 +4,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Cross-platform configuration for macOS and Linux - migrated from bash
 #
 # Migration notes:
-# - Preserves all bash functionality while adding zsh improvements
-# - Sources existing .bash_aliases for compatibility
-# - Can be reverted by changing default shell back to bash
+# - Sources .shell_aliases for cross-shell aliases and functions
 #
 # CLAUDE CODE INSTRUCTIONS:
 # When modifying this zsh configuration, always check the official zsh documentation
@@ -145,8 +143,8 @@ export MANPAGER="less -R -s -M +Gg --use-color -Dd+r -Du+b"
 # ALIASES
 #################################################
 
-# Source additional aliases if available (your existing .bash_aliases)
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+# Source shared aliases and functions
+[ -f ~/.shell_aliases ] && . ~/.shell_aliases
 
 #################################################
 # DEVELOPMENT TOOLS

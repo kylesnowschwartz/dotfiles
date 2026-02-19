@@ -312,10 +312,8 @@ setup_symlink() {
 
 # Files to symlink to home directory (~/)
 HOME_FILES=(
-  .bashrc            # Bash shell config (fallback/compatibility)
-  .bash_aliases      # Cross-compatible aliases for bash and zsh
-  .bash_profile      # Bash login shell config
   .zshrc             # Zsh shell config (primary shell)
+  .shell_aliases     # Cross-shell aliases and functions
   .gitconfig         # Git configuration
   .gitignore_global  # Global gitignore patterns
   .inputrc           # Readline configuration (vi mode)
@@ -332,7 +330,7 @@ CONFIG_FILES=(
 )
 
 # NOTE: starship.toml is NOT in this list because it's managed by the
-# starship-set function in .bash_aliases, which creates a symlink to
+# starship-set function in .shell_aliases, which creates a symlink to
 # one of the theme files in starship/ directory
 
 # NOTE: tmux uses a custom setup below because Oh My Tmux requires
@@ -349,7 +347,7 @@ for file in "${CONFIG_FILES[@]}"; do
 done
 
 # Set up starship theme symlink if it doesn't exist
-# The starship-set function in .bash_aliases manages theme switching
+# The starship-set function in .shell_aliases manages theme switching
 STARSHIP_CONFIG="$HOME/.config/starship.toml"
 DEFAULT_STARSHIP_THEME="$DOTFILES_DIR/starship/chef-starship.toml"
 
@@ -479,7 +477,7 @@ elif [ -n "$BASH_VERSION" ] && [ -n "$PS1" ]; then
   # Running in interactive bash
   log "INFO" "Sourcing bash files for $OS"
 
-  for file in .bashrc .bash_profile .bash_aliases; do
+  for file in .shell_aliases; do
     if [ -f "$HOME/$file" ]; then
       log "INFO" "Sourcing $file"
       # shellcheck disable=SC1091
@@ -492,5 +490,5 @@ else
   if command -v zsh >/dev/null 2>&1; then
     log "INFO" "To apply changes in zsh, run: source ~/.zshrc"
   fi
-  log "INFO" "To apply changes in bash, run: source ~/.bashrc (or ~/.bash_profile on macOS)"
+  log "INFO" "To apply changes, run: source ~/.zshrc"
 fi

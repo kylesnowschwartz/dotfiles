@@ -46,7 +46,7 @@ switch-theme.sh
 
 **Why this works:**
 - Both bat and delta read their config fresh on every invocation (no caching)
-- Shell wrapper functions in `.bash_aliases` read theme files at call time
+- Shell wrapper functions in `.shell_aliases` read theme files at call time
 - No signals, no process trees, no race conditions
 - Platform-independent (macOS, Linux, tmux, etc.)
 

@@ -16,14 +16,13 @@ This reveals the key directories:
 - `starship/` - Prompt theme configurations
 - `git/` - Git configuration files
 - `scripts/` - Utility scripts (smart-commit.sh, etc.)
-- Home files (`.bashrc`, `.zshrc`, `.gitconfig`) → symlinked to `~/`
+- Home files (`.zshrc`, `.shell_aliases`, `.gitconfig`) → symlinked to `~/`
 - Config dirs → symlinked to `~/.config/`
 
 ### Shell Environment
 - **Primary shell**: zsh (`.zshrc`)
-- **Alias file**: `.bash_aliases` (cross-compatible with both bash and zsh)
+- **Alias file**: `.shell_aliases` (cross-shell aliases and functions)
 - **Input mode**: Vi-mode enabled for command line editing
-- **Migration**: Recently migrated from bash to zsh, preserving all functionality
 
 ### Terminal Dependencies
 See `terminal-dependencies.md` for comprehensive setup information:
@@ -39,24 +38,23 @@ This is a personal dotfiles repository for cross-platform development environmen
 
 ### File Structure
 
-- **Home directory files** (`.bashrc`, `.zshrc`, `.gitconfig`, etc.) → symlinked to `~/`
+- **Home directory files** (`.zshrc`, `.shell_aliases`, `.gitconfig`, etc.) → symlinked to `~/`
 - **Config directory files** (`starship.toml`, `yazi/`, etc.) → symlinked to `~/.config/`
 
 ## Key Components
 
-### Shell Environment (`.zshrc` / `.bashrc`)
+### Shell Environment (`.zshrc`)
 
-- **Primary configuration**: `.zshrc` for zsh (current shell)
-- **Legacy compatibility**: `.bashrc` preserved for bash fallback
+- **Primary configuration**: `.zshrc` for zsh
 - Vi-mode editing for command line
 - Dynamic PATH configuration for multiple language environments
 - History management with deduplication and sharing between sessions
 - FZF integration with bat/eza previews
 - Zoxide for smart directory navigation
 
-### Shell Customization (`.bash_aliases`)
+### Shell Customization (`.shell_aliases`)
 
-- Cross-compatible aliases work with both bash and zsh
+- Cross-shell aliases and functions
 - Modern CLI replacements (eza, bat, ripgrep, procs, duf)
 - Git workflow aliases and functions
 - Starship theme switcher (`starship-set <theme>`)
@@ -68,7 +66,7 @@ This is a personal dotfiles repository for cross-platform development environmen
 
 - Multiple theme configurations stored in `starship/` directory
 - Custom prompt format with Git integration
-- Theme switcher function in `.bash_aliases`
+- Theme switcher function in `.shell_aliases`
 - Current config symlinked to `~/.config/starship.toml`
 
 ### Git Configuration (`git/.gitconfig`)
@@ -84,7 +82,7 @@ This is a personal dotfiles repository for cross-platform development environmen
 
 - **Terminal file manager** with minimal configuration
 - Hidden files display enabled for comprehensive directory browsing
-- Shell function `y()` in `.bash_aliases` for cd-on-exit functionality
+- Shell function `y()` in `.shell_aliases` for cd-on-exit functionality
 
 ### Ghostty Terminal (`ghostty/config`)
 
@@ -93,8 +91,8 @@ This is a personal dotfiles repository for cross-platform development environmen
 - Global quick terminal toggle with Cmd+` for overlay access
 - **Theme switching**: Three-tier architecture for coordinated color schemes
   - **Orchestrated**: `ghostty/switch-theme.sh` - Atomic switching of Ghostty + Starship + Delta (keybindings: Cmd+Shift+, / Cmd+Shift+.)
-  - **Flexible**: `starship-set <theme>` in `.bash_aliases` - Switch to any Starship theme, including downloadable presets
-  - **Simple**: `delta-dark` / `delta-light` aliases in `.bash_aliases` - Quick git diff color changes
+  - **Flexible**: `starship-set <theme>` in `.shell_aliases` - Switch to any Starship theme, including downloadable presets
+  - **Simple**: `delta-dark` / `delta-light` aliases in `.shell_aliases` - Quick git diff color changes
 
 ### Claude Code Configuration (`claude/`)
 
