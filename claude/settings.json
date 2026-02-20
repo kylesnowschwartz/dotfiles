@@ -61,6 +61,8 @@
       "Bash(htop *)",
       "Bash(id *)",
       "Bash(jq *)",
+      "Bash(just *)",
+      "Bash(command -v jq *)",
       "Bash(less *)",
       "Bash(ln *)",
       "Bash(ls *)",
@@ -81,6 +83,7 @@
       "Bash(rg *)",
       "Bash(rubocop *)",
       "Bash(ruby *)",
+      "Bash(shellcheck *)",
       "Bash(sort *)",
       "Bash(ss *)",
       "Bash(stat *)",
@@ -95,6 +98,7 @@
       "Bash(uptime)",
       "Bash(uv *)",
       "Bash(wc *)",
+      "Bash(wc -- *)",
       "Bash(whereis *)",
       "Bash(which *)",
       "Bash(whoami)",
@@ -164,11 +168,11 @@
   "model": "opus",
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/Code/dotfiles/claude/scripts/claude-statusline.sh"
+    "command": "bash -c '\"/Users/kyle/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
   },
   "enabledPlugins": {
     "astro-dev@astro-claude-skills": true,
-    "claude-bumper-lanes@claude-bumper-lanes": true,
+    "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
     "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
@@ -182,7 +186,8 @@
     "sc-skills@simpleclaude": true,
     "sc-nelson@simpleclaude": true,
     "simpleclaude-core@simpleclaude": true,
-    "jira-cli-skill@jira-cli-skill": true
+    "jira-cli-skill@jira-cli-skill": true,
+    "claude-hud@claude-hud": true
   },
   "outputStyle": "sc-output-styles:linus-torvalds",
   "spinnerTipsEnabled": false,
