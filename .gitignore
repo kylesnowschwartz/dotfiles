@@ -38,3 +38,7 @@ claude/telemetry/
 
 # Ghostty runtime state (theme selection)
 ghostty/theme.local
+
+# claude devtools config
+claude/claude-devtools-config.json
+claude/claude-devtools-notifications.json
