@@ -61,3 +61,5 @@
 [include]
 	path = /Users/kyle/.config/the-themer/delta/cobalt-next-neon.gitconfig
 	path = /Users/kyle/.config/the-themer/delta/dayfox.gitconfig
+	path = /Users/kyle/.config/the-themer/delta/tekapo-sunset-dark.gitconfig
+	path = /Users/kyle/.config/the-themer/delta/tekapo-sunset-light.gitconfig

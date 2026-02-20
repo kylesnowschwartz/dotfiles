@@ -22,8 +22,8 @@ keybind = super+left=previous_tab
 keybind = shift+enter=text:\n
 keybind = super+e=equalize_splits
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-keybind = "super+shift+comma=text:theme dayfox\n"
-keybind = "super+shift+period=text:theme cobalt-next-neon\n"
+keybind = "super+shift+comma=text:theme light\n"
+keybind = "super+shift+period=text:theme dark\n"
 # keybind = "super+slash=text:theme next\n"  # cycling not yet supported by the-themer
 keybind = super+shift+r=reload_config
 

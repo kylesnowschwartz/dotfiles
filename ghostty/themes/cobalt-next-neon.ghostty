@@ -1,13 +1,5 @@
-# Cobalt Next Neon Ghostty color scheme
-## name: cobalt-next-neon
-## upstream:
+# cobalt-next-neon theme for Ghostty
 
-background = #142838
-foreground = #8ff586
-cursor-color = #c4206f
-cursor-text = #8ff586
-selection-background = #094fb1
-selection-foreground = #8ff586
 palette = 0=#142631
 palette = 1=#ff2320
 palette = 2=#3ba5ff
@@ -24,3 +16,13 @@ palette = 12=#3c7dd2
 palette = 13=#8230a7
 palette = 14=#6cbc67
 palette = 15=#8ff586
+
+background = #142838
+foreground = #8ff586
+cursor-color = #c4206f
+cursor-text = #8ff586
+selection-background = #094fb1
+selection-foreground = #8ff586
+
+# Transparency and blur effects
+unfocused-split-opacity = 0.7

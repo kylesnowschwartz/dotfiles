@@ -1,0 +1,28 @@
+# tekapo-sunset-light theme for Ghostty
+
+palette = 0=#1a1e26
+palette = 1=#a34d2e
+palette = 2=#556c4b
+palette = 3=#9c7826
+palette = 4=#416895
+palette = 5=#87586b
+palette = 6=#426c74
+palette = 7=#d2c8c5
+palette = 8=#5e6a7e
+palette = 9=#c46442
+palette = 10=#637d59
+palette = 11=#c49b49
+palette = 12=#4f79a8
+palette = 13=#9c6a7e
+palette = 14=#5f8d95
+palette = 15=#ede3e0
+
+background = #ede3e0
+foreground = #1a1e26
+cursor-color = #a34d2e
+cursor-text = #1a1e26
+selection-background = #c0d0e4
+selection-foreground = #1a1e26
+
+# Transparency and blur effects
+unfocused-split-opacity = 0.7

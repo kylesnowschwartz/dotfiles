@@ -19,6 +19,26 @@ tmux_conf_new_window_retain_current_path=true
 
 # -- theming -------------------------------------------------------------------
 
+# ANSI passthrough — tmux inherits colors from the terminal palette.
+# When the-themer switches themes, tmux follows automatically.
+tmux_conf_theme_colour_1="colour0"     # bg (black)
+tmux_conf_theme_colour_2="colour8"     # dark accent (bright black)
+tmux_conf_theme_colour_3="colour8"     # muted text
+tmux_conf_theme_colour_4="colour14"    # highlight (bright cyan)
+tmux_conf_theme_colour_5="colour11"    # active accent (bright yellow)
+tmux_conf_theme_colour_6="colour0"     # bg
+tmux_conf_theme_colour_7="colour15"    # fg (bright white)
+tmux_conf_theme_colour_8="colour0"     # bg
+tmux_conf_theme_colour_9="colour11"    # active accent
+tmux_conf_theme_colour_10="colour13"   # alert (bright magenta)
+tmux_conf_theme_colour_11="colour10"   # success (bright green)
+tmux_conf_theme_colour_12="colour8"    # muted
+tmux_conf_theme_colour_13="colour15"   # fg
+tmux_conf_theme_colour_14="colour0"    # bg
+tmux_conf_theme_colour_15="colour0"    # bg
+tmux_conf_theme_colour_16="colour1"    # error (red)
+tmux_conf_theme_colour_17="colour15"   # fg
+
 # Powerline separators (MesloLGS Nerd Font has these glyphs)
 tmux_conf_theme_left_separator_main='\uE0B0'
 tmux_conf_theme_left_separator_sub='\uE0B1'
@@ -36,21 +56,21 @@ tmux_conf_theme_status_right=" #{prefix}#{pairing}#{synchronized} "
 
 # Prefix indicator — bright yellow block, unmissable on a phone
 tmux_conf_theme_prefix="^A"
-tmux_conf_theme_prefix_fg="#000000"
-tmux_conf_theme_prefix_bg="#ffff00"
+tmux_conf_theme_prefix_fg="colour0"
+tmux_conf_theme_prefix_bg="colour11"
 tmux_conf_theme_prefix_attr="bold"
 
 # Pairing indicator — orange block when Mac + phone both attached
 # Uses session_many_attached: only visible with 2+ clients
 tmux_conf_theme_pairing="2+"
-tmux_conf_theme_pairing_fg="#000000"
-tmux_conf_theme_pairing_bg="#ff5f00"
+tmux_conf_theme_pairing_fg="colour0"
+tmux_conf_theme_pairing_bg="colour3"
 tmux_conf_theme_pairing_attr="bold"
 
 # Synchronized panes — red warning, typing goes to ALL panes
 tmux_conf_theme_synchronized="SY"
-tmux_conf_theme_synchronized_fg="#000000"
-tmux_conf_theme_synchronized_bg="#d70000"
+tmux_conf_theme_synchronized_fg="colour0"
+tmux_conf_theme_synchronized_bg="colour1"
 tmux_conf_theme_synchronized_attr="bold"
 
 # Compact window format with zoom flag
