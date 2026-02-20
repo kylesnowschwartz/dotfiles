@@ -33,71 +33,8 @@
     autoStash = true
     updateRefs = true
 [delta]
-	; features controlled by DELTA_FEATURES env var (set by ghostty/switch-theme.sh)
-
-[delta "light"]
-	light = true
-	syntax-theme = GitHub
-	navigate = true
-	keep-plus-minus-markers = true
-	file-decoration-style = "none"
-	file-style = "blue bold"
-	minus-style = "red"
-	minus-emph-style = "red bold"
-	plus-style = "green"
-	plus-emph-style = "green bold"
-	hunk-header-style = "blue bold"
-	line-numbers = true
-	line-numbers-minus-style = "red"
-	line-numbers-plus-style = "green"
-	line-numbers-left-style = "blue"
-	line-numbers-right-style = "blue"
-	line-numbers-zero-style = "blue"
-	zero-style = "syntax"
-	whitespace-error-style = "reverse purple"
-
-[delta "dark"]
-	light = false
-	syntax-theme = Nord
-	navigate = true
-	keep-plus-minus-markers = true
-	file-decoration-style = "none"
-	file-style = "blue bold"
-	minus-style = "red"
-	minus-emph-style = "red bold"
-	plus-style = "green"
-	plus-emph-style = "green bold"
-	hunk-header-style = "blue bold"
-	line-numbers = true
-	line-numbers-minus-style = "red"
-	line-numbers-plus-style = "green"
-	line-numbers-left-style = "blue"
-	line-numbers-right-style = "blue"
-	line-numbers-zero-style = "blue"
-	zero-style = "syntax"
-	whitespace-error-style = "reverse magenta"
-
-[delta "bleu"]
-	; Bleu theme - cool blue palette from github.com/bnema/bleu-theme
-	light = false
-	syntax-theme = Nord
-	navigate = true
-	keep-plus-minus-markers = true
-	file-decoration-style = "none"
-	file-style = "#5588cc bold"
-	minus-style = "#A167A5"
-	minus-emph-style = "#A167A5 bold"
-	plus-style = "#99FFE4"
-	plus-emph-style = "#99FFE4 bold"
-	hunk-header-style = "#00d4ff bold"
-	line-numbers = true
-	line-numbers-minus-style = "#A167A5"
-	line-numbers-plus-style = "#99FFE4"
-	line-numbers-left-style = "#2d4a6b"
-	line-numbers-right-style = "#2d4a6b"
-	line-numbers-zero-style = "#708090"
-	zero-style = "syntax"
-	whitespace-error-style = "reverse #87ceeb"
+	; features controlled by DELTA_FEATURES env var (set by the-themer via delta-theme.txt)
+	; theme-specific features loaded via [include] paths below
 [merge]
 	conflictstyle = diff3
 [diff]
@@ -121,3 +58,6 @@
     sort = version:refname
 [help]
     autocorrect = prompt
+[include]
+	path = /Users/kyle/.config/the-themer/delta/cobalt-next-neon.gitconfig
+	path = /Users/kyle/.config/the-themer/delta/dayfox.gitconfig

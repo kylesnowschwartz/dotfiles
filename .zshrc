@@ -184,8 +184,11 @@ if command -v fzf &>/dev/null; then
   # Initialize fzf for zsh
   eval "$(fzf --zsh)"
 
-  # Base appearance settings
-  export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+  # Base appearance settings (colors loaded from the-themer's fzf theme below)
+  export FZF_DEFAULT_OPTS="--height 50% --layout=default --border"
+
+  # Load the-themer's fzf color scheme if installed
+  [[ -f ~/.config/the-themer/fzf/current.zsh ]] && source ~/.config/the-themer/fzf/current.zsh
 
   # Command configuration (uses fd if available, fallback to default find)
   if command -v fd &>/dev/null; then
