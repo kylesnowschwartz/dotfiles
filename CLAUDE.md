@@ -78,6 +78,20 @@ This is a personal dotfiles repository for cross-platform development environmen
 - **Global gitignore**: Excludes Claude Code local settings across all repositories
 - **Smart commit script**: `scripts/smart-commit.sh` for conventional commits
 
+### Pre-Commit Hook (`git/hooks/`)
+
+Unified pre-commit hook for personal projects. Install into any repo:
+
+```sh
+~/Code/dotfiles/git/hooks/install
+```
+
+Execution order: beads-lite sync (if `.beads-lite/` exists), secret/large-file detection (always), pre-commit framework delegation (if `.pre-commit-config.yaml` exists), lightweight language linters (sh, go, md, lua, rb, js/ts) with safe auto-fix on fully-staged files only.
+
+- **Escape hatch**: `SKIP_HOOKS=1 git commit -m "message"`
+- **`pre-commit install` overwrites the symlink** — re-run the install helper after
+- `git/templates/hooks/pre-commit` symlink exists for `init.templateDir` (not yet activated)
+
 ### Yazi File Manager (`yazi/yazi.toml`)
 
 - **Terminal file manager** with minimal configuration

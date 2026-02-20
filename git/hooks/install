@@ -1,0 +1,32 @@
+#!/bin/sh
+# Install the unified pre-commit hook into the current git repo.
+# Usage: ~/Code/dotfiles/git/hooks/install
+#
+# Run from any git repo root. Creates a symlink from
+# .git/hooks/pre-commit → ~/Code/dotfiles/git/hooks/pre-commit
+#
+# Safe to re-run (overwrites existing hook/symlink).
+
+set -e
+
+HOOK_SOURCE="$HOME/Code/dotfiles/git/hooks/pre-commit"
+HOOK_TARGET=".git/hooks/pre-commit"
+
+if [ ! -d .git ]; then
+  echo "Error: not a git repository (no .git/ directory)" >&2
+  exit 1
+fi
+
+if [ ! -f "$HOOK_SOURCE" ]; then
+  echo "Error: hook source not found at $HOOK_SOURCE" >&2
+  exit 1
+fi
+
+# Warn if overwriting a non-symlink hook (user might have custom logic)
+if [ -f "$HOOK_TARGET" ] && [ ! -L "$HOOK_TARGET" ]; then
+  echo "Warning: replacing existing hook (was not a symlink):"
+  ls -la "$HOOK_TARGET"
+fi
+
+ln -sf "$HOOK_SOURCE" "$HOOK_TARGET"
+echo "Installed: $HOOK_TARGET → $HOOK_SOURCE"

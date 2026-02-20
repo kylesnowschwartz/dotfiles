@@ -1,0 +1,268 @@
+#!/bin/sh
+# Unified pre-commit hook for personal projects.
+# Lives at: ~/Code/dotfiles/git/hooks/pre-commit
+# Install: ln -sf ~/Code/dotfiles/git/hooks/pre-commit .git/hooks/pre-commit
+#   or run: ~/Code/dotfiles/git/hooks/install
+#
+# NOTE: `pre-commit install` overwrites this symlink. Re-run the install
+# helper after `pre-commit install` in projects using both.
+#
+# Escape hatch: SKIP_HOOKS=1 git commit -m "message"
+# (Different from --no-verify — this still runs git's hook mechanism.)
+
+# ---------------------------------------------------------------------------
+# 0. Escape hatch
+# ---------------------------------------------------------------------------
+if [ "${SKIP_HOOKS:-0}" = "1" ]; then
+  echo "[hook] SKIP_HOOKS=1 — pre-commit checks skipped"
+  exit 0
+fi
+
+HOOK_FAILED=0
+
+# Split only on newlines — filenames with spaces must not break for-loops.
+IFS='
+'
+
+warn() { echo "[hook] WARNING: $*" >&2; }
+fail() {
+  echo "[hook] BLOCKED: $*" >&2
+  HOOK_FAILED=1
+}
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+# staged_files [glob...]
+#   Returns staged files (added/copied/modified) matching any of the given
+#   shell glob patterns. With no args, returns all staged files.
+staged_files() {
+  if [ $# -eq 0 ]; then
+    git diff --cached --name-only --diff-filter=ACM
+    return
+  fi
+  # Build a grep pattern from globs: *.sh -> \.sh$
+  _pattern=""
+  for _glob in "$@"; do
+    _ext="${_glob#\*.}"
+    if [ -n "$_pattern" ]; then
+      _pattern="${_pattern}|"
+    fi
+    _pattern="${_pattern}\\.${_ext}\$"
+  done
+  git diff --cached --name-only --diff-filter=ACM | grep -E "$_pattern" || true
+}
+
+# is_fully_staged <file>
+#   Returns 0 if the file has no unstaged changes (safe to auto-fix).
+is_fully_staged() {
+  git diff --quiet -- "$1" 2>/dev/null
+}
+
+# safe_autofix <file> <command...>
+#   Runs the fixer on a fully-staged file, then re-stages it.
+#   Returns 0 if fix was applied, 1 if skipped (partial staging).
+safe_autofix() {
+  _file="$1"
+  shift
+  if is_fully_staged "$_file"; then
+    "$@" "$_file" 2>/dev/null || true
+    git add -- "$_file"
+    return 0
+  fi
+  return 1
+}
+
+# ---------------------------------------------------------------------------
+# 1. beads-lite sync
+# ---------------------------------------------------------------------------
+if [ -d .beads-lite ] && command -v bl >/dev/null 2>&1; then
+  bl sync 2>/dev/null || true
+  if [ -f .beads-lite/beads.db ]; then
+    if ! git diff --quiet .beads-lite/beads.db 2>/dev/null; then
+      git add .beads-lite/beads.db
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# 2. Global security checks (always run)
+# ---------------------------------------------------------------------------
+
+# 2a. Secret detection — check staged diff for private key headers
+if git diff --cached --diff-filter=ACM -U0 | grep -qE '^\+.*(-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16})'; then
+  fail "Possible secret detected in staged changes (private key header or AWS key)"
+fi
+
+# 2b. Large file check — reject staged files > 1MB
+_large_files=""
+for _f in $(staged_files); do
+  if [ -f "$_f" ]; then
+    _size=$(wc -c <"$_f" 2>/dev/null | tr -d ' ')
+    if [ "$_size" -gt 1048576 ] 2>/dev/null; then
+      _large_files="${_large_files}  ${_f} ($((_size / 1024))KB)\n"
+    fi
+  fi
+done
+if [ -n "$_large_files" ]; then
+  fail "Files exceed 1MB limit:"
+  printf "%b" "$_large_files" >&2
+fi
+
+# Bail early if security checks already failed
+if [ "$HOOK_FAILED" -ne 0 ]; then
+  exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# 3. Pre-commit framework delegation
+# ---------------------------------------------------------------------------
+if [ -f .pre-commit-config.yaml ]; then
+  if command -v pre-commit >/dev/null 2>&1; then
+    if ! pre-commit run; then
+      exit 1
+    fi
+    exit 0
+  else
+    warn "pre-commit config found but 'pre-commit' not installed — falling through to lightweight checks"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# 4. Lightweight checks (no framework)
+# ---------------------------------------------------------------------------
+
+# 4a. Trailing whitespace — fix fully staged files, report partial
+for _f in $(staged_files); do
+  if [ -f "$_f" ]; then
+    # Skip binary files
+    case "$_f" in
+    *.png | *.jpg | *.jpeg | *.gif | *.ico | *.woff | *.woff2 | *.ttf | *.eot | *.db | *.sqlite*) continue ;;
+    esac
+    if grep -q '[[:blank:]]$' "$_f" 2>/dev/null; then
+      if is_fully_staged "$_f"; then
+        sed -i '' 's/[[:space:]]*$//' "$_f" 2>/dev/null || sed -i 's/[[:space:]]*$//' "$_f" 2>/dev/null || true
+        git add -- "$_f"
+      else
+        warn "trailing whitespace in partially staged file: $_f (fix manually)"
+      fi
+    fi
+  fi
+done
+
+# 4b. Language-specific checks
+
+# --- Shell ---
+_sh_files=$(staged_files "*.sh")
+if [ -n "$_sh_files" ]; then
+  # shfmt: format
+  if command -v shfmt >/dev/null 2>&1; then
+    for _f in $_sh_files; do
+      safe_autofix "$_f" shfmt -w -i 2 || warn "partially staged, skipping shfmt: $_f"
+    done
+  fi
+  # lint (after formatting)
+  if command -v shellcheck >/dev/null 2>&1; then
+    for _f in $_sh_files; do
+      if [ -f "$_f" ]; then
+        shellcheck --severity=warning "$_f" 2>&1 || fail "shellcheck errors in $_f"
+      fi
+    done
+  fi
+fi
+
+# --- Go ---
+_go_files=$(staged_files "*.go")
+if [ -n "$_go_files" ]; then
+  if command -v gofmt >/dev/null 2>&1; then
+    for _f in $_go_files; do
+      safe_autofix "$_f" gofmt -w || warn "partially staged, skipping gofmt: $_f"
+    done
+    # After fixes, check if any staged go files still have formatting issues
+    _bad_fmt=""
+    for _f in $_go_files; do
+      if [ -f "$_f" ]; then
+        _out=$(gofmt -l "$_f" 2>/dev/null)
+        if [ -n "$_out" ]; then
+          _bad_fmt="${_bad_fmt} $_f"
+        fi
+      fi
+    done
+    if [ -n "$_bad_fmt" ]; then
+      fail "gofmt issues (partially staged?):${_bad_fmt}"
+    fi
+  fi
+fi
+
+# --- Markdown ---
+_md_files=$(staged_files "*.md")
+if [ -n "$_md_files" ]; then
+  if command -v markdownlint >/dev/null 2>&1; then
+    for _f in $_md_files; do
+      safe_autofix "$_f" markdownlint --fix || warn "partially staged, skipping markdownlint fix: $_f"
+    done
+  fi
+fi
+
+# --- Lua ---
+_lua_files=$(staged_files "*.lua")
+if [ -n "$_lua_files" ]; then
+  if command -v luacheck >/dev/null 2>&1; then
+    for _f in $_lua_files; do
+      if [ -f "$_f" ]; then
+        luacheck "$_f" 2>&1 || fail "luacheck errors in $_f"
+      fi
+    done
+  fi
+fi
+
+# --- Ruby ---
+_rb_files=$(staged_files "*.rb")
+if [ -n "$_rb_files" ]; then
+  if command -v rubocop >/dev/null 2>&1; then
+    for _f in $_rb_files; do
+      # -a = safe auto-correct only (not -A which includes unsafe cops)
+      safe_autofix "$_f" rubocop -a --force-exclusion || warn "partially staged, skipping rubocop fix: $_f"
+    done
+    # Re-check after fixes
+    for _f in $_rb_files; do
+      if [ -f "$_f" ]; then
+        rubocop --force-exclusion "$_f" 2>&1 || fail "rubocop errors in $_f"
+      fi
+    done
+  fi
+fi
+
+# --- JavaScript / TypeScript ---
+_js_files=$(staged_files "*.js" "*.ts" "*.jsx" "*.tsx")
+if [ -n "$_js_files" ]; then
+  # Only run eslint if a config exists in the project
+  _has_eslint_config=0
+  for _cfg in .eslintrc .eslintrc.js .eslintrc.cjs .eslintrc.json .eslintrc.yml .eslintrc.yaml eslint.config.js eslint.config.mjs eslint.config.cjs eslint.config.ts; do
+    if [ -f "$_cfg" ]; then
+      _has_eslint_config=1
+      break
+    fi
+  done
+  if [ "$_has_eslint_config" = "1" ] && command -v eslint >/dev/null 2>&1; then
+    for _f in $_js_files; do
+      safe_autofix "$_f" eslint --fix || warn "partially staged, skipping eslint fix: $_f"
+    done
+    # Re-check after fixes
+    for _f in $_js_files; do
+      if [ -f "$_f" ]; then
+        eslint "$_f" 2>&1 || fail "eslint errors in $_f"
+      fi
+    done
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Final result
+# ---------------------------------------------------------------------------
+if [ "$HOOK_FAILED" -ne 0 ]; then
+  exit 1
+fi
+
+exit 0
