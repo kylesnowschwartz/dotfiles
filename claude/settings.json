@@ -176,7 +176,7 @@
     "claude-handoff@claude-handoff": true,
     "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
-    "envato-mcp-servers@envato-claude": true,
+    "envato-mcp-servers@envato-claude": false,
     "envato-productivity@envato-claude": false,
     "plugin-dev@plugin-dev-marketplace": true,
     "sc-extras@simpleclaude": true,
@@ -189,7 +189,7 @@
     "jira-cli-skill@jira-cli-skill": true,
     "claude-hud@claude-hud": true
   },
-  "outputStyle": "sc-output-styles:linus-torvalds",
+  "outputStyle": "sc-output-styles:john-ousterhout",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
