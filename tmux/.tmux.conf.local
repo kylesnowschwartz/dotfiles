@@ -110,6 +110,9 @@ set -g status-keys vi
 # Focus events (helps editors detect window focus changes)
 set -g focus-events on
 
+# Allow image passthrough
+set -g allow-passthrough on
+
 # -- tpm -----------------------------------------------------------------------
 
 # Disable auto-updating plugins on launch (opt in when needed)
