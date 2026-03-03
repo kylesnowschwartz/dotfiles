@@ -7,15 +7,14 @@
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
     "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_LSP_TOOL": "1"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Agent",
-      "Bash(./the-themer generate:*)",
-      "Bash(./the-themer install:*)",
-      "Bash(./the-themer switch:*)",
+      "Bash(./the-themer:*)",
       "Bash(R:*)",
       "Bash(Rscript:*)",
       "Bash(bash -n:*)",
@@ -44,6 +43,7 @@
       "Bash(gh pr checks:*)",
       "Bash(gh pr create:*)",
       "Bash(gh pr diff:*)",
+      "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh repo clone:*)",
       "Bash(gh repo view:*)",
@@ -130,7 +130,8 @@
       "Write",
       "mcp__just__build",
       "mcp__just__check",
-      "mcp__just__test"
+      "mcp__just__test",
+      "Bash(gh search repos:*)"
     ],
     "deny": [
       "Bash(aws-vault:*)",
@@ -164,11 +165,7 @@
       "Bash(gh pr review:*)",
       "Bash(gh pr unlock:*)",
       "Bash(gh pr update-branch:*)",
-      "Bash(git -C add:*)",
-      "Bash(git -C commit:*)",
       "Bash(git -C push:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(rm:*)",
       "Bash(rm -rf:*)"
@@ -184,6 +181,18 @@
     ]
   },
   "model": "opus",
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/kyle/Code/meta-claude/claude-remote-approver/bin/cli.mjs\" hook"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash -c '\"/Users/kyle/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
@@ -193,7 +202,7 @@
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
     "envato-claude-core@envato-claude": false,
-    "envato-handy-hooks@envato-claude": false,
+    "envato-handy-hooks@envato-claude": true,
     "envato-mcp-servers@envato-claude": false,
     "envato-productivity@envato-claude": false,
     "plugin-dev@plugin-dev-marketplace": true,
@@ -205,7 +214,28 @@
     "sc-nelson@simpleclaude": true,
     "simpleclaude-core@simpleclaude": true,
     "jira-cli-skill@jira-cli-skill": true,
-    "claude-hud@claude-hud": true
+    "claude-hud@claude-hud": true,
+    "pyright@claude-code-lsps": true,
+    "gopls@claude-code-lsps": true,
+    "typescript-language-server@claude-code-lsps": true,
+    "lua-language-server@claude-code-lsps": true,
+    "bash-language-server@claude-code-lsps": true,
+    "rust-analyzer@claude-code-lsps": true,
+    "ruby-lsp@claude-code-lsps": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-lsps": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/kyle/Code/my-projects/claude-code-lsps"
+      }
+    },
+    "rustless": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/kyle/Code/my-projects/rustless"
+      }
+    }
   },
   "outputStyle": "sc-output-styles:john-ousterhout",
   "spinnerTipsEnabled": false,
@@ -213,5 +243,6 @@
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
-  }
+  },
+  "ENABLE_LSP_TOOL": "1"
 }
