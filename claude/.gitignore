@@ -11,6 +11,8 @@ paste-cache/
 image-cache/
 tasks/
 usage-data/
+teams/
+policy-limits.json
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json

@@ -1,17 +1,96 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "ENABLE_LSP_TOOL": "1",
+  "alwaysThinkingEnabled": true,
   "cleanupPeriodDays": 30,
+  "effortLevel": "medium",
+  "enabledPlugins": {
+    "astro-dev@astro-claude-skills": true,
+    "bash-language-server@claude-code-lsps": true,
+    "claude-bumper-lanes@claude-bumper-lanes": false,
+    "claude-handoff@claude-handoff": true,
+    "claude-hud@claude-hud": true,
+    "envato-claude-core@envato-claude": false,
+    "envato-handy-hooks@envato-claude": false,
+    "envato-mcp-servers@envato-claude": true,
+    "envato-productivity@envato-claude": false,
+    "gopls@claude-code-lsps": true,
+    "jira-cli-skill@jira-cli-skill": true,
+    "lua-language-server@claude-code-lsps": true,
+    "plugin-dev@plugin-dev-marketplace": true,
+    "pyright@claude-code-lsps": true,
+    "ruby-lsp@claude-code-lsps": true,
+    "rust-analyzer@claude-code-lsps": true,
+    "sc-extras@simpleclaude": true,
+    "sc-hooks@simpleclaude": true,
+    "sc-nelson@simpleclaude": true,
+    "sc-output-styles@simpleclaude": true,
+    "sc-refactor@simpleclaude": true,
+    "sc-skills@simpleclaude": true,
+    "simpleclaude-core@simpleclaude": true,
+    "typescript-language-server@claude-code-lsps": true
+  },
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_LSP_TOOL": "1",
     "MAX_MCP_OUTPUT_TOKENS": "20000",
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
-    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "ENABLE_LSP_TOOL": "1"
+    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true"
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-lsps": {
+      "source": {
+        "path": "/Users/kyle/Code/my-projects/claude-code-lsps",
+        "source": "directory"
+      }
+    },
+    "rustless": {
+      "source": {
+        "path": "/Users/kyle/Code/my-projects/rustless",
+        "source": "directory"
+      }
+    }
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754082284047
+  },
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "command": "node \"/Users/kyle/Code/meta-claude/claude-remote-approver/bin/cli.mjs\" hook",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "'/Users/kyle/Library/Application Support/tokf/hooks/pre-tool-use.sh'",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
   },
   "includeCoAuthoredBy": false,
+  "model": "opus",
+  "outputStyle": "sc-output-styles:john-ousterhout",
   "permissions": {
+    "additionalDirectories": [
+      "/tmp/",
+      "/Users/kyle/Code/dotfiles",
+      "/Users/kyle/Code/my-projects/cobalt-neon.nvim/",
+      "/Users/kyle/Code/my-projects/tekapo-sunset.nvim/",
+      "/Users/kyle/Code/meta-terminal/bleu-theme",
+      "/Users/kyle/.config/nvim"
+    ],
     "allow": [
       "Agent",
       "Bash(./the-themer:*)",
@@ -133,10 +212,6 @@
       "mcp__just__test",
       "Bash(gh search repos:*)"
     ],
-    "deny": [
-      "Bash(aws-vault:*)",
-      "Bash(git push --force)"
-    ],
     "ask": [
       "Bash(curl:*)",
       "Bash(gh api --field:*)",
@@ -171,78 +246,15 @@
       "Bash(rm -rf:*)"
     ],
     "defaultMode": "acceptEdits",
-    "additionalDirectories": [
-      "/tmp/",
-      "/Users/kyle/Code/dotfiles",
-      "/Users/kyle/Code/my-projects/cobalt-neon.nvim/",
-      "/Users/kyle/Code/my-projects/tekapo-sunset.nvim/",
-      "/Users/kyle/Code/meta-terminal/bleu-theme",
-      "/Users/kyle/.config/nvim"
+    "deny": [
+      "Bash(aws-vault:*)",
+      "Bash(git push --force)"
     ]
   },
-  "model": "opus",
-  "hooks": {
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/kyle/Code/meta-claude/claude-remote-approver/bin/cli.mjs\" hook"
-          }
-        ]
-      }
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bash -c '\"/Users/kyle/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
-  },
-  "enabledPlugins": {
-    "astro-dev@astro-claude-skills": true,
-    "claude-bumper-lanes@claude-bumper-lanes": false,
-    "claude-handoff@claude-handoff": true,
-    "envato-claude-core@envato-claude": false,
-    "envato-handy-hooks@envato-claude": true,
-    "envato-mcp-servers@envato-claude": false,
-    "envato-productivity@envato-claude": false,
-    "plugin-dev@plugin-dev-marketplace": true,
-    "sc-extras@simpleclaude": true,
-    "sc-hooks@simpleclaude": true,
-    "sc-output-styles@simpleclaude": true,
-    "sc-refactor@simpleclaude": true,
-    "sc-skills@simpleclaude": true,
-    "sc-nelson@simpleclaude": true,
-    "simpleclaude-core@simpleclaude": true,
-    "jira-cli-skill@jira-cli-skill": true,
-    "claude-hud@claude-hud": true,
-    "pyright@claude-code-lsps": true,
-    "gopls@claude-code-lsps": true,
-    "typescript-language-server@claude-code-lsps": true,
-    "lua-language-server@claude-code-lsps": true,
-    "bash-language-server@claude-code-lsps": true,
-    "rust-analyzer@claude-code-lsps": true,
-    "ruby-lsp@claude-code-lsps": true
-  },
-  "extraKnownMarketplaces": {
-    "claude-code-lsps": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/kyle/Code/my-projects/claude-code-lsps"
-      }
-    },
-    "rustless": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/kyle/Code/my-projects/rustless"
-      }
-    }
-  },
-  "outputStyle": "sc-output-styles:john-ousterhout",
-  "spinnerTipsEnabled": false,
-  "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "feedbackSurveyState": {
-    "lastShownTime": 1754082284047
-  },
-  "ENABLE_LSP_TOOL": "1"
+  "spinnerTipsEnabled": false,
+  "statusLine": {
+    "command": "bash -c '\"/Users/kyle/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'",
+    "type": "command"
+  }
 }

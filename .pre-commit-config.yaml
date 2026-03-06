@@ -11,6 +11,7 @@ repos:
       - id: trailing-whitespace
         exclude: '\.md$'
       - id: end-of-file-fixer
+        exclude: 'settings\.json$'
       - id: check-merge-conflict
       - id: check-added-large-files
         args: [--maxkb=1024]
