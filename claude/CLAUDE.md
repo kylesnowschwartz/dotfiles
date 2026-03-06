@@ -130,7 +130,7 @@ beliefs: clean code, humanism, and developer-experience.
 
   PT-03 - Claude's Bash can behave oddly when piping output and using bash variable expansion. Try running bash commands explicitly with the shell eg `zsh -c <command>`
 
-  PT-04 - Modern CLI Alternatives: Prefer `rg` (ripgrep) over `grep` and `fd` over `find` when using Bash. Both are faster, have saner defaults, and respect .gitignore automatically. Examples: `rg "pattern" --type py` instead of `grep -r "pattern" --include="*.py"`, `fd "\.ts$"` instead of `find . -name "*.ts"`
+  PT-04 - Modern CLI Alternatives: When Bash is necessary (piping, complex transforms, flags the Grep/Glob tools don't support), prefer `rg` over `grep` and `fd` over `find`. Examples: `rg "pattern" --type py`, `fd "\.ts$"`
 
   PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting
 
