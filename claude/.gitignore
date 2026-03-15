@@ -13,6 +13,7 @@ tasks/
 usage-data/
 teams/
 policy-limits.json
+sessions/
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json
