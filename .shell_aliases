@@ -284,6 +284,26 @@ git_next() {
   git show "$PREV"
 }
 
+# ANTHROPIC
+#
+# Run a command with ANTHROPIC_API_KEY set (without polluting the shell)
+# Reads from macOS Keychain (service: anthropic-api-key)
+# Usage: aak some-tool --flags
+#        aak @@ "what is 2+2"
+#
+# Store key:    security add-generic-password -s 'anthropic-api-key' -a "$USER" -w 'sk-ant-...'
+# Update key:   security delete-generic-password -s 'anthropic-api-key' -a "$USER" && security add-generic-password -s 'anthropic-api-key' -a "$USER" -w 'sk-ant-...'
+aak() {
+  local api_key
+  api_key=$(security find-generic-password -s 'anthropic-api-key' -a "$USER" -w 2>/dev/null)
+  if [[ -z "$api_key" ]]; then
+    echo "aak: no key in Keychain — run:" >&2
+    echo "  security add-generic-password -s 'anthropic-api-key' -a \"\$USER\" -w 'your-key'" >&2
+    return 1
+  fi
+  ANTHROPIC_API_KEY="$api_key" "$@"
+}
+
 # CLAUDE
 #
 # Wrap interactive claude with claude-chill for sane terminal rendering
