@@ -38,7 +38,8 @@ window-save-state = always
 window-inherit-working-directory = true
 window-subtitle = working-directory
 unfocused-split-fill = #b2bec3
-unfocused-split-opacity = 0.85
+# unfocused-split-opacity = 0.85
+unfocused-split-opacity = 1
 split-divider-color = #5f27cd
 
 # Colors

@@ -77,3 +77,6 @@ disabled = true
 
 [username]
 disabled = true
+
+[gcloud]
+disabled = true

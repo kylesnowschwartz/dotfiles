@@ -206,7 +206,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash -c '\"/Users/kyle/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
+    "command": "/Users/kyle/Code/my-projects/tail-claude-hud/bin/tail-claude-hud"
   },
   "enabledPlugins": {
     "astro-dev@astro-claude-skills": true,
@@ -233,7 +233,8 @@
     "sc-skills@simpleclaude": true,
     "simpleclaude-core@simpleclaude": true,
     "typescript-language-server@claude-code-lsps": true,
-    "sc-core@simpleclaude": true
+    "sc-core@simpleclaude": true,
+    "frontend-design-audit@frontend-design-audit": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {

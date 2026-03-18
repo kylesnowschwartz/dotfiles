@@ -276,3 +276,6 @@ surface0 = "#363a4f"
 base = "#24273a"
 mantle = "#1e2030"
 crust = "#181926"
+
+[gcloud]
+disabled = true

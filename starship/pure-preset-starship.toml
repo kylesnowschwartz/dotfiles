@@ -44,3 +44,6 @@ style = "yellow"
 [python]
 format = "[$virtualenv]($style)  | "
 style = "bright-black"
+
+[gcloud]
+disabled = true

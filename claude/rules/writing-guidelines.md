@@ -76,6 +76,12 @@ For updates: what changed and who needs to act.
 
 Use formatting for structure (parallel items, contrasts), not decoration. Write prose when there's nothing to contrast.
 
+## Use simple conjunctions
+
+**SHOULD** prefer simple conjunctions (`but`, `which`, `by`, `and`), parentheticals, or sentence breaks over em-dash interjections.
+Em-dashes **MAY** be used for inline definitions or when the interjection is genuinely parenthetical and short.
+Em-dashes **MUST NOT** be used as a default connector between clauses.
+
 ## Write like a human
 
 AI text has a recognizable accent. Avoid it.

@@ -120,3 +120,6 @@ disabled = false
 time_format = "%R"
 format = '[ $time]($style)'
 style = 'bold'
+
+[gcloud]
+disabled = true
