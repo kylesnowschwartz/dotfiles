@@ -46,3 +46,4 @@ Thumbs.db
 .sounds_disabled
 history.jsonl
 stats-cache.json
+mcp-needs-auth-cache.json

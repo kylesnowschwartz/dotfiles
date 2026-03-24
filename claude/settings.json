@@ -190,6 +190,24 @@
             "command": "node \"/Users/kyle/Code/meta-claude/claude-remote-approver/bin/cli.mjs\" hook"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook permission-request"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook cleanup"
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -202,39 +220,46 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook cleanup"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/kyle/Code/my-projects/tail-claude-hud/bin/tail-claude-hud"
+    "command": "tail-claude-hud"
   },
   "enabledPlugins": {
-    "astro-dev@astro-claude-skills": true,
+    "astro-dev@astro-claude-skills": false,
     "bash-language-server@claude-code-lsps": true,
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
-    "claude-hud@claude-hud": true,
     "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
-    "envato-mcp-servers@envato-claude": true,
     "envato-productivity@envato-claude": false,
+    "frontend-design-audit@frontend-design-audit": true,
     "gopls@claude-code-lsps": true,
     "jira-cli-skill@jira-cli-skill": true,
     "lua-language-server@claude-code-lsps": true,
-    "plugin-dev@plugin-dev-marketplace": true,
     "pyright@claude-code-lsps": true,
     "ruby-lsp@claude-code-lsps": true,
     "rust-analyzer@claude-code-lsps": true,
+    "sc-core@simpleclaude": true,
     "sc-extras@simpleclaude": true,
     "sc-hooks@simpleclaude": true,
-    "sc-nelson@simpleclaude": true,
     "sc-output-styles@simpleclaude": true,
     "sc-refactor@simpleclaude": true,
     "sc-skills@simpleclaude": true,
-    "simpleclaude-core@simpleclaude": true,
     "typescript-language-server@claude-code-lsps": true,
-    "sc-core@simpleclaude": true,
-    "frontend-design-audit@frontend-design-audit": true
+    "plugin-dev@plugin-dev-marketplace": true,
+    "superpowers@superpowers-marketplace": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -243,16 +268,23 @@
         "path": "/Users/kyle/Code/my-projects/claude-code-lsps"
       }
     },
-    "rustless": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/kyle/Code/my-projects/rustless"
-      }
-    },
     "frontend-design-audit": {
       "source": {
         "source": "github",
         "repo": "mistyhx/frontend-design-audit"
+      }
+    },
+    "plugin-dev-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/kylesnowschwartz/plugin-dev.git"
+      },
+      "autoUpdate": true
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
       }
     }
   },
@@ -260,6 +292,7 @@
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
+  "voiceEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "ENABLE_LSP_TOOL": "1",
   "feedbackSurveyState": {
