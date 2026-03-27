@@ -292,6 +292,7 @@
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
+  "showClearContextOnPlanAccept": true,
   "voiceEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "ENABLE_LSP_TOOL": "1",
