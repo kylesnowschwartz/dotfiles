@@ -286,6 +286,12 @@
         "source": "github",
         "repo": "obra/superpowers-marketplace"
       }
+    },
+    "interface-design": {
+      "source": {
+        "source": "github",
+        "repo": "Dammyjay93/interface-design"
+      }
     }
   },
   "outputStyle": "sc-output-styles:john-ousterhout",

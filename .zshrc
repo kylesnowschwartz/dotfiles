@@ -109,6 +109,9 @@ fi
 export EDITOR=nvim
 [ -x "$(command -v bat 2>/dev/null)" ] && export PAGER=bat
 
+# opensessions sessionizer
+export SESSIONIZER_DIR="$HOME/Code:$HOME/.config"
+
 # Bun runtime
 export BUN_INSTALL="$HOME/.bun"
 

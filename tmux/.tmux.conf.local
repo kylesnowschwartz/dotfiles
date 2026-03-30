@@ -73,11 +73,11 @@ tmux_conf_theme_synchronized_fg="colour0"
 tmux_conf_theme_synchronized_bg="colour1"
 tmux_conf_theme_synchronized_attr="bold"
 
-# Compact window format with zoom flag
-# Names truncated to 8 chars to prevent overflow on narrow screens.
+# Directory-based window names with zoom flag
+# Shows working directory basename instead of process name (avoids "2.1.87" from Claude Code).
 # Z appended when pane is zoomed — critical for agent supervision.
-tmux_conf_theme_window_status_format="#I:#{=8:window_name}#{?window_zoomed_flag,Z,}"
-tmux_conf_theme_window_status_current_format="#I:#{=8:window_name}#{?window_zoomed_flag,Z,}"
+tmux_conf_theme_window_status_format="#I:#{=12:#{b:pane_current_path}}#{?window_zoomed_flag,Z,}"
+tmux_conf_theme_window_status_current_format="#I:#{=12:#{b:pane_current_path}}#{?window_zoomed_flag,Z,}"
 
 # -- clipboard -----------------------------------------------------------------
 
@@ -85,6 +85,16 @@ tmux_conf_theme_window_status_current_format="#I:#{=8:window_name}#{?window_zoom
 tmux_conf_copy_to_os_clipboard=true
 
 # -- user customizations -------------------------------------------------------
+
+# Status bar at the top (tab-like behavior)
+set -g status-position top
+set -g status-justify left
+
+# Directory-based window names instead of process names
+# Prevents Claude Code version strings ("2.1.87") from becoming the tab name.
+set -g automatic-rename off
+set-hook -g after-select-pane 'rename-window "#{b:pane_current_path}"'
+set-hook -g pane-focus-in 'rename-window "#{b:pane_current_path}"'
 
 # History (100k for long agent output sessions)
 set -g history-limit 100000
@@ -96,6 +106,18 @@ set -g window-size latest
 # Window title propagation for Moshi
 # Claude Code auto-sets terminal titles; this format passes them through
 set -g set-titles-string "#I: #W"
+
+# Pass extended key sequences to inner applications
+set -s extended-keys always
+set -sga terminal-features 'xterm-256color:extkeys'
+
+# Shift+Enter workaround for Claude Code in tmux
+# Ghostty sends sentinel char ‰, tmux translates to literal newline (0x0a)
+bind-key -n ‰ send-keys -H 0a
+
+# Pane cycling (triggered by Ghostty Cmd+[/] via sentinel chars)
+bind-key -n ⁋ select-pane -t :.-
+bind-key -n ⁂ select-pane -t :.+
 
 # Mouse support
 set -g mouse on
@@ -123,3 +145,16 @@ tmux_conf_update_plugins_on_reload=true
 #set -g @plugin 'tmux-plugins/tmux-resurrect'
 #set -g @plugin 'tmux-plugins/tmux-continuum'
 #set -g @continuum-restore 'on'
+set -g @plugin 'Ataraxy-Labs/opensessions'
+
+# -- theme trial ---------------------------------------------------------------
+# Uncomment one theme at a time, reload with prefix r
+
+# Tokyo Night options
+set -g @tokyo-night-tmux_window_id_style none
+set -g @tokyo-night-tmux_pane_id_style hide
+
+set -g @plugin 'janoamaral/tokyo-night-tmux'
+#set -g @plugin 'catppuccin/tmux'
+#set -g @plugin 'rose-pine/tmux'
+#set -g @plugin 'niksingh710/minimal-tmux-status'
