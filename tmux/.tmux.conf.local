@@ -86,6 +86,9 @@ tmux_conf_copy_to_os_clipboard=true
 
 # -- user customizations -------------------------------------------------------
 
+# OSC 52 clipboard — lets apps (tail-claude, etc.) write to system clipboard
+set -g set-clipboard on
+
 # Status bar at the top (tab-like behavior)
 set -g status-position top
 set -g status-justify left
@@ -119,6 +122,12 @@ bind-key -n ‰ send-keys -H 0a
 bind-key -n ⁋ select-pane -t :.-
 bind-key -n ⁂ select-pane -t :.+
 
+# Active pane border arrows (color + arrow markers on the divider)
+set -g pane-border-indicators both
+
+# Kill pane without confirmation prompt
+bind-key x kill-pane
+
 # Mouse support
 set -g mouse on
 
@@ -145,7 +154,8 @@ tmux_conf_update_plugins_on_reload=true
 #set -g @plugin 'tmux-plugins/tmux-resurrect'
 #set -g @plugin 'tmux-plugins/tmux-continuum'
 #set -g @continuum-restore 'on'
-set -g @plugin 'Ataraxy-Labs/opensessions'
+set -g @plugin 'kylesnowschwartz/opensessions'
+set -g @plugin 'schasse/tmux-jump'
 
 # -- theme trial ---------------------------------------------------------------
 # Uncomment one theme at a time, reload with prefix r
