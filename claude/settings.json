@@ -8,7 +8,8 @@
     "MAX_MCP_OUTPUT_TOKENS": "20000",
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
-    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true"
+    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
+    "CLAUDE_CODE_NO_FLICKER": "1"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -113,6 +114,7 @@
       "Bash(whoami)",
       "Bash(yarn:*)",
       "Bash(zsh:*)",
+      "Bash(rm -f .git/index.lock:*)",
       "Edit",
       "Find",
       "Glob",
@@ -198,6 +200,15 @@
             "command": "tail-claude-hud hook permission-request"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PermissionRequest",
+            "async": true
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -208,15 +219,59 @@
             "command": "tail-claude-hud hook cleanup"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook heartbeat"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PostToolUse",
+            "async": true
+          }
+        ]
       }
     ],
     "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/dotfiles/claude/hooks/log-skill.sh",
+            "async": true
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "'/Users/kyle/Library/Application Support/tokf/hooks/pre-tool-use.sh'"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook heartbeat"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PreToolUse",
+            "async": true
           }
         ]
       }
@@ -227,6 +282,45 @@
           {
             "type": "command",
             "command": "tail-claude-hud hook cleanup"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tail-claude-hud hook stop-cleanup"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh Stop",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh UserPromptSubmit",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh Notification",
+            "async": true
           }
         ]
       }
@@ -248,6 +342,7 @@
     "gopls@claude-code-lsps": true,
     "jira-cli-skill@jira-cli-skill": true,
     "lua-language-server@claude-code-lsps": true,
+    "plugin-dev@plugin-dev-marketplace": true,
     "pyright@claude-code-lsps": true,
     "ruby-lsp@claude-code-lsps": true,
     "rust-analyzer@claude-code-lsps": true,
@@ -257,9 +352,9 @@
     "sc-output-styles@simpleclaude": true,
     "sc-refactor@simpleclaude": true,
     "sc-skills@simpleclaude": true,
+    "superpowers@superpowers-marketplace": false,
     "typescript-language-server@claude-code-lsps": true,
-    "plugin-dev@plugin-dev-marketplace": true,
-    "superpowers@superpowers-marketplace": true
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -272,6 +367,12 @@
       "source": {
         "source": "github",
         "repo": "mistyhx/frontend-design-audit"
+      }
+    },
+    "interface-design": {
+      "source": {
+        "source": "github",
+        "repo": "Dammyjay93/interface-design"
       }
     },
     "plugin-dev-marketplace": {
@@ -287,10 +388,10 @@
         "repo": "obra/superpowers-marketplace"
       }
     },
-    "interface-design": {
+    "openai-codex": {
       "source": {
         "source": "github",
-        "repo": "Dammyjay93/interface-design"
+        "repo": "openai/codex-plugin-cc"
       }
     }
   },
