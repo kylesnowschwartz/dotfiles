@@ -323,6 +323,9 @@ alias claude-quiet='mkdir -p ~/.config/claude && echo "SOUND_MODE=off" > ~/.conf
 alias claude-glass='mkdir -p ~/.config/claude && echo "SOUND_MODE=glass" > ~/.config/claude/sounds.conf && echo "Claude sounds: glass (macOS default)"'
 alias claude-aoe='mkdir -p ~/.config/claude && echo "SOUND_MODE=aoe" > ~/.config/claude/sounds.conf && echo "Claude sounds: Age of Empires"'
 
+# Skill usage report (logged by claude/hooks/log-skill.sh)
+alias skill-usage='sort -t$'\''\t'\'' -k3 ~/.claude/skill-usage.log | uniq -f2 -c | sort -rn'
+
 # Quick Claude query via Anthropic API - streaming Haiku responses
 # API key from ANTHROPIC_API_KEY env var or macOS Keychain (anthropic-api-key)
 # Usage:
