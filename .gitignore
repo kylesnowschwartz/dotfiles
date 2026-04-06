@@ -39,6 +39,10 @@ claude/telemetry/
 # Ghostty runtime state (theme selection)
 ghostty/theme.local
 
+# Claude runtime (machine-specific, ephemeral)
+claude/chrome/
+claude/session-env/
+
 # claude devtools config
 claude/claude-devtools-config.json
 claude/claude-devtools-notifications.json
