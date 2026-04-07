@@ -102,6 +102,8 @@ beliefs: clean code, humanism, and developer-experience.
 
   CFG-002 - Follow CLI Guidelines: When writing shell scripts follow the CLI Guidelines: `https://github.com/cli-guidelines/cli-guidelines`
 
+  CFG-003 - Direnv Pattern: Use modular direnv with shared env files in `~/.config/direnv/envrc.d/`; each project `.envrc` sources only the files it needs via `source_env`
+
 </CONFIGURATION>
 
 <SECURITY>
