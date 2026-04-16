@@ -3,13 +3,16 @@
   "cleanupPeriodDays": 30,
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD": "1",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "400000",
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_NO_FLICKER": "1",
     "ENABLE_LSP_TOOL": "1",
-    "MAX_MCP_OUTPUT_TOKENS": "20000",
+    "MAX_MCP_OUTPUT_TOKENS": "50000",
     "MCP_TIMEOUT": "120000",
     "MCP_TOOL_TIMEOUT": "120000",
-    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true",
-    "CLAUDE_CODE_NO_FLICKER": "1"
+    "RUBY_CLAUDE_HOOKS_DEBUG_MODE": "true"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -133,6 +136,7 @@
       "mcp__just__build",
       "mcp__just__check",
       "mcp__just__test",
+      "mcp__plugin_envato:*",
       "Bash(gh search repos:*)"
     ],
     "deny": [
@@ -174,16 +178,33 @@
     ],
     "defaultMode": "acceptEdits",
     "additionalDirectories": [
-      "/tmp/",
+      "/tmp",
       "/Users/kyle/Code/dotfiles",
-      "/Users/kyle/Code/my-projects/cobalt-neon.nvim/",
-      "/Users/kyle/Code/my-projects/tekapo-sunset.nvim/",
-      "/Users/kyle/Code/meta-terminal/bleu-theme",
       "/Users/kyle/.config/nvim"
     ]
   },
   "model": "opus[1m]",
   "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh Notification",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook Notification",
+            "async": true
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
       {
         "hooks": [
@@ -206,6 +227,15 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PermissionRequest",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PermissionRequest",
             "async": true
           }
         ]
@@ -233,6 +263,15 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PostToolUse",
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PostToolUse",
             "async": true
           }
         ]
@@ -274,6 +313,15 @@
             "async": true
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PreToolUse",
+            "async": true
+          }
+        ]
       }
     ],
     "Stop": [
@@ -301,6 +349,15 @@
             "async": true
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook Stop",
+            "async": true
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -312,14 +369,34 @@
             "async": true
           }
         ]
-      }
-    ],
-    "Notification": [
+      },
       {
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh Notification",
+            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook UserPromptSubmit",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionStart",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionEnd",
             "async": true
           }
         ]
@@ -335,12 +412,11 @@
     "bash-language-server@claude-code-lsps": true,
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
+    "codex@openai-codex": true,
     "envato-claude-core@envato-claude": false,
     "envato-handy-hooks@envato-claude": false,
     "envato-productivity@envato-claude": false,
-    "frontend-design-audit@frontend-design-audit": true,
     "gopls@claude-code-lsps": true,
-    "jira-cli-skill@jira-cli-skill": true,
     "lua-language-server@claude-code-lsps": true,
     "plugin-dev@plugin-dev-marketplace": true,
     "pyright@claude-code-lsps": true,
@@ -354,7 +430,8 @@
     "sc-skills@simpleclaude": true,
     "superpowers@superpowers-marketplace": false,
     "typescript-language-server@claude-code-lsps": true,
-    "codex@openai-codex": true
+    "jira-cli-skill@envato-claude": true,
+    "envato-mcp-servers@envato-claude": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -363,17 +440,18 @@
         "path": "/Users/kyle/Code/my-projects/claude-code-lsps"
       }
     },
-    "frontend-design-audit": {
-      "source": {
-        "source": "github",
-        "repo": "mistyhx/frontend-design-audit"
-      }
-    },
     "interface-design": {
       "source": {
         "source": "github",
         "repo": "Dammyjay93/interface-design"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      },
+      "autoUpdate": true
     },
     "plugin-dev-marketplace": {
       "source": {
@@ -382,23 +460,23 @@
       },
       "autoUpdate": true
     },
+    "simpleclaude": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/kylesnowschwartz/SimpleClaude.git"
+      },
+      "autoUpdate": true
+    },
     "superpowers-marketplace": {
       "source": {
         "source": "github",
         "repo": "obra/superpowers-marketplace"
-      }
-    },
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
       }
     }
   },
   "outputStyle": "sc-output-styles:john-ousterhout",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
-  "effortLevel": "medium",
   "showClearContextOnPlanAccept": true,
   "voiceEnabled": false,
   "skipDangerousModePermissionPrompt": true,
