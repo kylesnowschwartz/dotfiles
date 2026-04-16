@@ -1,0 +1,28 @@
+# cobalt-next-neon-v2 theme for Ghostty
+
+palette = 0=#142631
+palette = 1=#ff2320
+palette = 2=#8ff586
+palette = 3=#e9e75c
+palette = 4=#3ba5ff
+palette = 5=#b060d0
+palette = 6=#5fced8
+palette = 7=#b0c4d8
+palette = 8=#6a8098
+palette = 9=#ff6b6b
+palette = 10=#8ff586
+palette = 11=#e9f06d
+palette = 12=#5ba8ff
+palette = 13=#c880e0
+palette = 14=#7ee8f2
+palette = 15=#e8f0f8
+
+background = #142838
+foreground = #8ff586
+cursor-color = #c4206f
+cursor-text = #8ff586
+selection-background = #094fb1
+selection-foreground = #e8f0f8
+
+# Transparency and blur effects
+unfocused-split-opacity = 0.7
