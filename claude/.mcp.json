@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "codex": {
+      "command": "codex",
+      "args": ["mcp-server"],
+      "type": "stdio"
+    },
+    "markitdown": {
+      "command": "uvx",
+      "args": ["markitdown-mcp"],
+      "type": "stdio"
+    },
+    "elements-mcp": {
+      "type": "http",
+      "url": "https://mcp.envato.com/mcp"
+    }
+  }
+}
