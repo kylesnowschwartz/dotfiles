@@ -118,6 +118,10 @@ Execution order: beads-lite sync (if `.beads-lite/` exists), secret/large-file d
 - **GitHub integration**: SSH configuration, CLI authentication, and workflow documentation
 - **macOS compatibility**: Solutions for Unicode filename issues in screenshots
 
+### Cron Jobs (`cron/crontab`)
+
+Source of truth for the user crontab. Header inside explains workflow. Install with `crontab ~/Code/dotfiles/cron/crontab`. Don't use `crontab -e`.
+
 ### EditorConfig (`.editorconfig`)
 
 - **Cross-editor consistency** with standardized formatting rules
