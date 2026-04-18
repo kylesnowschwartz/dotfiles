@@ -18,126 +18,49 @@
   "permissions": {
     "allow": [
       "Agent",
+      "WebFetch",
+      "WebSearch",
       "Bash(./the-themer:*)",
-      "Bash(R:*)",
-      "Bash(Rscript:*)",
       "Bash(bash -n:*)",
       "Bash(bd:*)",
       "Bash(bl:*)",
       "Bash(bundle exec rspec:*)",
       "Bash(bundle exec rubocop:*)",
-      "Bash(bundle exec ruby:*)",
-      "Bash(cat:*)",
-      "Bash(chmod:*)",
-      "Bash(command -v jq:*)",
-      "Bash(date:*)",
-      "Bash(df:*)",
-      "Bash(du:*)",
-      "Bash(echo:*)",
-      "Bash(env:*)",
-      "Bash(eza:*)",
-      "Bash(fd:*)",
-      "Bash(file:*)",
-      "Bash(find:*)",
-      "Bash(free:*)",
       "Bash(gem list:*)",
-      "Bash(gh api:*)",
-      "Bash(gh issue list:*)",
-      "Bash(gh issue view:*)",
-      "Bash(gh pr checks:*)",
-      "Bash(gh pr create:*)",
-      "Bash(gh pr diff:*)",
-      "Bash(gh pr list:*)",
-      "Bash(gh pr view:*)",
-      "Bash(gh repo clone:*)",
-      "Bash(gh repo view:*)",
-      "Bash(gh search:*)",
-      "Bash(gh search issues --:*)",
-      "Bash(gh search prs --:*)",
-      "Bash(git -C:*)",
-      "Bash(git cd:*)",
-      "Bash(git checkout:*)",
-      "Bash(git diff:*)",
-      "Bash(git fetch:*)",
-      "Bash(git log:*)",
-      "Bash(git pull:*)",
-      "Bash(git show:*)",
-      "Bash(git status:*)",
-      "Bash(git worktree add:*)",
-      "Bash(git worktree list:*)",
+      "Bash(rubocop:*)",
+      "Bash(shellcheck:*)",
       "Bash(go build:*)",
       "Bash(go mod tidy:*)",
       "Bash(go test:*)",
       "Bash(go vet:*)",
-      "Bash(grep:*)",
-      "Bash(head:*)",
-      "Bash(htop:*)",
-      "Bash(id:*)",
+      "Bash(check-jsonschema:*)",
+      "Bash(eza:*)",
+      "Bash(printenv:*)",
+      "Bash(textutil:*)",
+      "Bash(whereis:*)",
+      "Bash(git -C:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git worktree add:*)",
+      "Bash(gh api:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh repo clone:*)",
       "Bash(jira issue list:*)",
       "Bash(jira issue view:*)",
-      "Bash(jq:*)",
-      "Bash(just:*)",
-      "Bash(just check:*)",
-      "Bash(less:*)",
+      "Bash(just build)",
+      "Bash(just check)",
+      "Bash(just test)",
       "Bash(ln:*)",
-      "Bash(ls:*)",
-      "Bash(lsof:*)",
       "Bash(mcp-cli call:*)",
       "Bash(mkdir:*)",
-      "Bash(more:*)",
-      "Bash(mount:*)",
-      "Bash(netstat:*)",
-      "Bash(node:*)",
-      "Bash(pip3:*)",
-      "Bash(printenv:*)",
-      "Bash(ps:*)",
-      "Bash(pwd)",
-      "Bash(python3:*)",
-      "Bash(rg:*)",
-      "Bash(rubocop:*)",
-      "Bash(ruby:*)",
-      "Bash(shellcheck:*)",
-      "Bash(sort:*)",
-      "Bash(ss:*)",
-      "Bash(stat:*)",
-      "Bash(tail:*)",
-      "Bash(tee:*)",
-      "Bash(test:*)",
-      "Bash(textutil:*)",
-      "Bash(top:*)",
-      "Bash(tree:*)",
-      "Bash(type:*)",
-      "Bash(uname:*)",
-      "Bash(uptime)",
-      "Bash(uv:*)",
-      "Bash(wc:*)",
-      "Bash(wc --:*)",
-      "Bash(whereis:*)",
-      "Bash(which:*)",
-      "Bash(whoami)",
-      "Bash(yarn:*)",
-      "Bash(zsh:*)",
-      "Bash(rm -f .git/index.lock:*)",
-      "Edit",
-      "Find",
-      "Glob",
-      "Grep",
-      "LS",
-      "List",
-      "MultiEdit",
-      "Read",
-      "Search",
-      "Skill",
-      "TodoRead",
-      "TodoWrite",
-      "WebFetch",
-      "WebSearch",
-      "Write",
       "mcp__just__build",
       "mcp__just__check",
       "mcp__just__test",
-      "mcp__plugin_envato:*",
-      "Bash(gh search repos:*)"
+      "mcp__plugin_envato-mcp-servers_atlassian",
+      "mcp__plugin_envato-mcp-servers_buildkite",
+      "mcp__plugin_envato-mcp-servers_context7",
+      "mcp__plugin_envato-mcp-servers_rollbar"
     ],
     "deny": [
       "Bash(aws-vault:*)",
@@ -194,15 +117,6 @@
             "async": true
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook Notification",
-            "async": true
-          }
-        ]
       }
     ],
     "PermissionRequest": [
@@ -230,15 +144,6 @@
             "async": true
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PermissionRequest",
-            "async": true
-          }
-        ]
       }
     ],
     "PostToolUse": [
@@ -263,15 +168,6 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PostToolUse",
-            "async": true
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PostToolUse",
             "async": true
           }
         ]
@@ -313,12 +209,25 @@
             "async": true
           }
         ]
-      },
+      }
+    ],
+    "SessionEnd": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook PreToolUse",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionEnd",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionStart",
             "async": true
           }
         ]
@@ -349,15 +258,6 @@
             "async": true
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook Stop",
-            "async": true
-          }
-        ]
       }
     ],
     "UserPromptSubmit": [
@@ -366,37 +266,6 @@
           {
             "type": "command",
             "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh UserPromptSubmit",
-            "async": true
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/my-projects/tail-claude-mux/tail-claude-mux hook UserPromptSubmit",
-            "async": true
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionStart",
-            "async": true
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh SessionEnd",
             "async": true
           }
         ]
@@ -413,9 +282,6 @@
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
     "codex@openai-codex": true,
-    "envato-claude-core@envato-claude": false,
-    "envato-handy-hooks@envato-claude": false,
-    "envato-productivity@envato-claude": false,
     "gopls@claude-code-lsps": true,
     "lua-language-server@claude-code-lsps": true,
     "plugin-dev@plugin-dev-marketplace": true,
@@ -430,8 +296,11 @@
     "sc-skills@simpleclaude": true,
     "superpowers@superpowers-marketplace": false,
     "typescript-language-server@claude-code-lsps": true,
-    "jira-cli-skill@envato-claude": true,
-    "envato-mcp-servers@envato-claude": true
+    "envato-handy-hooks@envato-claude": true,
+    "envato-github@envato-claude": true,
+    "envato-atlassian@envato-claude": true,
+    "envato-buildkite@envato-claude": true,
+    "envato-context7@envato-claude": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -440,10 +309,10 @@
         "path": "/Users/kyle/Code/my-projects/claude-code-lsps"
       }
     },
-    "interface-design": {
+    "claude-plugins-official": {
       "source": {
-        "source": "github",
-        "repo": "Dammyjay93/interface-design"
+        "source": "git",
+        "url": "https://github.com/anthropics/claude-plugins-official.git"
       }
     },
     "openai-codex": {
@@ -471,6 +340,13 @@
       "source": {
         "source": "github",
         "repo": "obra/superpowers-marketplace"
+      },
+      "autoUpdate": true
+    },
+    "envato-claude": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/kyle/Code/Envato-non-market/AI-Dev-Tooling"
       }
     }
   },
@@ -478,8 +354,8 @@
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "showClearContextOnPlanAccept": true,
-  "voiceEnabled": false,
   "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": false,
   "ENABLE_LSP_TOOL": "1",
   "feedbackSurveyState": {
     "lastShownTime": 1754082284047
