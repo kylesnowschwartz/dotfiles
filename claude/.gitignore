@@ -14,6 +14,7 @@ usage-data/
 teams/
 policy-limits.json
 sessions/
+node_modules/
 
 # Track plugin-configuration files
 !plugins/installed_plugins.json
@@ -28,6 +29,7 @@ sessions/
 # Local settings overrides
 **/.claude/settings.local.json
 # settings.json
+worklog.local.md
 
 # OS generated files
 .DS_Store
@@ -47,3 +49,5 @@ Thumbs.db
 history.jsonl
 stats-cache.json
 mcp-needs-auth-cache.json
+bun.lock
+.claude.json
