@@ -117,6 +117,7 @@ set -g set-titles-string "#I: #W"
 
 # Pass extended key sequences to inner applications
 set -s extended-keys always
+set -s extended-keys-format csi-u
 set -sga terminal-features 'xterm-256color:extkeys'
 
 # Shift+Enter workaround for Claude Code in tmux
