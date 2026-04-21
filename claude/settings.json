@@ -99,7 +99,7 @@
       "Bash(rm:*)",
       "Bash(rm -rf:*)"
     ],
-    "defaultMode": "acceptEdits",
+    "defaultMode": "auto",
     "additionalDirectories": [
       "/tmp",
       "/Users/kyle/Code/dotfiles",
@@ -185,15 +185,6 @@
         ]
       },
       {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "'/Users/kyle/Library/Application Support/tokf/hooks/pre-tool-use.sh'"
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "type": "command",
@@ -207,6 +198,15 @@
             "type": "command",
             "command": "/Users/kyle/Code/meta-claude/opensessions/scripts/hook.sh PreToolUse",
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/kyle/Library/Application Support/tokf/hooks/pre-tool-use.sh'"
           }
         ]
       }
@@ -282,6 +282,12 @@
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
     "codex@openai-codex": true,
+    "envato-atlassian@envato-claude": true,
+    "envato-aws@envato-claude": true,
+    "envato-buildkite@envato-claude": true,
+    "envato-jira-cli@envato-claude": true,
+    "envato-research@envato-claude": true,
+    "envato-worklog@envato-claude": true,
     "gopls@claude-code-lsps": true,
     "lua-language-server@claude-code-lsps": true,
     "plugin-dev@plugin-dev-marketplace": true,
@@ -295,12 +301,7 @@
     "sc-refactor@simpleclaude": true,
     "sc-skills@simpleclaude": true,
     "superpowers@superpowers-marketplace": false,
-    "typescript-language-server@claude-code-lsps": true,
-    "envato-handy-hooks@envato-claude": true,
-    "envato-github@envato-claude": true,
-    "envato-atlassian@envato-claude": true,
-    "envato-buildkite@envato-claude": true,
-    "envato-context7@envato-claude": true
+    "typescript-language-server@claude-code-lsps": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -315,12 +316,19 @@
         "url": "https://github.com/anthropics/claude-plugins-official.git"
       }
     },
+    "envato-claude": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/kyle/Code/Envato-non-market/AI-Dev-Tooling"
+      },
+      "autoUpdate": true
+    },
     "openai-codex": {
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     },
     "plugin-dev-marketplace": {
       "source": {
@@ -343,18 +351,19 @@
       },
       "autoUpdate": true
     },
-    "envato-claude": {
+    "2389-research-marketplace": {
       "source": {
-        "source": "directory",
-        "path": "/Users/kyle/Code/Envato-non-market/AI-Dev-Tooling"
+        "source": "github",
+        "repo": "2389-research/claude-plugins"
       }
     }
   },
-  "outputStyle": "sc-output-styles:john-ousterhout",
+  "outputStyle": "sc-output-styles:ada-lovelace",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "showClearContextOnPlanAccept": true,
   "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
   "voiceEnabled": false,
   "ENABLE_LSP_TOOL": "1",
   "feedbackSurveyState": {
