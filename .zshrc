@@ -339,6 +339,15 @@ setopt NO_HUP # Don't kill jobs on shell exit
 # Quick alias to reload zsh configuration
 alias zreload="source ~/.zshrc && echo 'Zsh configuration reloaded'"
 
+# Run pi with API keys sourced from the pi-dev .envrc,
+# scoped to a subshell so they don't leak into the current shell.
+pi() {
+  (
+    source /Users/kyle/Code/meta-claude/pi-dev/.envrc
+    command pi "$@"
+  )
+}
+
 # Show zsh-specific features available
 zsh-features() {
   echo "ZSH-specific features enabled:"
