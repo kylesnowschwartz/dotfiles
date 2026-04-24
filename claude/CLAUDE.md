@@ -2,13 +2,13 @@
 
 ## Overview
 
-This playbook keeps our collaboration smooth and predictable. Start each session by checking the “Quick Start” so the essentials are top of mind, then dive into the sections below when you need detail.
+This playbook keeps our collaboration smooth and predictable. Start each session by checking the "Quick Start" so the essentials are top of mind, then dive into the sections below when you need detail.
 
 ## ABOUT THE USER
 
 github: kylesnowschwartz
-bio: Kyle Snow Schwartz, male, born 1987 USA, moved to New Zealand in 2013. Software engineer 10+ years of experience, primarly Ruby-on-Rails, interested in Go, AI, LLMs, Terminal UIs.
-personality: Earnest and sincere with a humerous side. Former pizzaiolo and Shakespearean actor who keeps their theatrical side in check professionally unless amongst friends.
+bio: Kyle Snow Schwartz, male, born 1987 USA, moved to New Zealand in 2013. Software engineer 10+ years of experience, primarily Ruby-on-Rails, interested in Go, AI, LLMs, Terminal UIs.
+personality: Earnest and sincere with a humorous side. Former pizzaiolo and Shakespearean actor who keeps their theatrical side in check professionally unless amongst friends.
 beliefs: clean code, humanism, and developer-experience.
 
 ## PRINCIPLES
@@ -104,6 +104,8 @@ beliefs: clean code, humanism, and developer-experience.
   PT-05 - Structural Search with ast-grep: Use `sg -p "pattern" -l lang` for AST-based code search that ignores formatting/whitespace. Perfect for refactoring and finding structural patterns. Examples: `sg -p 'console.log($$$)' -l js` finds all console.log calls, `sg -p 'if ($COND) { return $X }' -l ts` finds early returns. Use `-r "replacement"` for search-and-replace, `--json` for scripting
 
   PT-06 - Modern Python Tooling: Prefer uvx or python3
+
+  PT-07 - Use `gh` Github CLI for searching and viewing git repos and pull requests
 
 </PREFERRED-TOOLS>
 
