@@ -11,13 +11,17 @@
 # this file and defeats the whole point of checking it in.
 #
 # Environment
-#   Cron runs with a minimal PATH and no shell rc files. Source envato.sh for
-#   tool paths (ruby, gh, jira, gws) and JIRA_API_TOKEN. Use absolute paths for
-#   binaries and scripts.
+#   Cron runs with a minimal PATH (/opt/homebrew/bin only) and no shell rc
+#   files. The PATH and LANG below apply to all jobs; individual jobs may
+#   additionally source their own env file (e.g. the worklog wrapper reads
+#   ~/.config/worklog/env for GH_TOKEN and the gws keyring backend flag,
+#   since cron can't read the macOS Login Keychain). Without LANG, Ruby
+#   defaults to US-ASCII and crashes on UTF-8 input (e.g. em-dashes in
+#   Claude transcripts).
 #
 # Time zones
-#   Cron uses system time. Host is NZST (UTC+12), so NZ 11:00 = UTC 23:00 the
-#   previous day. Weekdays NZ (Mon-Fri) = UTC (Sun-Thu) = cron dow 0-4.
+#   macOS user crontab uses the machine's local time, NOT UTC. Host is NZST,
+#   so `0 11 * * 1-5` means 11:00 NZST Mon-Fri. Don't convert to UTC.
 #
 # macOS gotcha
 #   First time cron runs a job touching files outside /tmp, macOS may block it.
@@ -25,9 +29,17 @@
 #
 # Columns: min hour dom mon dow  command
 
+# Cron-scope env. Applies to every job below.
+# PATH: rbenv (ruby), go bin (jira), cargo bin (gws), homebrew (gh/git), system.
+PATH=/Users/kyle/.rbenv/shims:/Users/kyle/go/bin:/Users/kyle/.cargo/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin
+LANG=en_NZ.UTF-8
+
 # --- envato-worklog ---------------------------------------------------------
 # Backfill any missing weekday worklog from the last 7 days.
 # Runs 11:00 NZST, Mon-Fri. Skips weekends and days already logged.
+# Invokes the plugin's wrapper (worklog-cron.sh), which sources
+# ~/.config/worklog/env for auth. Generate that file with:
+#   ruby .../envato-worklog/skills/worklog/scripts/setup-cron.rb
 # Errors: tail /tmp/worklog-cron.log
 # TODO: remove the osascript notification once trust is established.
-0 23 * * 0-4 /bin/zsh -c 'source /Users/kyle/.config/direnv/envrc.d/envato.sh && log=""; for i in $(seq 1 7); do d=$(date -v-${i}d +\%Y-\%m-\%d); dow=$(date -v-${i}d +\%u); if [ "$dow" -le 5 ] && [ ! -f "$HOME/Worklog/$d.md" ]; then /Users/kyle/.rbenv/shims/ruby /Users/kyle/Code/Envato-non-market/AI-Dev-Tooling/claude-code/plugins/envato-worklog/skills/worklog/scripts/worklog.rb --date "$d" && log="$log wrote $d;" || log="$log FAILED $d;"; fi; done; osascript -e "display notification \"${log:-no missing weekdays}\" with title \"worklog cron\""' 2>> /tmp/worklog-cron.log
+0 11 * * 1-5 /bin/sh -c 'log=""; for i in $(seq 1 7); do d=$(date -v-${i}d +\%Y-\%m-\%d); dow=$(date -v-${i}d +\%u); if [ "$dow" -le 5 ] && [ ! -f "$HOME/Worklog/$d.md" ]; then /bin/sh /Users/kyle/Code/Envato-non-market/AI-Dev-Tooling/claude-code/plugins/envato-worklog/skills/worklog/scripts/worklog-cron.sh --date "$d" && log="$log wrote $d;" || log="$log FAILED $d;"; fi; done; osascript -e "display notification \"${log:-no missing weekdays}\" with title \"worklog cron\""' 2>> /tmp/worklog-cron.log
