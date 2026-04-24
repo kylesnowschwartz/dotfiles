@@ -282,12 +282,6 @@
     "claude-bumper-lanes@claude-bumper-lanes": false,
     "claude-handoff@claude-handoff": true,
     "codex@openai-codex": true,
-    "envato-atlassian@envato-claude": true,
-    "envato-aws@envato-claude": true,
-    "envato-buildkite@envato-claude": true,
-    "envato-jira-cli@envato-claude": true,
-    "envato-research@envato-claude": true,
-    "envato-worklog@envato-claude": true,
     "gopls@claude-code-lsps": true,
     "lua-language-server@claude-code-lsps": true,
     "plugin-dev@plugin-dev-marketplace": true,
@@ -301,7 +295,16 @@
     "sc-refactor@simpleclaude": true,
     "sc-skills@simpleclaude": true,
     "superpowers@superpowers-marketplace": false,
-    "typescript-language-server@claude-code-lsps": true
+    "typescript-language-server@claude-code-lsps": true,
+    "github@ai-dev-tooling": true,
+    "atlassian@ai-dev-tooling": true,
+    "buildkite@ai-dev-tooling": true,
+    "utilities@ai-dev-tooling": true,
+    "jira-cli@ai-dev-tooling": true,
+    "output-styles@ai-dev-tooling": true,
+    "worklog@ai-dev-tooling": true,
+    "aws@ai-dev-tooling": true,
+    "research@ai-dev-tooling": true
   },
   "extraKnownMarketplaces": {
     "claude-code-lsps": {
@@ -315,13 +318,6 @@
         "source": "git",
         "url": "https://github.com/anthropics/claude-plugins-official.git"
       }
-    },
-    "envato-claude": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/kyle/Code/Envato-non-market/AI-Dev-Tooling"
-      },
-      "autoUpdate": true
     },
     "openai-codex": {
       "source": {
@@ -356,6 +352,12 @@
         "source": "github",
         "repo": "2389-research/claude-plugins"
       }
+    },
+    "ai-dev-tooling": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/kyle/Code/Envato-non-market/AI-Dev-Tooling"
+      }
     }
   },
   "outputStyle": "sc-output-styles:ada-lovelace",
@@ -363,6 +365,8 @@
   "alwaysThinkingEnabled": true,
   "showClearContextOnPlanAccept": true,
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "editorMode": "vim",
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": false,
   "ENABLE_LSP_TOOL": "1",
