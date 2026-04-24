@@ -17,7 +17,7 @@ macos-titlebar-style = hidden
 auto-update = download
 
 # Keybinds - general
-keybind = shift+enter=text:‰
+# Removed custom Shift+Enter remap so apps receive native Shift+Enter events.
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = "super+shift+comma=text:theme light\n"
 keybind = "super+shift+period=text:theme dark\n"
